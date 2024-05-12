@@ -19,6 +19,36 @@ export default {
       },
     },
     {
+      name: 'system-management',
+      displayName: 'System Management',
+      meta: {
+        icon: 'folder_shared',
+      },
+      children: [
+        {
+          name: 'company',
+          displayName: 'Company',
+        },
+        {
+          name: 'user-management',
+          displayName: 'User Management',
+        },
+      ],
+    },
+    {
+      name: 'operation-management',
+      displayName: 'Operation Management',
+      meta: {
+        icon: 'folder_shared',
+      },
+      children: [
+        {
+          name: 'token-management',
+          displayName: 'Token Management',
+        },
+      ],
+    },
+    {
       name: 'users',
       displayName: 'menu.users',
       meta: {
@@ -32,27 +62,27 @@ export default {
         icon: 'folder_shared',
       },
     },
-    {
-      name: 'payments',
-      displayName: 'menu.payments',
-      meta: {
-        icon: 'credit_card',
-      },
-      children: [
-        {
-          name: 'payment-methods',
-          displayName: 'menu.payment-methods',
-        },
-        {
-          name: 'pricing-plans',
-          displayName: 'menu.pricing-plans',
-        },
-        {
-          name: 'billing',
-          displayName: 'menu.billing',
-        },
-      ],
-    },
+    // {
+    //   name: 'payments',
+    //   displayName: 'menu.payments',
+    //   meta: {
+    //     icon: 'credit_card',
+    //   },
+    //   children: [
+    //     {
+    //       name: 'payment-methods',
+    //       displayName: 'menu.payment-methods',
+    //     },
+    //     {
+    //       name: 'pricing-plans',
+    //       displayName: 'menu.pricing-plans',
+    //     },
+    //     {
+    //       name: 'billing',
+    //       displayName: 'menu.billing',
+    //     },
+    //   ],
+    // },
     {
       name: 'auth',
       displayName: 'menu.auth',
@@ -75,27 +105,27 @@ export default {
       ],
     },
 
-    {
-      name: 'faq',
-      displayName: 'menu.faq',
-      meta: {
-        icon: 'quiz',
-      },
-    },
-    {
-      name: '404',
-      displayName: 'menu.404',
-      meta: {
-        icon: 'vuestic-iconset-files',
-      },
-    },
-    {
-      name: 'preferences',
-      displayName: 'menu.preferences',
-      meta: {
-        icon: 'manage_accounts',
-      },
-    },
+    // {
+    //   name: 'faq',
+    //   displayName: 'menu.faq',
+    //   meta: {
+    //     icon: 'quiz',
+    //   },
+    // },
+    // {
+    //   name: '404',
+    //   displayName: 'menu.404',
+    //   meta: {
+    //     icon: 'vuestic-iconset-files',
+    //   },
+    // },
+    // {
+    //   name: 'preferences',
+    //   displayName: 'menu.preferences',
+    //   meta: {
+    //     icon: 'manage_accounts',
+    //   },
+    // },
     {
       name: 'settings',
       displayName: 'menu.settings',

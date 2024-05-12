@@ -37,6 +37,35 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('../pages/users/UsersPage.vue'),
       },
       {
+        name: 'system-management',
+        path: '/system-management',
+        component: RouteViewComponent,
+        children: [
+          {
+            name: 'company',
+            path: 'company',
+            component: () => import('../pages/company/Company.vue'),
+          },
+          {
+            name: 'user-management',
+            path: 'user-management',
+            component: () => import('../pages/user-management/UserManagement.vue'),
+          },
+        ],
+      },
+      {
+        name: 'operation-management',
+        path: '/operation-management',
+        component: RouteViewComponent,
+        children: [
+          {
+            name: 'token-management',
+            path: 'token-management',
+            component: () => import('../pages/token-management/TokenManagement.vue'),
+          },
+        ],
+      },
+      {
         name: 'projects',
         path: 'projects',
         component: () => import('../pages/projects/ProjectsPage.vue'),
