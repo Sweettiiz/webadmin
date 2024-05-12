@@ -1,6 +1,6 @@
 <template>
   <div class="app-navbar-actions">
-    <GithubButton v-if="!isMobile" class="app-navbar-actions__item" />
+    <!-- <GithubButton v-if="!isMobile" class="app-navbar-actions__item" />
     <VaButton
       v-if="!isMobile"
       preset="secondary"
@@ -20,7 +20,7 @@
       class="app-navbar-actions__item flex-shrink-0 mx-0"
     >
       {{ t('helpAndSupport') }}
-    </VaButton>
+    </VaButton> -->
     <NotificationDropdown class="app-navbar-actions__item" />
     <ProfileDropdown class="app-navbar-actions__item app-navbar-actions__item--profile mr-1" />
   </div>
@@ -29,7 +29,7 @@
 <script lang="ts" setup>
 import ProfileDropdown from './dropdowns/ProfileDropdown.vue'
 import NotificationDropdown from './dropdowns/NotificationDropdown.vue'
-import GithubButton from './GitHubButton.vue'
+// import GithubButton from './GitHubButton.vue'
 
 defineProps({
   isMobile: { type: Boolean, default: false },
@@ -77,8 +77,8 @@ defineProps({
     }
   }
 
-  .fa-github {
-    color: var(--va-on-background-primary);
-  }
+  // .fa-github {
+  //   color: var(--va-on-background-primary);
+  // }
 }
 </style>
