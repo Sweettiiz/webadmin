@@ -47,9 +47,29 @@ const routes: Array<RouteRecordRaw> = [
             component: () => import('../pages/company/Company.vue'),
           },
           {
+            name: 'company-info',
+            path: 'company-info',
+            component: () => import('../pages/company-info/CompanyInfo.vue'),
+          },
+          {
+            name: 'company-edit',
+            path: 'company-edit',
+            component: () => import('../pages/company-edit/CompanyEdit.vue'),
+          },
+          {
             name: 'user-management',
             path: 'user-management',
             component: () => import('../pages/user-management/UserManagement.vue'),
+          },
+          {
+            name: 'user-schedule',
+            path: 'user-schedule',
+            component: () => import('../pages/user-schedule/UserSchedule.vue'),
+          },
+          {
+            name: 'user-edit',
+            path: 'user-edit',
+            component: () => import('../pages/user-edit/UserEdit.vue'),
           },
         ],
       },
@@ -63,6 +83,16 @@ const routes: Array<RouteRecordRaw> = [
             path: 'token-management',
             component: () => import('../pages/token-management/TokenManagement.vue'),
           },
+          {
+            name: 'company-token',
+            path: 'company-token',
+            component: () => import('../pages/company-token/CompanyToken.vue'),
+          },
+          {
+            name: 'user-token',
+            path: 'user-token',
+            component: () => import('../pages/user-token/UserToken.vue'),
+          },
         ],
       },
       {
@@ -70,33 +100,33 @@ const routes: Array<RouteRecordRaw> = [
         path: 'projects',
         component: () => import('../pages/projects/ProjectsPage.vue'),
       },
-      {
-        name: 'payments',
-        path: '/payments',
-        component: RouteViewComponent,
-        children: [
-          {
-            name: 'payment-methods',
-            path: 'payment-methods',
-            component: () => import('../pages/payments/PaymentsPage.vue'),
-          },
-          {
-            name: 'billing',
-            path: 'billing',
-            component: () => import('../pages/billing/BillingPage.vue'),
-          },
-          {
-            name: 'pricing-plans',
-            path: 'pricing-plans',
-            component: () => import('../pages/pricing-plans/PricingPlans.vue'),
-          },
-        ],
-      },
-      {
-        name: 'faq',
-        path: '/faq',
-        component: () => import('../pages/faq/FaqPage.vue'),
-      },
+      // {
+      //   name: 'payments',
+      //   path: '/payments',
+      //   component: RouteViewComponent,
+      //   children: [
+      //     {
+      //       name: 'payment-methods',
+      //       path: 'payment-methods',
+      //       component: () => import('../pages/payments/PaymentsPage.vue'),
+      //     },
+      //     {
+      //       name: 'billing',
+      //       path: 'billing',
+      //       component: () => import('../pages/billing/BillingPage.vue'),
+      //     },
+      //     {
+      //       name: 'pricing-plans',
+      //       path: 'pricing-plans',
+      //       component: () => import('../pages/pricing-plans/PricingPlans.vue'),
+      //     },
+      //   ],
+      // },
+      // {
+      //   name: 'faq',
+      //   path: '/faq',
+      //   component: () => import('../pages/faq/FaqPage.vue'),
+      // },
     ],
   },
   {
@@ -129,11 +159,11 @@ const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
-  {
-    name: '404',
-    path: '/404',
-    component: () => import('../pages/404.vue'),
-  },
+  // {
+  //   name: '404',
+  //   path: '/404',
+  //   component: () => import('../pages/404.vue'),
+  // },
 ]
 
 const router = createRouter({
