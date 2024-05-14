@@ -17,10 +17,10 @@ const showEditUserModal = (user: User) => {
   doShowEditUserModal.value = true
 }
 
-const showAddUserModal = () => {
-  userToEdit.value = null
-  doShowEditUserModal.value = true
-}
+// const showAddUserModal = () => {
+//   userToEdit.value = null
+//   doShowEditUserModal.value = true
+// }
 
 const { init: notify } = useToast()
 
@@ -91,7 +91,7 @@ const beforeEditFormModalClose = async (hide: () => unknown) => {
             </template>
           </VaInput>
         </div>
-        <VaButton @click="showAddUserModal">Add User</VaButton>
+        <!-- <VaButton @click="showAddUserModal">Add User</VaButton> -->
       </div>
 
       <UsersTable

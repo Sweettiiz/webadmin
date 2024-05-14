@@ -20,10 +20,10 @@ const editProject = (project: Project) => {
   doShowProjectFormModal.value = true
 }
 
-const createNewProject = () => {
-  projectToEdit.value = null
-  doShowProjectFormModal.value = true
-}
+// const createNewProject = () => {
+//   projectToEdit.value = null
+//   doShowProjectFormModal.value = true
+// }
 
 const { init: notify } = useToast()
 
@@ -101,7 +101,7 @@ const beforeEditFormModalClose = async (hide: () => unknown) => {
             ]"
           />
         </div>
-        <VaButton icon="add" @click="createNewProject">Project</VaButton>
+        <!-- <VaButton icon="add" @click="createNewProject">Project</VaButton> -->
       </div>
 
       <ProjectCards
