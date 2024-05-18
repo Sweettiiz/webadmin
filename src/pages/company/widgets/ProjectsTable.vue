@@ -97,7 +97,7 @@ const totalPages = computed(() => Math.ceil(props.pagination.total / props.pagin
         <ProjectStatusBadge :status="project.status" />
       </template>
       <!-- edit and delete button -->
-      <!-- <template #cell(actions)="{ rowData: project }">
+      <template #cell(actions)="{ rowData: project }">
         <div class="flex gap-2 justify-end">
           <VaButton
             preset="primary"
@@ -116,7 +116,7 @@ const totalPages = computed(() => Math.ceil(props.pagination.total / props.pagin
             @click="$emit('delete', project as Project)"
           />
         </div>
-      </template> -->
+      </template>
     </VaDataTable>
     <div class="flex flex-col-reverse md:flex-row gap-2 justify-between items-center py-2">
       <div>

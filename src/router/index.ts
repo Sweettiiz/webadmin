@@ -47,29 +47,9 @@ const routes: Array<RouteRecordRaw> = [
             component: () => import('../pages/company/Company.vue'),
           },
           {
-            name: 'company-info',
-            path: 'company-info',
-            component: () => import('../pages/company-info/CompanyInfo.vue'),
-          },
-          {
-            name: 'company-edit',
-            path: 'company-edit',
-            component: () => import('../pages/company-edit/CompanyEdit.vue'),
-          },
-          {
             name: 'user-management',
             path: 'user-management',
             component: () => import('../pages/user-management/UserManagement.vue'),
-          },
-          {
-            name: 'user-schedule',
-            path: 'user-schedule',
-            component: () => import('../pages/user-schedule/UserSchedule.vue'),
-          },
-          {
-            name: 'user-edit',
-            path: 'user-edit',
-            component: () => import('../pages/user-edit/UserEdit.vue'),
           },
         ],
       },

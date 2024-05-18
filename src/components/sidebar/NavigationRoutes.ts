@@ -37,24 +37,8 @@ export default {
           displayName: 'Company',
         },
         {
-          name: 'company-info',
-          displayName: 'Company Info',
-        },
-        {
-          name: 'company-edit',
-          displayName: 'Company Edit',
-        },
-        {
           name: 'user-management',
           displayName: 'User Management',
-        },
-        {
-          name: 'user-schedule',
-          displayName: 'User Schedule',
-        },
-        {
-          name: 'user-edit',
-          displayName: 'User Edit',
         },
       ],
     },

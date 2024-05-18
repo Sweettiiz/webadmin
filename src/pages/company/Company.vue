@@ -20,10 +20,10 @@ const editProject = (project: Project) => {
   doShowProjectFormModal.value = true
 }
 
-// const createNewProject = () => {
-//   projectToEdit.value = null
-//   doShowProjectFormModal.value = true
-// }
+const createNewProject = () => {
+  projectToEdit.value = null
+  doShowProjectFormModal.value = true
+}
 
 const { init: notify } = useToast()
 
@@ -48,8 +48,8 @@ const { confirm } = useModal()
 
 const onProjectDeleted = async (project: Project) => {
   const response = await confirm({
-    title: 'Delete project',
-    message: `Are you sure you want to delete project "${project.project_name}"?`,
+    title: 'Delete company',
+    message: `Are you sure you want to delete company "${project.project_name}"?`,
     okText: 'Delete',
     size: 'small',
     maxWidth: '380px',
@@ -101,7 +101,7 @@ const beforeEditFormModalClose = async (hide: () => unknown) => {
             ]"
           />
         </div>
-        <!-- <VaButton icon="add" @click="createNewProject">Project</VaButton> -->
+        <VaButton icon="add" @click="createNewProject">Company</VaButton>
       </div>
 
       <ProjectCards
@@ -133,8 +133,8 @@ const beforeEditFormModalClose = async (hide: () => unknown) => {
       hide-default-actions
       :before-cancel="beforeEditFormModalClose"
     >
-      <h1 v-if="projectToEdit === null" class="va-h5 mb-4">Add project</h1>
-      <h1 v-else class="va-h5 mb-4">Edit project</h1>
+      <h1 v-if="projectToEdit === null" class="va-h5 mb-4">Add Company</h1>
+      <h1 v-else class="va-h5 mb-4">Edit Company</h1>
       <EditProjectForm
         ref="editFormRef"
         :project="projectToEdit"

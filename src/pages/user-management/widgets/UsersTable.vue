@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineVaDataTableColumns } from 'vuestic-ui'
+import { defineVaDataTableColumns, useModal } from 'vuestic-ui'
 import { User, UserRole } from '../types'
 import UserAvatar from './UserAvatar.vue'
 import { PropType, computed, toRef } from 'vue'
@@ -48,22 +48,22 @@ const roleColors: Record<UserRole, string> = {
 
 const totalPages = computed(() => Math.ceil(props.pagination.total / props.pagination.perPage))
 
-// const { confirm } = useModal()
+const { confirm } = useModal()
 
-// const onUserDelete = async (user: User) => {
-//   const agreed = await confirm({
-//     title: 'Delete user',
-//     message: `Are you sure you want to delete ${user.fullname}?`,
-//     okText: 'Delete',
-//     cancelText: 'Cancel',
-//     size: 'small',
-//     maxWidth: '380px',
-//   })
+const onUserDelete = async (user: User) => {
+  const agreed = await confirm({
+    title: 'Delete user',
+    message: `Are you sure you want to delete ${user.fullname}?`,
+    okText: 'Delete',
+    cancelText: 'Cancel',
+    size: 'small',
+    maxWidth: '380px',
+  })
 
-//   if (agreed) {
-//     emit('delete-user', user)
-//   }
-// }
+  if (agreed) {
+    emit('delete-user', user)
+  }
+}
 
 const formatProjectNames = (projects: Project[]) => {
   if (projects.length === 0) return 'No projects'
@@ -120,7 +120,7 @@ const formatProjectNames = (projects: Project[]) => {
       </div>
     </template>
     <!-- edit and delete button -->
-    <!-- <template #cell(actions)="{ rowData }">
+    <template #cell(actions)="{ rowData }">
       <div class="flex gap-2 justify-end">
         <VaButton
           preset="primary"
@@ -138,7 +138,7 @@ const formatProjectNames = (projects: Project[]) => {
           @click="onUserDelete(rowData as User)"
         />
       </div>
-    </template> -->
+    </template>
   </VaDataTable>
 
   <div class="flex flex-col-reverse md:flex-row gap-2 justify-between items-center py-2">

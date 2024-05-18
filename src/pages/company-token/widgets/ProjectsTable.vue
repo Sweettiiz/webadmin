@@ -96,7 +96,7 @@ const totalPages = computed(() => Math.ceil(props.pagination.total / props.pagin
       <template #cell(status)="{ rowData: project }">
         <ProjectStatusBadge :status="project.status" />
       </template>
-
+      <!-- edit and delete button -->
       <template #cell(actions)="{ rowData: project }">
         <div class="flex gap-2 justify-end">
           <VaButton
