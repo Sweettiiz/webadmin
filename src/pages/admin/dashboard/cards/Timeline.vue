@@ -5,7 +5,7 @@ import VaTimelineItem from '../../../../components/va-timeline-item.vue'
 <template>
   <VaCard>
     <VaCardTitle class="flex justify-between">
-      <h1 class="card-title text-secondary font-bold uppercase">Timeline</h1>
+      <h1 class="card-title text-secondary font-bold uppercase">Issue Dashboard</h1>
     </VaCardTitle>
     <VaCardContent>
       <table class="mt-4">

@@ -91,7 +91,7 @@ const beforeEditFormModalClose = async (hide: () => unknown) => {
             </template>
           </VaInput>
         </div>
-        <VaButton @click="showAddUserModal">Add User</VaButton>
+        <VaButton icon="add" @click="showAddUserModal">User</VaButton>
       </div>
 
       <UsersTable

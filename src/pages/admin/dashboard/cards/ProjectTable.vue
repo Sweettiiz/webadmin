@@ -8,9 +8,9 @@ import { Pagination } from '../../../../data/pages/projects'
 import { ref } from 'vue'
 
 const columns = defineVaDataTableColumns([
-  { label: 'Name', key: 'project_name', sortable: true },
+  { label: 'Company', key: 'project_name', sortable: true },
   { label: 'Status', key: 'status', sortable: true },
-  { label: 'Team', key: 'team', sortable: true },
+  // { label: 'Team', key: 'team', sortable: true },
 ])
 
 const pagination = ref<Pagination>({ page: 1, perPage: 5, total: 0 })
@@ -28,8 +28,8 @@ const avatarColor = (userName: string) => {
 <template>
   <VaCard>
     <VaCardTitle class="flex items-start justify-between">
-      <h1 class="card-title text-secondary font-bold uppercase">Projects</h1>
-      <VaButton preset="primary" size="small" to="/projects">View all projects</VaButton>
+      <h1 class="card-title text-secondary font-bold uppercase">Company Status</h1>
+      <!-- <VaButton preset="primary" size="small" to="/projects">View all projects</VaButton> -->
     </VaCardTitle>
     <VaCardContent>
       <div v-if="projects.length > 0">

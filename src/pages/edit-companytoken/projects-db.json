@@ -1,0 +1,10 @@
+[
+  {
+    "id": 0,
+    "project_name": "SCG",
+    "project_owner": 1,
+    "team": [1],
+    "status": "in progress",
+    "creation_date": "20 Nov 2023"
+  }
+]

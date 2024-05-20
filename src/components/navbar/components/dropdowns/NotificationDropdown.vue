@@ -62,21 +62,21 @@ const makeDateFromNow = (timeFromNow: number) => {
 
 const notifications: INotification[] = [
   {
-    message: '4 pending requests',
+    message: 'issue 1',
     icon: 'favorite_outline',
     id: 1,
     separator: true,
     updateTimestamp: makeDateFromNow(-3 * 60 * 1000),
   },
   {
-    message: '3 new reports',
+    message: 'chat 1',
     icon: 'calendar_today',
     id: 2,
     separator: true,
     updateTimestamp: makeDateFromNow(-12 * 60 * 60 * 1000),
   },
   {
-    message: 'Whoops! Your trial period has expired.',
+    message: 'issue 2.',
     icon: 'error_outline',
     id: 3,
     separator: true,

@@ -5,7 +5,7 @@ export type Project = {
   project_name: string
   project_owner: Omit<User, 'projects'>
   team: Omit<User, 'projects'>[]
-  status: 'important' | 'completed' | 'archived' | 'in progress'
+  status: 'important' | 'completed' | 'archived' | 'in progress' | 'active'
   creation_date: string
 }
 

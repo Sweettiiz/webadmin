@@ -3,14 +3,13 @@ import { ref } from 'vue'
 import { useLocalStorage } from '@vueuse/core'
 import { useProjects } from './composables/useProjects'
 import ProjectCards from './widgets/ProjectCards.vue'
-import ProjectTable from './widgets/ProjectsTable.vue'
 import EditProjectForm from './widgets/EditProjectForm.vue'
 import { Project } from './types'
 import { useModal, useToast } from 'vuestic-ui'
 
 const doShowAsCards = useLocalStorage('projects-view', true)
 
-const { projects, update, add, isLoading, remove, pagination, sorting } = useProjects()
+const { projects, update, add, isLoading } = useProjects()
 
 const projectToEdit = ref<Project | null>(null)
 const doShowProjectFormModal = ref(false)
@@ -20,10 +19,10 @@ const editProject = (project: Project) => {
   doShowProjectFormModal.value = true
 }
 
-const createNewProject = () => {
-  projectToEdit.value = null
-  doShowProjectFormModal.value = true
-}
+// const createNewProject = () => {
+//   projectToEdit.value = null
+//   doShowProjectFormModal.value = true
+// }
 
 const { init: notify } = useToast()
 
@@ -46,25 +45,25 @@ const onProjectSaved = async (project: Project) => {
 
 const { confirm } = useModal()
 
-const onProjectDeleted = async (project: Project) => {
-  const response = await confirm({
-    title: 'Delete project',
-    message: `Are you sure you want to delete project "${project.project_name}"?`,
-    okText: 'Delete',
-    size: 'small',
-    maxWidth: '380px',
-  })
+// const onProjectDeleted = async (project: Project) => {
+//   const response = await confirm({
+//     title: 'Delete project',
+//     message: `Are you sure you want to delete project "${project.project_name}"?`,
+//     okText: 'Delete',
+//     size: 'small',
+//     maxWidth: '380px',
+//   })
 
-  if (!response) {
-    return
-  }
+//   if (!response) {
+//     return
+//   }
 
-  await remove(project)
-  notify({
-    message: 'Project deleted',
-    color: 'success',
-  })
-}
+//   await remove(project)
+//   notify({
+//     message: 'Project deleted',
+//     color: 'success',
+//   })
+// }
 
 const editFormRef = ref()
 
@@ -85,13 +84,13 @@ const beforeEditFormModalClose = async (hide: () => unknown) => {
 </script>
 
 <template>
-  <h1 class="page-title">Company Token</h1>
+  <h1 class="page-title">Edit Company Token</h1>
 
   <VaCard>
     <VaCardContent>
       <div class="flex flex-col md:flex-row gap-2 mb-2 justify-between">
         <div class="flex flex-col md:flex-row gap-2 justify-start">
-          <VaButtonToggle
+          <!-- <VaButtonToggle
             v-model="doShowAsCards"
             color="background-element"
             border-color="background-element"
@@ -99,28 +98,12 @@ const beforeEditFormModalClose = async (hide: () => unknown) => {
               { label: 'Cards', value: true },
               { label: 'Table', value: false },
             ]"
-          />
+          /> -->
         </div>
-        <VaButton icon="add" @click="createNewProject">Company</VaButton>
+        <!-- <VaButton icon="add" @click="createNewProject">Company</VaButton> -->
       </div>
 
-      <ProjectCards
-        v-if="doShowAsCards"
-        :projects="projects"
-        :loading="isLoading"
-        @edit="editProject"
-        @delete="onProjectDeleted"
-      />
-      <ProjectTable
-        v-else
-        v-model:sort-by="sorting.sortBy"
-        v-model:sorting-order="sorting.sortingOrder"
-        v-model:pagination="pagination"
-        :projects="projects"
-        :loading="isLoading"
-        @edit="editProject"
-        @delete="onProjectDeleted"
-      />
+      <ProjectCards v-if="doShowAsCards" :projects="projects" :loading="isLoading" @edit="editProject" />
     </VaCardContent>
 
     <VaModal

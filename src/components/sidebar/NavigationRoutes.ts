@@ -57,6 +57,10 @@ export default {
           name: 'company-token',
           displayName: 'Company Token',
         },
+        // {
+        //   name: 'edit-companytoken',
+        //   displayName: 'Edit Company Token',
+        // },
         {
           name: 'user-token',
           displayName: 'User Token',
@@ -134,12 +138,12 @@ export default {
     //     icon: 'manage_accounts',
     //   },
     // },
-    {
-      name: 'settings',
-      displayName: 'menu.settings',
-      meta: {
-        icon: 'settings',
-      },
-    },
+    // {
+    //   name: 'settings',
+    //   displayName: 'menu.settings',
+    //   meta: {
+    //     icon: 'settings',
+    //   },
+    // },
   ] as INavigationRoute[],
 }
