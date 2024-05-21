@@ -51,6 +51,11 @@ const routes: Array<RouteRecordRaw> = [
             path: 'user-management',
             component: () => import('../pages/user-management/UserManagement.vue'),
           },
+          {
+            name: 'issue-dashboard',
+            path: 'issue-dashboard',
+            component: () => import('../pages/issue-dashboard/IssueDashboard.vue'),
+          },
         ],
       },
       {

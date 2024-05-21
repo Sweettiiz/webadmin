@@ -40,6 +40,10 @@ export default {
           name: 'user-management',
           displayName: 'User Management',
         },
+        {
+          name: 'issue-dashboard',
+          displayName: 'Issue Dashboard',
+        },
       ],
     },
     {

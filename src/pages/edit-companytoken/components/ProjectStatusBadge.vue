@@ -10,10 +10,8 @@ defineProps({
 })
 
 const badgeColorMap: Record<Project['status'], string> = {
-  'in progress': 'primary',
-  archived: 'secondary',
-  completed: 'success',
-  important: 'warning',
+  active: 'success',
+  inactive: 'danger',
 }
 </script>
 
