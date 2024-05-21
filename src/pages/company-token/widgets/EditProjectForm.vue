@@ -109,10 +109,8 @@ const { users: ownerUsers, filters: ownerFilters } = useUsers({ pagination: ref(
       track-by="value"
       value-by="value"
       :options="[
-        { text: 'In progress', value: 'in progress' },
-        { text: 'Archived', value: 'archived' },
-        { text: 'Completed', value: 'completed' },
-        { text: 'Important', value: 'important' },
+        { text: 'Active', value: 'active' },
+        { text: 'Inactive', value: 'inactive' },
       ]"
     >
       <template #content="{ value }">
