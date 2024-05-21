@@ -64,10 +64,10 @@ defineEmits<{
           <ProjectStatusBadge :status="project.status" />
         </div>
         <VaDivider class="my-6" />
-        <!-- <div class="flex justify-between">
+        <div class="flex justify-between">
           <VaButton preset="secondary" icon="mso-edit" color="secondary" @click="$emit('edit', project)" />
-          <VaButton preset="secondary" icon="mso-delete" color="danger" @click="$emit('delete', project)" />
-        </div> -->
+          <!-- <VaButton preset="secondary" icon="mso-delete" color="danger" @click="$emit('delete', project)" /> -->
+        </div>
       </VaCardContent>
     </VaCard>
   </VaInnerLoading>

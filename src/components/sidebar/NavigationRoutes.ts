@@ -61,10 +61,6 @@ export default {
           name: 'company-token',
           displayName: 'Company Token',
         },
-        // {
-        //   name: 'edit-companytoken',
-        //   displayName: 'Edit Company Token',
-        // },
         {
           name: 'user-token',
           displayName: 'User Token',

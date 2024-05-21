@@ -3,14 +3,15 @@ import { ref } from 'vue'
 import { useLocalStorage } from '@vueuse/core'
 import { useProjects } from './composables/useProjects'
 import ProjectCards from './widgets/ProjectCards.vue'
-import ProjectTable from './widgets/ProjectsTable.vue'
+// import ProjectTable from './widgets/ProjectsTable.vue'
 import EditProjectForm from './widgets/EditProjectForm.vue'
 import { Project } from './types'
 import { useModal, useToast } from 'vuestic-ui'
+import RevenueUpdates from './RevenueReport.vue'
 
 const doShowAsCards = useLocalStorage('projects-view', true)
 
-const { projects, update, add, isLoading, remove, pagination, sorting } = useProjects()
+const { projects, update, add, isLoading, remove } = useProjects()
 
 const projectToEdit = ref<Project | null>(null)
 const doShowProjectFormModal = ref(false)
@@ -20,10 +21,10 @@ const editProject = (project: Project) => {
   doShowProjectFormModal.value = true
 }
 
-const createNewProject = () => {
-  projectToEdit.value = null
-  doShowProjectFormModal.value = true
-}
+// const createNewProject = () => {
+//   projectToEdit.value = null
+//   doShowProjectFormModal.value = true
+// }
 
 const { init: notify } = useToast()
 
@@ -48,8 +49,8 @@ const { confirm } = useModal()
 
 const onProjectDeleted = async (project: Project) => {
   const response = await confirm({
-    title: 'Delete project',
-    message: `Are you sure you want to delete project "${project.project_name}"?`,
+    title: 'Delete company',
+    message: `Are you sure you want to delete company "${project.project_name}"?`,
     okText: 'Delete',
     size: 'small',
     maxWidth: '380px',
@@ -86,11 +87,10 @@ const beforeEditFormModalClose = async (hide: () => unknown) => {
 
 <template>
   <h1 class="page-title">Company Token</h1>
-
   <VaCard>
     <VaCardContent>
       <div class="flex flex-col md:flex-row gap-2 mb-2 justify-between">
-        <div class="flex flex-col md:flex-row gap-2 justify-start">
+        <!-- <div class="flex flex-col md:flex-row gap-2 justify-start">
           <VaButtonToggle
             v-model="doShowAsCards"
             color="background-element"
@@ -101,7 +101,7 @@ const beforeEditFormModalClose = async (hide: () => unknown) => {
             ]"
           />
         </div>
-        <VaButton icon="add" @click="createNewProject">Company</VaButton>
+        <VaButton icon="add" @click="createNewProject">Company</VaButton> -->
       </div>
 
       <ProjectCards
@@ -111,7 +111,10 @@ const beforeEditFormModalClose = async (hide: () => unknown) => {
         @edit="editProject"
         @delete="onProjectDeleted"
       />
-      <ProjectTable
+      <div class="flex flex-col sm:flex-row gap-4">
+        <RevenueUpdates class="w-full sm:w-[100%]" />
+      </div>
+      <!-- <ProjectTable
         v-else
         v-model:sort-by="sorting.sortBy"
         v-model:sorting-order="sorting.sortingOrder"
@@ -120,7 +123,7 @@ const beforeEditFormModalClose = async (hide: () => unknown) => {
         :loading="isLoading"
         @edit="editProject"
         @delete="onProjectDeleted"
-      />
+      /> -->
     </VaCardContent>
 
     <VaModal

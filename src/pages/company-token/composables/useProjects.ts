@@ -6,7 +6,7 @@ import {
   removeProject,
   Sorting,
   Pagination,
-} from '../../../data/pages/projects'
+} from '../../../pages/company-token/projects'
 import { Project } from '../types'
 import { watchIgnorable } from '@vueuse/core'
 
