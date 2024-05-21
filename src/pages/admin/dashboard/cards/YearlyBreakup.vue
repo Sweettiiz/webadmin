@@ -1,11 +1,11 @@
 <template>
   <VaCard>
     <VaCardTitle class="pb-0!">
-      <h1 class="card-title text-secondary font-bold uppercase">Yearly Breakup</h1>
+      <h1 class="card-title text-secondary font-bold uppercase">Storage Used</h1>
     </VaCardTitle>
     <VaCardContent class="flex flex-row gap-1">
       <section class="w-1/2">
-        <div class="text-xl font-bold mb-2">$36,358</div>
+        <div class="text-xl font-bold mb-2">36,358</div>
         <p class="text-xs text-success whitespace-nowrap">
           <VaIcon name="arrow_outward" />
           +2,5%

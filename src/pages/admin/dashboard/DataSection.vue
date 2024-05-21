@@ -20,7 +20,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useColors } from 'vuestic-ui'
-import DataSectionItem from './DataSectionItem.vue'
+// import DataSectionItem from './DataSectionItem.vue'
 
 interface DashboardMetric {
   id: string
