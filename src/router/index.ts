@@ -69,6 +69,11 @@ const routes: Array<RouteRecordRaw> = [
             component: () => import('../pages/token-management/TokenManagement.vue'),
           },
           {
+            name: 'storage',
+            path: 'storage',
+            component: () => import('../pages/storage/Storage.vue'),
+          },
+          {
             name: 'company-token',
             path: 'company-token',
             component: () => import('../pages/company-token/CompanyToken.vue'),

@@ -58,6 +58,10 @@ export default {
           displayName: 'Token Management',
         },
         {
+          name: 'storage',
+          displayName: 'Storage',
+        },
+        {
           name: 'company-token',
           displayName: 'Company Token',
         },
