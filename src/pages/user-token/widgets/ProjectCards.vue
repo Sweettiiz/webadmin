@@ -30,7 +30,7 @@ defineEmits<{
   <VaInnerLoading
     v-if="projects.length > 0 || loading"
     :loading="loading"
-    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 min-h-[4rem]"
+    class="flex flex-col md:w-1/2 justify-start min-h-[4rem]"
   >
     <VaCard
       v-for="project in projects"

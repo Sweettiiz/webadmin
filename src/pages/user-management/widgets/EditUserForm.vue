@@ -3,7 +3,7 @@ import { PropType, computed, ref, watch } from 'vue'
 import { useForm } from 'vuestic-ui'
 import { User, UserRole } from '../types'
 import UserAvatar from './UserAvatar.vue'
-import { useProjects } from '../../projects/composables/useProjects'
+// import { useProjects } from '../../projects/composables/useProjects'
 import { validators } from '../../../services/utils'
 
 const props = defineProps({
@@ -86,7 +86,7 @@ const roleSelectOptions: { text: Capitalize<UserRole>; value: UserRole }[] = [
   { text: 'Owner', value: 'owner' },
 ]
 
-const { projects } = useProjects({ pagination: ref({ page: 1, perPage: 9999, total: 10 }) })
+// const { projects } = useProjects({ pagination: ref({ page: 1, perPage: 9999, total: 10 }) })
 </script>
 
 <template>
@@ -134,7 +134,7 @@ const { projects } = useProjects({ pagination: ref({ page: 1, perPage: 9999, tot
           :rules="[validators.required, validators.email]"
           name="email"
         />
-        <VaSelect
+        <!-- <VaSelect
           v-model="newUser.projects"
           label="Projects"
           class="w-full sm:w-1/2"
@@ -145,10 +145,19 @@ const { projects } = useProjects({ pagination: ref({ page: 1, perPage: 9999, tot
           track-by="id"
           multiple
           :max-visible-options="2"
+        /> -->
+        <VaSelect
+          v-model="newUser.role"
+          label="Role"
+          class="w-full"
+          :options="roleSelectOptions"
+          :rules="[validators.required]"
+          name="role"
+          value-by="value"
         />
       </div>
 
-      <div class="flex gap-4 w-full">
+      <!-- <div class="flex gap-4 w-full">
         <div class="w-1/2">
           <VaSelect
             v-model="newUser.role"
@@ -159,13 +168,13 @@ const { projects } = useProjects({ pagination: ref({ page: 1, perPage: 9999, tot
             name="role"
             value-by="value"
           />
-        </div>
+        </div> -->
 
-        <!-- active & inactive checkbox -->
-        <!-- <div class="flex items-center w-1/2 mt-4">
+      <!-- active & inactive checkbox -->
+      <!-- <div class="flex items-center w-1/2 mt-4">
           <VaCheckbox v-model="newUser.active" label="Active" class="w-full" name="active" />
         </div> -->
-      </div>
+      <!-- </div> -->
 
       <VaTextarea v-model="newUser.notes" label="Notes" class="w-full" name="notes" />
       <div class="flex gap-2 flex-col-reverse items-stretch justify-end w-full sm:flex-row sm:items-center">

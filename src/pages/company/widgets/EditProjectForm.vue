@@ -58,7 +58,7 @@ watch(
 
 const required = (v: string | SelectOption) => !!v || 'This field is required'
 
-const { users: teamUsers, filters: teamFilters } = useUsers({ pagination: ref({ page: 1, perPage: 100, total: 10 }) })
+// const { users: teamUsers, filters: teamFilters } = useUsers({ pagination: ref({ page: 1, perPage: 100, total: 10 }) })
 const { users: ownerUsers, filters: ownerFilters } = useUsers({ pagination: ref({ page: 1, perPage: 100, total: 10 }) })
 </script>
 
@@ -81,7 +81,7 @@ const { users: ownerUsers, filters: ownerFilters } = useUsers({ pagination: ref(
         </div>
       </template>
     </VaSelect>
-    <VaInput v-model="newProject.project_name" label="Name" :rules="[required]" />
+    <!-- <VaInput v-model="newProject.project_name" label="Name" :rules="[required]" />
     <VaSelect
       v-model="newProject.team"
       v-model:search="teamFilters.search"
@@ -101,7 +101,7 @@ const { users: ownerUsers, filters: ownerFilters } = useUsers({ pagination: ref(
           </div>
         </template>
       </template>
-    </VaSelect>
+    </VaSelect> -->
     <VaSelect
       v-model="newProject.status"
       label="Status"
