@@ -13,6 +13,7 @@ const columns = defineVaDataTableColumns([
   { label: 'Role', key: 'team', sortable: true },
   { label: 'Status', key: 'status', sortable: true },
   { label: 'Creation Date', key: 'creation_date', sortable: true },
+  { label: 'Expiration Date', key: 'expiration_date', sortable: true },
   { label: ' ', key: 'actions' },
 ])
 

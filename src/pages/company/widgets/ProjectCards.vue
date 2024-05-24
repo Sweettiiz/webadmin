@@ -45,8 +45,8 @@ defineEmits<{
             {{ project.project_name }}
           </h4>
           <p>
-            <span class="text-[var(--va-secondary)]">Project: </span>
-            <span>{{ project.project_owner.fullname }}</span>
+            <span class="text-[var(--va-secondary)]">Expiration Date: </span>
+            <span>{{ project.expiration_date }}</span>
           </p>
           <!-- Avatar team use role instead -->
           <!-- <VaAvatarGroup

@@ -7,9 +7,10 @@ export type Project = {
   team: Omit<User, 'projects'>[]
   status: 'active' | 'inactive'
   creation_date: string
+  expiration_date: string
 }
 
-export type EmptyProject = Omit<Project, 'id' | 'project_owner' | 'creation_date' | 'status'> & {
+export type EmptyProject = Omit<Project, 'id' | 'project_owner' | 'creation_date' | 'expiration_date' | 'status'> & {
   project_owner: Project['project_owner'] | undefined
   status: Project['status'] | undefined
 }

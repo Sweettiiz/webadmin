@@ -117,6 +117,13 @@ const { users: ownerUsers, filters: ownerFilters } = useUsers({ pagination: ref(
         <ProjectStatusBadge v-if="value" :status="value.value" />
       </template>
     </VaSelect>
+
+    <VaSelect v-model="newProject" label="Expiration Date">
+      <template #content="">
+        <VaDatePicker />
+      </template>
+    </VaSelect>
+
     <div class="flex justify-end flex-col-reverse sm:flex-row mt-4 gap-2">
       <VaButton preset="secondary" color="secondary" @click="$emit('close')">Cancel</VaButton>
       <VaButton @click="validate() && $emit('save', newProject as Project)">{{ saveButtonLabel }}</VaButton>

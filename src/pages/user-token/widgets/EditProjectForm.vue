@@ -2,9 +2,9 @@
 import { computed, ref, watch } from 'vue'
 import { EmptyProject, Project } from '../types'
 import { SelectOption } from 'vuestic-ui'
-import { useUsers } from '../../users/composables/useUsers'
+// import { useUsers } from '../../users/composables/useUsers'
 import ProjectStatusBadge from '../components/ProjectStatusBadge.vue'
-import UserAvatar from '../../users/widgets/UserAvatar.vue'
+// import UserAvatar from '../../users/widgets/UserAvatar.vue'
 
 const props = defineProps<{
   project: Project | null
@@ -59,12 +59,12 @@ watch(
 const required = (v: string | SelectOption) => !!v || 'This field is required'
 
 // const { users: teamUsers, filters: teamFilters } = useUsers({ pagination: ref({ page: 1, perPage: 100, total: 10 }) })
-const { users: ownerUsers, filters: ownerFilters } = useUsers({ pagination: ref({ page: 1, perPage: 100, total: 10 }) })
+// const { users: ownerUsers, filters: ownerFilters } = useUsers({ pagination: ref({ page: 1, perPage: 100, total: 10 }) })
 </script>
 
 <template>
   <VaForm v-slot="{ validate }" class="flex flex-col gap-2">
-    <VaSelect
+    <!-- <VaSelect
       v-model="newProject.project_owner"
       v-model:search="ownerFilters.search"
       searchable
@@ -80,7 +80,7 @@ const { users: ownerUsers, filters: ownerFilters } = useUsers({ pagination: ref(
           {{ user.fullname }}
         </div>
       </template>
-    </VaSelect>
+    </VaSelect> -->
     <VaInput v-model="newProject.project_name" label="Company" :rules="[required]" />
     <!-- <VaSelect
       v-model="newProject.team"
