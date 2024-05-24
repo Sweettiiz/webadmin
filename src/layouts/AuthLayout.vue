@@ -14,8 +14,9 @@
             </div>
           </VaCardContent>
         </VaCard>
+        <img src="/public/human.png" alt="human" width="500" class="flex flex-col ml-[15rem]" />
         <VaCard
-          class="flex flex-col h-30 w-40 ml-[3rem] mt-[15rem] items-center justify-between"
+          class="flex flex-col h-30 w-40 ml-[3rem] mt-[5rem] items-center justify-between"
           :style="{ '--va-card-outlined-border': '5px solid var(--va-background-element)' }"
           outlined
         >
@@ -27,7 +28,7 @@
           </VaCardContent>
         </VaCard>
         <VaCard
-          class="flex flex-col h-30 w-40 ml-[45rem] mt-[20rem] items-center justify-end"
+          class="flex flex-col h-30 w-40 ml-[45rem] mt-[-40rem] items-center justify-end"
           :style="{ '--va-card-outlined-border': '5px solid var(--va-background-element)' }"
           outlined
         >
