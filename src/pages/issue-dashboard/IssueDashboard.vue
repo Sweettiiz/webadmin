@@ -8,31 +8,31 @@ export default defineComponent({
         Date: '15/04/2024',
         Type: 'Type 1',
         Detail: 'ไม่สามารถลบ Audit Project ได้',
-        Action: 'แก้ไขแล้ว',
+        Status: 'แก้ไขแล้ว',
       },
       {
         Date: '20/03/2024',
         Type: 'Type 2',
         Detail: 'ไม่สามารถดูจำนวน Token ทั้งหมดที่ใช้ไป',
-        Action: 'แก้ไขแล้ว',
+        Status: 'แก้ไขแล้ว',
       },
       {
         Date: '7/05/2024',
         Type: 'Type 3',
         Detail: 'ไม่สามารถดูจำนวน Users ที่อยู่บริษัทเดียวกัน',
-        Action: 'ยังไม่แก้ไข',
+        Status: 'ยังไม่แก้ไข',
       },
       {
         Date: '9/05/2024',
         Type: 'Type 4',
         Detail: 'ไม่สามารถรับการแจ้งเตือนของ Notification ',
-        Action: 'ยังไม่แก้ไข',
+        Status: 'ยังไม่แก้ไข',
       },
       {
         Date: '12/04/2024',
         Type: 'Type 5',
         Detail: 'ไม่สามารถขอจำนวน Token เพิ่มได้',
-        Action: 'แก้ไขแล้ว',
+        Status: 'แก้ไขแล้ว',
       },
     ]
 

@@ -18,13 +18,13 @@ export default {
         icon: 'vuestic-iconset-dashboard',
       },
     },
-    {
-      name: 'users',
-      displayName: 'menu.users',
-      meta: {
-        icon: 'group',
-      },
-    },
+    // {
+    //   name: 'users',
+    //   displayName: 'menu.users',
+    //   meta: {
+    //     icon: 'group',
+    //   },
+    // },
     {
       name: 'system-management',
       displayName: 'System Management',
@@ -53,10 +53,10 @@ export default {
         icon: 'folder_shared',
       },
       children: [
-        {
-          name: 'token-management',
-          displayName: 'Token Management',
-        },
+        // {
+        //   name: 'token-management',
+        //   displayName: 'Token Management',
+        // },
         {
           name: 'storage',
           displayName: 'Storage',
@@ -71,13 +71,13 @@ export default {
         },
       ],
     },
-    {
-      name: 'projects',
-      displayName: 'menu.projects',
-      meta: {
-        icon: 'folder_shared',
-      },
-    },
+    // {
+    //   name: 'projects',
+    //   displayName: 'menu.projects',
+    //   meta: {
+    //     icon: 'folder_shared',
+    //   },
+    // },
     // {
     //   name: 'payments',
     //   displayName: 'menu.payments',
@@ -110,14 +110,14 @@ export default {
           name: 'login',
           displayName: 'menu.login',
         },
-        {
-          name: 'signup',
-          displayName: 'menu.signup',
-        },
-        {
-          name: 'recover-password',
-          displayName: 'menu.recover-password',
-        },
+        // {
+        //   name: 'signup',
+        //   displayName: 'menu.signup',
+        // },
+        // {
+        //   name: 'recover-password',
+        //   displayName: 'menu.recover-password',
+        // },
       ],
     },
 

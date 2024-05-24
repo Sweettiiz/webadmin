@@ -8,6 +8,8 @@
             :name="isSidebarMinimized ? 'menu' : 'close'"
             size="24px"
             style="margin-top: 3px"
+            src="src\components\icons\hub.png"
+            alt="hub"
             @click="isSidebarMinimized = !isSidebarMinimized"
           />
         </Transition>

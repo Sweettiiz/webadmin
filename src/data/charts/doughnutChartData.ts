@@ -5,10 +5,10 @@ export const expensesBackground = '#fff'
 export const earningsBackground = '#ECF0F1'
 
 export const doughnutChartData: TDoughnutChartData = {
-  labels: ['Profit', 'Expenses'],
+  labels: ['Used', 'Free'],
   datasets: [
     {
-      label: 'Yearly Breakdown',
+      // label: 'Yearly Breakdown',
       backgroundColor: [profitBackground, earningsBackground],
       data: [432, 167],
     },

@@ -11,7 +11,7 @@
       <section class="flex flex-col items-start w-full sm:w-1/3 md:w-2/5 lg:w-1/4 gap-2 md:gap-8 pl-4">
         <div>
           <p class="text-xl font-semibold">{{ totalEarnings }}</p>
-          <p class="whitespace-nowrap mt-2">Total earnings</p>
+          <p class="whitespace-nowrap mt-2">Total Token</p>
         </div>
         <div class="flex flex-col sm:flex-col gap-2 md:gap-8 w-full">
           <div>
@@ -22,11 +22,11 @@
             <div class="mt-2 text-xl font-semibold">{{ earningsForSelectedMonth.earning }}</div>
           </div>
           <div>
-            <div class="flex items-center">
+            <!-- <div class="flex items-center">
               <span class="inline-block w-2 h-2 mr-2 -ml-4" :style="{ backgroundColor: expensesColor }"></span>
               <span class="text-secondary">Expense this month</span>
-            </div>
-            <div class="mt-2 text-xl font-semibold">{{ earningsForSelectedMonth.expenses }}</div>
+            </div> -->
+            <!-- <div class="mt-2 text-xl font-semibold">{{ earningsForSelectedMonth.expenses }}</div> -->
           </div>
         </div>
       </section>
@@ -44,13 +44,7 @@ import { ref, computed } from 'vue'
 import { VaCard } from 'vuestic-ui'
 import RevenueReportChart from './RevenueReportChart.vue'
 import { downloadAsCSV } from '../../../../services/toCSV'
-import {
-  earningsColor,
-  expensesColor,
-  months,
-  generateRevenues,
-  getRevenuePerMonth,
-} from '../../../../data/charts/revenueChartData'
+import { earningsColor, months, generateRevenues, getRevenuePerMonth } from '../../../../data/charts/revenueChartData'
 
 const revenues = generateRevenues(months)
 
