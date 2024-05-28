@@ -3,46 +3,49 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   data() {
-    const items = [
-      {
-        Date: '15/04/2024',
-        Type: 'Type 1',
-        Detail: 'ไม่สามารถลบ Audit Project ได้',
-        Status: 'แก้ไขแล้ว',
-      },
-      {
-        Date: '20/03/2024',
-        Type: 'Type 2',
-        Detail: 'ไม่สามารถดูจำนวน Token ทั้งหมดที่ใช้ไป',
-        Status: 'แก้ไขแล้ว',
-      },
-      {
-        Date: '7/05/2024',
-        Type: 'Type 3',
-        Detail: 'ไม่สามารถดูจำนวน Users ที่อยู่บริษัทเดียวกัน',
-        Status: 'ยังไม่แก้ไข',
-      },
-      {
-        Date: '9/05/2024',
-        Type: 'Type 4',
-        Detail: 'ไม่สามารถรับการแจ้งเตือนของ Notification ',
-        Status: 'ยังไม่แก้ไข',
-      },
-      {
-        Date: '12/04/2024',
-        Type: 'Type 5',
-        Detail: 'ไม่สามารถขอจำนวน Token เพิ่มได้',
-        Status: 'แก้ไขแล้ว',
-      },
-    ]
-
     return {
-      items,
+      items: [],
     }
   },
+  mounted() {
+    // ดึง access token จาก localStorage
+    const accessToken = localStorage.getItem('access_token');
+
+    // ตรวจสอบว่ามี access token หรือไม่
+    if (!accessToken) {
+      console.error('Access token not found in localStorage');
+    } else {
+      // สร้าง Header สำหรับการส่ง request
+      const headers = {
+        'Accept': 'application/json',
+        'Authorization': accessToken
+      };
+
+      // ทำ GET request โดยใช้ fetch API
+      fetch('http://89.213.177.27:8001/v1/owner/system_management/issue/', {
+        method: 'GET',
+        headers: headers
+      })
+      .then(response => {
+        // ตรวจสอบสถานะของ response
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        // แปลง response เป็น JSON
+        return response.json();
+      })
+      .then(data => {
+        // อัปเดตค่า items ด้วยข้อมูลที่ได้รับ
+        this.items = data;
+      })
+      .catch(error => {
+        // จัดการข้อผิดพลาดที่เกิดขึ้น
+        console.error('There was a problem with the fetch operation:', error);
+      });
+    }
+  }
 })
 </script>
-
 <template>
   <h1 class="page-title">Issue Dashboard</h1>
   <VaCard>
