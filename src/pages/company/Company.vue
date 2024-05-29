@@ -12,20 +12,20 @@
               </template>
             </VaInput>
           </div>
-          <VaButton icon="add" @click="showAddUserModal">Company</VaButton>
+          <VaButton icon="add" @click="showAddCompanyModal">Company</VaButton>
         </div>
 
-        <div class="va-table-responsive" style="max-height: 800px; overflow-y: auto;">
+        <div class="va-table-responsive" style="max-height: 800px; overflow-y: auto">
           <table class="va-table va-table--hoverable">
             <thead>
               <tr>
-                <th style="font-size: 12px;">Name</th>
-                <th style="font-size: 12px;">Address</th>
-                <th style="font-size: 12px;">Email</th>
-                <th style="font-size: 12px;">Phone</th>
-                <th style="font-size: 12px;">Create date</th>
-                <th style="font-size: 12px;">Update date</th>
-                <th style="font-size: 12px;">SubCompany</th>
+                <th style="font-size: 12px">Name</th>
+                <th style="font-size: 12px">Address</th>
+                <th style="font-size: 12px">Email</th>
+                <th style="font-size: 12px">Phone</th>
+                <th style="font-size: 12px">Create date</th>
+                <th style="font-size: 12px">Update date</th>
+                <th style="font-size: 12px">SubCompany</th>
               </tr>
             </thead>
             <tbody>
@@ -81,14 +81,13 @@
             />
           </div>
         </div>
-
       </VaCardContent>
     </VaCard>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
+import axios from 'axios'
 
 export default {
   data() {
@@ -97,69 +96,70 @@ export default {
       loading: true,
       error: null,
       filters: {
-        search: ''
+        search: '',
       },
       perPage: 10,
-      currentPage: 1
-    };
+      currentPage: 1,
+    }
   },
   computed: {
     paginatedCompanies() {
-      const startIndex = (this.currentPage - 1) * this.perPage;
-      const endIndex = startIndex + this.perPage;
-      return this.companies.slice(startIndex, endIndex);
+      const startIndex = (this.currentPage - 1) * this.perPage
+      const endIndex = startIndex + this.perPage
+      return this.companies.slice(startIndex, endIndex)
     },
     totalPages() {
-      return Math.ceil(this.companies.length / this.perPage);
-    }
+      return Math.ceil(this.companies.length / this.perPage)
+    },
+  },
+  created() {
+    this.fetchData()
   },
   methods: {
-    showAddUserModal() {
+    showAddCompanyModal() {
       // Implement your logic here
     },
     fetchData() {
-      const token = localStorage.getItem('access_token');
-      axios.get('http://89.213.177.27:8001/v1/owner/system_management/company/', {
-        headers: {
-          'accept': 'application/json',
-          'Authorization': `${token}`
-        }
-      })
-      .then(response => {
-        this.companies = response.data.map(company => ({
-          id: company.company_id,
-          name: company.company_name,
-          address: company.company_address,
-          email: company.company_email,
-          phone: company.company_phone,
-          create_date: company.company_create_date,
-          update_date: company.company_update_date,
-          sub_companies: company.company_sub_company_name.map(subCompanyName => ({ id: '', name: subCompanyName }))
-        }));
-      })
-      .catch(error => {
-        this.error = 'ไม่สามารถโหลดข้อมูลได้';
-        console.error(error);
-      })
-      .finally(() => {
-        this.loading = false;
-      });
+      const token = localStorage.getItem('access_token')
+      axios
+        .get('http://89.213.177.27:8001/v1/owner/system_management/company/', {
+          headers: {
+            accept: 'application/json',
+            Authorization: `${token}`,
+          },
+        })
+        .then((response) => {
+          this.companies = response.data.map((company) => ({
+            id: company.company_id,
+            name: company.company_name,
+            address: company.company_address,
+            email: company.company_email,
+            phone: company.company_phone,
+            create_date: company.company_create_date,
+            update_date: company.company_update_date,
+            sub_companies: company.company_sub_company_name.map((subCompanyName) => ({ id: '', name: subCompanyName })),
+          }))
+        })
+        .catch((error) => {
+          this.error = 'ไม่สามารถโหลดข้อมูลได้'
+          console.error(error)
+        })
+        .finally(() => {
+          this.loading = false
+        })
     },
     previousPage() {
       if (this.currentPage > 1) {
-        this.currentPage--;
+        this.currentPage--
       }
     },
     nextPage() {
       if (this.currentPage < this.totalPages) {
-        this.currentPage++;
+        this.currentPage++
       }
-    }
+    },
   },
-  created() {
-    this.fetchData();
-  }
-};
+}
 </script>
 
 <style>
@@ -170,18 +170,16 @@ export default {
 }
 th,
 td {
-  font-size: 12px; 
+  font-size: 12px;
 }
 .va-table {
-    width: 100%;
+  width: 100%;
 }
 .va-table tbody tr:not(:last-child) {
-    border-bottom: 1px solid #DEE5F2; /* เส้นคั่นระหว่างแถว */
+  border-bottom: 1px solid #dee5f2; /* เส้นคั่นระหว่างแถว */
 }
 .va-table thead th,
 .va-table tbody tr:not(:last-child) {
-    border-bottom: 1px solid #DEE5F2; /* เส้นคั่นระหว่างแถว */
+  border-bottom: 1px solid #dee5f2; /* เส้นคั่นระหว่างแถว */
 }
-
 </style>
-   
