@@ -17,7 +17,7 @@
           <div>
             <div class="flex items-center">
               <span class="inline-block w-2 h-2 mr-2 -ml-4" :style="{ backgroundColor: earningsColor }"></span>
-              <span class="text-secondary">Earnings this month</span>
+              <span class="text-secondary">Use this month</span>
             </div>
             <div class="mt-2 text-xl font-semibold">{{ earningsForSelectedMonth.earning }}</div>
           </div>

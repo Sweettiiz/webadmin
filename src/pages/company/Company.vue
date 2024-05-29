@@ -26,6 +26,7 @@
                 <th style="font-size: 12px">Create date</th>
                 <th style="font-size: 12px">Update date</th>
                 <th style="font-size: 12px">SubCompany</th>
+                <th style="font-size: 12px">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -42,6 +43,10 @@
                       {{ subCompany.name }}
                     </li>
                   </ul>
+                </td>
+                <td> 
+                  <VaButton preset="secondary" icon="mso-edit" color="secondary" @click="openEditCompanyCard(company)" />
+                  <VaButton preset="secondary" icon="mso-delete" color="danger" @click="deleteCompany(company.id)" />
                 </td>
               </tr>
             </tbody>
@@ -90,13 +95,21 @@
         <VaInput v-model="company.address" label="Address" :rules="[required]" />
         <VaInput v-model="company.email" label="Email" :rules="[required, emailRule]" />
         <VaInput v-model="company.phone" label="Phone" :rules="[required]" />
-        <!-- <VaDateInput v-model="company.createDate" label="Create Date" placeholder="Select a date" :rules="[required]" />
-        <VaDateInput v-model="company.updateDate" label="Update Date" placeholder="Select a date" :rules="[required]" /> -->
         <VaInput
           v-model="company.subCompany"
           label="SubCompany"
           :rules="[required]"
         />
+      </VaForm>
+    </VaModal>
+
+    <VaModal v-model="isEditCompanyModalOpen" title="Edit Company" okText="Save" @ok="validate() && saveEditedCompany()">
+      <VaForm v-slot="{ validate }" class="flex flex-col gap-2">
+        <VaInput v-model="editedCompany.name" label="Name" :rules="[required]" />
+        <VaInput v-model="editedCompany.address" label="Address" :rules="[required]" />
+        <VaInput v-model="editedCompany.email" label="Email" :rules="[required, emailRule]" />
+        <VaInput v-model="editedCompany.phone" label="Phone" :rules="[required]" />
+        <VaInput v-model="editedCompany.subCompany" label="SubCompany" :rules="[required]" />
       </VaForm>
     </VaModal>
   </div>
@@ -129,6 +142,7 @@ export default {
       perPage: 10,
       currentPage: 1,
       isAddCompanyModalOpen: false,
+      isEditCompanyModalOpen: false,
       company: {
         name: '',
         address: '',
@@ -138,8 +152,17 @@ export default {
         updateDate: null,
         subCompany: null,
       },
+      editedCompany: {
+        id: null,
+        name: '',
+        address: '',
+        email: '',
+        phone: '',
+        createDate: null,
+        updateDate: null,
+        subCompany: null,
+      },
       subCompanyOptions: [], // This should be populated with your options
-      saveButtonLabel: 'Save',
       required: value => !!value || 'Required.',
       emailRule: value => /.+@.+\..+/.test(value) || 'E-mail must be valid.',
     };
@@ -151,77 +174,109 @@ export default {
       return this.companies.slice(startIndex, endIndex);
     },
     totalPages() {
+     
       return Math.ceil(this.companies.length / this.perPage);
-    },
   },
-  created() {
-    this.fetchData();
+},
+created() {
+  this.fetchData();
+},
+methods: {
+  showAddCompanyModal() {
+    this.isAddCompanyModalOpen = true;
   },
-  methods: {
-    showAddCompanyModal() {
-      this.isAddCompanyModalOpen = true;
-    },
-    fetchData() {
-      const token = localStorage.getItem('access_token');
-      axios
-        .get('http://89.213.177.27:8001/v1/owner/system_management/company/', {
-          headers: {
-            accept: 'application/json',
-            Authorization: `${token}`,
-          },
-        })
-        .then((response) => {
-          this.companies = response.data.map((company) => ({
-            id: company.company_id,
-            name: company.company_name,
-            address: company.company_address,
-            email: company.company_email,
-            phone: company.company_phone,
-            create_date: company.company_create_date,
-            update_date: company.company_update_date,
-            sub_companies: company.company_sub_company_name.map((subCompanyName) => ({ id: '', name: subCompanyName })),
-          }));
-        })
-        .catch((error) => {
-          this.error = 'ไม่สามารถโหลดข้อมูลได้';
-          console.error(error);
-        })
-        .finally(() => {
-          this.loading = false;
-        });
-    },
-    saveCompany() {
-      // Logic to save company details
-      this.$emit('save', this.company);
-      this.isAddCompanyModalOpen = false;
-    },
-    previousPage() {
-      if (this.currentPage > 1) {
-        this.currentPage--;
-      }
-    },
-    nextPage() {
-      if (this.currentPage < this.totalPages) {
-        this.currentPage++;
-      }
-    },
+  fetchData() {
+    const token = localStorage.getItem('access_token');
+    axios
+      .get('http://89.213.177.27:8001/v1/owner/system_management/company/', {
+        headers: {
+          accept: 'application/json',
+          Authorization: `${token}`,
+        },
+      })
+      .then((response) => {
+        this.companies = response.data.map((company) => ({
+          id: company.company_id,
+          name: company.company_name,
+          address: company.company_address,
+          email: company.company_email,
+          phone: company.company_phone,
+          create_date: company.company_create_date,
+          update_date: company.company_update_date,
+          sub_companies: company.company_sub_company_name.map((subCompanyName) => ({ id: '', name: subCompanyName })),
+        }));
+      })
+      .catch((error) => {
+        this.error = 'ไม่สามารถโหลดข้อมูลได้';
+        console.error(error);
+      })
+      .finally(() => {
+        this.loading = false;
+      });
   },
+  deleteCompany(companyId) {
+    const token = localStorage.getItem('access_token');
+    axios
+      .delete(`http://89.213.177.27:8001/v1/owner/system_management/company/${companyId}`, {
+        headers: {
+          accept: 'application/json',
+          Authorization: `${token}`,
+        },
+      })
+      .then(() => {
+        this.companies = this.companies.filter(company => company.id !== companyId);
+      })
+      .catch((error) => {
+        console.error('Error deleting company:', error);
+        // Handle error, show error message, etc.
+      });
+  },
+  saveCompany() {
+    // Logic to save company details
+    this.$emit('save', this.company);
+    this.isAddCompanyModalOpen = false;
+  },
+  openEditCompanyCard(company) {
+    this.isEditCompanyModalOpen = true;
+    this.editedCompany = { ...company }; // Clone company object to avoid modifying original data directly
+  },
+  saveEditedCompany() {
+    const companyId = this.editedCompany.id;
+    const token = localStorage.getItem('access_token');
+    axios
+      .put(`http://89.213.177.27:8001/v1/owner/system_management/company/${companyId}`, {
+        company_name: this.editedCompany.name,
+        company_address: this.editedCompany.address,
+        company_email: this.editedCompany.email,
+        company_phone: this.editedCompany.phone,
+        company_sub_company_name: [this.editedCompany.subCompany],
+      }, {
+        headers: {
+          accept: 'application/json',
+          Authorization: token,
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(() => {
+        // Handle success, maybe show a success message, update UI, etc.
+        this.isEditCompanyModalOpen = false; // Close the edit modal after successful update
+        this.fetchData(); // Refresh data after update
+      })
+      .catch((error) => {
+        console.error('Error updating company:', error);
+        // Handle error, show error message, etc.
+      });
+  },
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
+  },
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+    }
+  },
+},
 };
 </script>
-
-<style scoped>
-.page-title {
-  font-size: 24px;
-  margin-bottom: 16px;
-}
-.va-table {
-  width: 100%;
-}
-.va-table tbody tr:not(:last-child) {
-  border-bottom: 1px solid #dee5f2;
-}
-.va-table thead th,
-.va-table tbody tr:not(:last-child) {
-  border-bottom: 1px solid #dee5f2;
-}
-</style>
