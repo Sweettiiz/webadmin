@@ -83,13 +83,41 @@
         </div>
       </VaCardContent>
     </VaCard>
+
+    <VaModal v-model="isAddCompanyModalOpen" title="Add Company" okText="Save" @ok="validate() && saveCompany()">
+      <VaForm v-slot="{ validate }" class="flex flex-col gap-2">
+        <VaInput v-model="company.name" label="Name" :rules="[required]" />
+        <VaInput v-model="company.address" label="Address" :rules="[required]" />
+        <VaInput v-model="company.email" label="Email" :rules="[required, emailRule]" />
+        <VaInput v-model="company.phone" label="Phone" :rules="[required]" />
+        <!-- <VaDateInput v-model="company.createDate" label="Create Date" placeholder="Select a date" :rules="[required]" />
+        <VaDateInput v-model="company.updateDate" label="Update Date" placeholder="Select a date" :rules="[required]" /> -->
+        <VaInput
+          v-model="company.subCompany"
+          label="SubCompany"
+          :rules="[required]"
+        />
+      </VaForm>
+    </VaModal>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+import axios from 'axios';
+import { VaButton, VaCard, VaCardContent, VaForm, VaIcon, VaInput, VaModal, VaPagination, VaSelect } from 'vuestic-ui';
 
 export default {
+  components: {
+    VaButton,
+    VaCard,
+    VaCardContent,
+    VaForm,
+    VaIcon,
+    VaInput,
+    VaModal,
+    VaPagination,
+    VaSelect,
+  },
   data() {
     return {
       companies: [],
@@ -100,27 +128,41 @@ export default {
       },
       perPage: 10,
       currentPage: 1,
-    }
+      isAddCompanyModalOpen: false,
+      company: {
+        name: '',
+        address: '',
+        email: '',
+        phone: '',
+        createDate: null,
+        updateDate: null,
+        subCompany: null,
+      },
+      subCompanyOptions: [], // This should be populated with your options
+      saveButtonLabel: 'Save',
+      required: value => !!value || 'Required.',
+      emailRule: value => /.+@.+\..+/.test(value) || 'E-mail must be valid.',
+    };
   },
   computed: {
     paginatedCompanies() {
-      const startIndex = (this.currentPage - 1) * this.perPage
-      const endIndex = startIndex + this.perPage
-      return this.companies.slice(startIndex, endIndex)
+      const startIndex = (this.currentPage - 1) * this.perPage;
+      const endIndex = startIndex + this.perPage;
+      return this.companies.slice(startIndex, endIndex);
     },
     totalPages() {
-      return Math.ceil(this.companies.length / this.perPage)
+      return Math.ceil(this.companies.length / this.perPage);
     },
   },
   created() {
-    this.fetchData()
+    this.fetchData();
   },
   methods: {
     showAddCompanyModal() {
-      // Implement your logic here
+      this.isAddCompanyModalOpen = true;
     },
     fetchData() {
-      const token = localStorage.getItem('access_token')
+      const token = localStorage.getItem('access_token');
       axios
         .get('http://89.213.177.27:8001/v1/owner/system_management/company/', {
           headers: {
@@ -138,48 +180,48 @@ export default {
             create_date: company.company_create_date,
             update_date: company.company_update_date,
             sub_companies: company.company_sub_company_name.map((subCompanyName) => ({ id: '', name: subCompanyName })),
-          }))
+          }));
         })
         .catch((error) => {
-          this.error = 'ไม่สามารถโหลดข้อมูลได้'
-          console.error(error)
+          this.error = 'ไม่สามารถโหลดข้อมูลได้';
+          console.error(error);
         })
         .finally(() => {
-          this.loading = false
-        })
+          this.loading = false;
+        });
+    },
+    saveCompany() {
+      // Logic to save company details
+      this.$emit('save', this.company);
+      this.isAddCompanyModalOpen = false;
     },
     previousPage() {
       if (this.currentPage > 1) {
-        this.currentPage--
+        this.currentPage--;
       }
     },
     nextPage() {
       if (this.currentPage < this.totalPages) {
-        this.currentPage++
+        this.currentPage++;
       }
     },
   },
-}
+};
 </script>
 
-<style>
-.company {
-  border: 1px solid #ccc;
-  padding: 16px;
-  margin: 16px 0;
-}
-th,
-td {
-  font-size: 12px;
+<style scoped>
+.page-title {
+  font-size: 24px;
+  margin-bottom: 16px;
 }
 .va-table {
   width: 100%;
 }
 .va-table tbody tr:not(:last-child) {
-  border-bottom: 1px solid #dee5f2; /* เส้นคั่นระหว่างแถว */
+  border-bottom: 1px solid #dee5f2;
 }
 .va-table thead th,
 .va-table tbody tr:not(:last-child) {
-  border-bottom: 1px solid #dee5f2; /* เส้นคั่นระหว่างแถว */
+  border-bottom: 1px solid #dee5f2;
 }
 </style>
