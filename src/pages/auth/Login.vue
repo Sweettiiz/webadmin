@@ -64,24 +64,28 @@ const formData = reactive({
 const submit = async () => {
   if (validate()) {
     try {
-      const response = await axios.post('http://89.213.177.27:8001/v1/owner/login/token', new URLSearchParams({
-        grant_type: '',
-        email: formData.email,
-        password: formData.password,
-        scope: '',
-        client_id: '',
-        client_secret: ''
-      }), {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'accept': 'application/json'
-        }
-      })
-      
+      const response = await axios.post(
+        'http://89.213.177.27:8001/v1/owner/login/token',
+        new URLSearchParams({
+          grant_type: '',
+          email: formData.email,
+          password: formData.password,
+          scope: '',
+          client_id: '',
+          client_secret: '',
+        }),
+        {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            accept: 'application/json',
+          },
+        },
+      )
+
       if (response.status === 200 && response.data.access_token) {
-        console.log('access Token:',response.data.access_token)
-        localStorage.setItem('access_token',response.data.access_token)
-        init({ message: "คุณเข้าสู่ระบบสำเร็จแล้ว", color: 'success' })
+        console.log('access Token:', response.data.access_token)
+        localStorage.setItem('access_token', response.data.access_token)
+        init({ message: 'คุณเข้าสู่ระบบสำเร็จแล้ว', color: 'success' })
         push({ name: 'dashboard' })
       } else {
         init({ message: 'เข้าสู่ระบบไม่สำเร็จ', color: 'danger' })

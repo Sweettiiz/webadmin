@@ -9,41 +9,41 @@ export default defineComponent({
   },
   mounted() {
     // ดึง access token จาก localStorage
-    const accessToken = localStorage.getItem('access_token');
+    const accessToken = localStorage.getItem('access_token')
 
     // ตรวจสอบว่ามี access token หรือไม่
     if (!accessToken) {
-      console.error('Access token not found in localStorage');
+      console.error('Access token not found in localStorage')
     } else {
       // สร้าง Header สำหรับการส่ง request
       const headers = {
-        'Accept': 'application/json',
-        'Authorization': accessToken
-      };
+        Accept: 'application/json',
+        Authorization: accessToken,
+      }
 
       // ทำ GET request โดยใช้ fetch API
       fetch('http://89.213.177.27:8001/v1/owner/system_management/issue/', {
         method: 'GET',
-        headers: headers
+        headers: headers,
       })
-      .then(response => {
-        // ตรวจสอบสถานะของ response
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        // แปลง response เป็น JSON
-        return response.json();
-      })
-      .then(data => {
-        // อัปเดตค่า items ด้วยข้อมูลที่ได้รับ
-        this.items = data;
-      })
-      .catch(error => {
-        // จัดการข้อผิดพลาดที่เกิดขึ้น
-        console.error('There was a problem with the fetch operation:', error);
-      });
+        .then((response) => {
+          // ตรวจสอบสถานะของ response
+          if (!response.ok) {
+            throw new Error('Network response was not ok')
+          }
+          // แปลง response เป็น JSON
+          return response.json()
+        })
+        .then((data) => {
+          // อัปเดตค่า items ด้วยข้อมูลที่ได้รับ
+          this.items = data
+        })
+        .catch((error) => {
+          // จัดการข้อผิดพลาดที่เกิดขึ้น
+          console.error('There was a problem with the fetch operation:', error)
+        })
     }
-  }
+  },
 })
 </script>
 <template>
