@@ -53,9 +53,9 @@ export default defineComponent({
       <section class="flex flex-col gap-4">
         <div class="flex flex-col md:flex-row gap-2 mb-2 justify-between">
           <VaButtonGroup class="flex-col gap-5">
-            <VaButton>Date</VaButton>
+            <!-- <VaButton>Date</VaButton>
             <VaButton>Week</VaButton>
-            <VaButton>Month</VaButton>
+            <VaButton>Month</VaButton> -->
           </VaButtonGroup>
           <div class="flex-col w-full">
             <p>Type 1</p>
