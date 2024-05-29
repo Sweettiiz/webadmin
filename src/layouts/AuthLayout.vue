@@ -1,9 +1,9 @@
 <template>
   <VaLayout v-if="breakpoint.lgUp" class="h-screen bg-[var(--va-background-secondary)]">
     <template #left>
-      <RouterLink class="h-full" style="width: 50vw" to="/" aria-label="Visit homepage">
+      <VaLayout class="h-full" style="width: 50vw">
         <VaCard
-          class="flex flex-col h-30 w-40 ml-[3rem] mt-[3rem] items-center justify-start"
+          class="flex flex-col h-30 w-40 ml-[15rem] mt-[10rem] items-center justify-start"
           :style="{ '--va-card-outlined-border': '5px solid var(--va-background-element)' }"
           outlined
         >
@@ -14,9 +14,9 @@
             </div>
           </VaCardContent>
         </VaCard>
-        <img src="/public/human.png" alt="human" width="500" class="flex flex-col ml-[15rem]" />
+        <img src="/public/human.png" alt="human" width="600" class="flex flex-col ml-[20rem] mt-[-7rem]" />
         <VaCard
-          class="flex flex-col h-30 w-40 ml-[3rem] mt-[5rem] items-center justify-between"
+          class="flex flex-col h-30 w-40 ml-[15rem] mt-[-5rem] items-center justify-between"
           :style="{ '--va-card-outlined-border': '5px solid var(--va-background-element)' }"
           outlined
         >
@@ -28,7 +28,7 @@
           </VaCardContent>
         </VaCard>
         <VaCard
-          class="flex flex-col h-30 w-40 ml-[45rem] mt-[-40rem] items-center justify-end"
+          class="flex flex-col h-30 w-40 ml-[50rem] mt-[-30rem] items-center justify-end"
           :style="{ '--va-card-outlined-border': '5px solid var(--va-background-element)' }"
           outlined
         >
@@ -39,8 +39,7 @@
             </div>
           </VaCardContent>
         </VaCard>
-        <!-- <VuesticLogo :height="28" start="#FFF" /> -->
-      </RouterLink>
+      </VaLayout>
     </template>
     <template #content>
       <main class="h-full flex items-center justify-center mx-auto max-w-[420px]">
@@ -54,9 +53,6 @@
       <div class="p-4">
         <main class="h-full flex flex-row items-center justify-start mx-auto max-w-[420px]">
           <div class="flex flex-col items-start">
-            <RouterLink class="py-4" to="/" aria-label="Visit homepage">
-              <VuesticLogo class="mb-2" start="#0E41C9" />
-            </RouterLink>
             <RouterView />
           </div>
         </main>
@@ -67,7 +63,6 @@
 
 <script lang="ts" setup>
 import { useBreakpoint } from 'vuestic-ui'
-import VuesticLogo from '../components/VuesticLogo.vue'
 
 const breakpoint = useBreakpoint()
 </script>
