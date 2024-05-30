@@ -78,27 +78,6 @@ export default {
     //     icon: 'folder_shared',
     //   },
     // },
-    // {
-    //   name: 'payments',
-    //   displayName: 'menu.payments',
-    //   meta: {
-    //     icon: 'credit_card',
-    //   },
-    //   children: [
-    //     {
-    //       name: 'payment-methods',
-    //       displayName: 'menu.payment-methods',
-    //     },
-    //     {
-    //       name: 'pricing-plans',
-    //       displayName: 'menu.pricing-plans',
-    //     },
-    //     {
-    //       name: 'billing',
-    //       displayName: 'menu.billing',
-    //     },
-    //   ],
-    // },
     {
       name: 'auth',
       displayName: 'menu.auth',
@@ -120,21 +99,6 @@ export default {
         // },
       ],
     },
-
-    // {
-    //   name: 'faq',
-    //   displayName: 'menu.faq',
-    //   meta: {
-    //     icon: 'quiz',
-    //   },
-    // },
-    // {
-    //   name: '404',
-    //   displayName: 'menu.404',
-    //   meta: {
-    //     icon: 'vuestic-iconset-files',
-    //   },
-    // },
     // {
     //   name: 'preferences',
     //   displayName: 'menu.preferences',

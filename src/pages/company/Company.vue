@@ -44,8 +44,13 @@
                     </li>
                   </ul>
                 </td>
-                <td> 
-                  <VaButton preset="secondary" icon="mso-edit" color="secondary" @click="openEditCompanyCard(company)" />
+                <td>
+                  <VaButton
+                    preset="secondary"
+                    icon="mso-edit"
+                    color="secondary"
+                    @click="openEditCompanyCard(company)"
+                  />
                   <VaButton preset="secondary" icon="mso-delete" color="danger" @click="deleteCompany(company.id)" />
                 </td>
               </tr>
@@ -89,7 +94,7 @@
       </VaCardContent>
     </VaCard>
 
-    <VaModal v-model="isAddCompanyModalOpen" title="Add Company" okText="Save" @ok="validate() && saveCompany()">
+    <!-- <VaModal v-model="isAddCompanyModalOpen" title="Add Company" okText="Save" @ok="validate() && saveCompany()">
       <VaForm v-slot="{ validate }" class="flex flex-col gap-2">
         <VaInput v-model="company.name" label="Name" :rules="[required]" />
         <VaInput v-model="company.address" label="Address" :rules="[required]" />
@@ -101,9 +106,9 @@
           :rules="[required]"
         />
       </VaForm>
-    </VaModal>
+    </VaModal> -->
 
-    <VaModal v-model="isEditCompanyModalOpen" title="Edit Company" okText="Save" @ok="validate() && saveEditedCompany()">
+    <!-- <VaModal v-model="isEditCompanyModalOpen" title="Edit Company" okText="Save" @ok="validate() && saveEditedCompany()">
       <VaForm v-slot="{ validate }" class="flex flex-col gap-2">
         <VaInput v-model="editedCompany.name" label="Name" :rules="[required]" />
         <VaInput v-model="editedCompany.address" label="Address" :rules="[required]" />
@@ -111,23 +116,24 @@
         <VaInput v-model="editedCompany.phone" label="Phone" :rules="[required]" />
         <VaInput v-model="editedCompany.subCompany" label="SubCompany" :rules="[required]" />
       </VaForm>
-    </VaModal>
+    </VaModal> -->
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-import { VaButton, VaCard, VaCardContent, VaForm, VaIcon, VaInput, VaModal, VaPagination, VaSelect } from 'vuestic-ui';
+import axios from 'axios'
+import { VaButton, VaCard, VaCardContent, VaIcon, VaInput, VaPagination, VaSelect } from 'vuestic-ui'
+// import { VaForm, VaModal } from 'vuestic-ui';
 
 export default {
   components: {
     VaButton,
     VaCard,
     VaCardContent,
-    VaForm,
+    // VaForm,
     VaIcon,
     VaInput,
-    VaModal,
+    // VaModal,
     VaPagination,
     VaSelect,
   },
@@ -163,120 +169,123 @@ export default {
         subCompany: null,
       },
       subCompanyOptions: [], // This should be populated with your options
-      required: value => !!value || 'Required.',
-      emailRule: value => /.+@.+\..+/.test(value) || 'E-mail must be valid.',
-    };
+      required: (value) => !!value || 'Required.',
+      emailRule: (value) => /.+@.+\..+/.test(value) || 'E-mail must be valid.',
+    }
   },
   computed: {
     paginatedCompanies() {
-      const startIndex = (this.currentPage - 1) * this.perPage;
-      const endIndex = startIndex + this.perPage;
-      return this.companies.slice(startIndex, endIndex);
+      const startIndex = (this.currentPage - 1) * this.perPage
+      const endIndex = startIndex + this.perPage
+      return this.companies.slice(startIndex, endIndex)
     },
     totalPages() {
-     
-      return Math.ceil(this.companies.length / this.perPage);
+      return Math.ceil(this.companies.length / this.perPage)
+    },
   },
-},
-created() {
-  this.fetchData();
-},
-methods: {
-  showAddCompanyModal() {
-    this.isAddCompanyModalOpen = true;
+  created() {
+    this.fetchData()
   },
-  fetchData() {
-    const token = localStorage.getItem('access_token');
-    axios
-      .get('http://89.213.177.27:8001/v1/owner/system_management/company/', {
-        headers: {
-          accept: 'application/json',
-          Authorization: `${token}`,
-        },
-      })
-      .then((response) => {
-        this.companies = response.data.map((company) => ({
-          id: company.company_id,
-          name: company.company_name,
-          address: company.company_address,
-          email: company.company_email,
-          phone: company.company_phone,
-          create_date: company.company_create_date,
-          update_date: company.company_update_date,
-          sub_companies: company.company_sub_company_name.map((subCompanyName) => ({ id: '', name: subCompanyName })),
-        }));
-      })
-      .catch((error) => {
-        this.error = 'ไม่สามารถโหลดข้อมูลได้';
-        console.error(error);
-      })
-      .finally(() => {
-        this.loading = false;
-      });
+  methods: {
+    showAddCompanyModal() {
+      this.isAddCompanyModalOpen = true
+    },
+    fetchData() {
+      const token = localStorage.getItem('access_token')
+      axios
+        .get('http://89.213.177.27:8001/v1/owner/system_management/company/', {
+          headers: {
+            accept: 'application/json',
+            Authorization: `${token}`,
+          },
+        })
+        .then((response) => {
+          this.companies = response.data.map((company) => ({
+            id: company.company_id,
+            name: company.company_name,
+            address: company.company_address,
+            email: company.company_email,
+            phone: company.company_phone,
+            create_date: company.company_create_date,
+            update_date: company.company_update_date,
+            sub_companies: company.company_sub_company_name.map((subCompanyName) => ({ id: '', name: subCompanyName })),
+          }))
+        })
+        .catch((error) => {
+          this.error = 'ไม่สามารถโหลดข้อมูลได้'
+          console.error(error)
+        })
+        .finally(() => {
+          this.loading = false
+        })
+    },
+    deleteCompany(companyId) {
+      const token = localStorage.getItem('access_token')
+      axios
+        .delete(`http://89.213.177.27:8001/v1/owner/system_management/company/${companyId}`, {
+          headers: {
+            accept: 'application/json',
+            Authorization: `${token}`,
+          },
+        })
+        .then(() => {
+          this.companies = this.companies.filter((company) => company.id !== companyId)
+        })
+        .catch((error) => {
+          console.error('Error deleting company:', error)
+          // Handle error, show error message, etc.
+        })
+    },
+    saveCompany() {
+      // Logic to save company details
+      this.$emit('save', this.company)
+      this.isAddCompanyModalOpen = false
+    },
+    openEditCompanyCard(company) {
+      this.isEditCompanyModalOpen = true
+      this.editedCompany = { ...company } // Clone company object to avoid modifying original data directly
+    },
+    saveEditedCompany() {
+      const companyId = this.editedCompany.id
+      const token = localStorage.getItem('access_token')
+      axios
+        .put(
+          `http://89.213.177.27:8001/v1/owner/system_management/company/${companyId}`,
+          {
+            company_name: this.editedCompany.name,
+            company_address: this.editedCompany.address,
+            company_email: this.editedCompany.email,
+            company_phone: this.editedCompany.phone,
+            company_sub_company_name: [this.editedCompany.subCompany],
+          },
+          {
+            headers: {
+              accept: 'application/json',
+              Authorization: token,
+              'Content-Type': 'application/json',
+            },
+          },
+        )
+        .then(() => {
+          // Handle success, maybe show a success message, update UI, etc.
+          this.isEditCompanyModalOpen = false // Close the edit modal after successful update
+          this.fetchData() // Refresh data after update
+        })
+        .catch((error) => {
+          console.error('Error updating company:', error)
+          // Handle error, show error message, etc.
+        })
+    },
+    previousPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--
+      }
+    },
+    nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++
+      }
+    },
   },
-  deleteCompany(companyId) {
-    const token = localStorage.getItem('access_token');
-    axios
-      .delete(`http://89.213.177.27:8001/v1/owner/system_management/company/${companyId}`, {
-        headers: {
-          accept: 'application/json',
-          Authorization: `${token}`,
-        },
-      })
-      .then(() => {
-        this.companies = this.companies.filter(company => company.id !== companyId);
-      })
-      .catch((error) => {
-        console.error('Error deleting company:', error);
-        // Handle error, show error message, etc.
-      });
-  },
-  saveCompany() {
-    // Logic to save company details
-    this.$emit('save', this.company);
-    this.isAddCompanyModalOpen = false;
-  },
-  openEditCompanyCard(company) {
-    this.isEditCompanyModalOpen = true;
-    this.editedCompany = { ...company }; // Clone company object to avoid modifying original data directly
-  },
-  saveEditedCompany() {
-    const companyId = this.editedCompany.id;
-    const token = localStorage.getItem('access_token');
-    axios
-      .put(`http://89.213.177.27:8001/v1/owner/system_management/company/${companyId}`, {
-        company_name: this.editedCompany.name,
-        company_address: this.editedCompany.address,
-        company_email: this.editedCompany.email,
-        company_phone: this.editedCompany.phone,
-        company_sub_company_name: [this.editedCompany.subCompany],
-      }, {
-        headers: {
-          accept: 'application/json',
-          Authorization: token,
-          'Content-Type': 'application/json',
-        },
-      })
-      .then(() => {
-        // Handle success, maybe show a success message, update UI, etc.
-        this.isEditCompanyModalOpen = false; // Close the edit modal after successful update
-        this.fetchData(); // Refresh data after update
-      })
-      .catch((error) => {
-        console.error('Error updating company:', error);
-        // Handle error, show error message, etc.
-      });
-  },
-  previousPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-    }
-  },
-  nextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-    }
-  },
-},
-};
+}
 </script>
