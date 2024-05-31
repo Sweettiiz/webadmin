@@ -19,7 +19,7 @@
               <span class="text-[var(--va-secondary)]">Role: </span>
               <span class="va-text-bold"> User</span>
             </p>
-            <RouterLink to="/user-token">
+            <RouterLink to="/user-storage">
               <VaButton preset="secondary" icon="mso-edit" color="secondary" @click="openEditUserCard(User)" />
             </RouterLink>
           </div>
@@ -44,7 +44,7 @@
   </div>
   <div class="flex justify-between">
     <div class="flex flex-col w-full">
-      <VaCard>
+      <VaCard :style="{ '--va-card-outlined-border': '3px solid var(--va-background-element)' }" outlined>
         <VaCardContent>
           <canvas id="column-chart"></canvas>
         </VaCardContent>

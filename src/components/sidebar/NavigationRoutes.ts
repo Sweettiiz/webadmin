@@ -73,12 +73,12 @@ export default {
           name: 'user-token',
           displayName: 'User Token',
         },
-        {
-          name: 'user-token-detail',
-          displayName: 'User Token Detail',
-        },
         // {
-        //   name: 'user-Storage',
+        //   name: 'user-token-detail',
+        //   displayName: 'User Token Detail',
+        // },
+        // {
+        //   name: 'user-storage',
         //   displayName: 'User Storage',
         // },
       ],
