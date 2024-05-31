@@ -4,7 +4,10 @@
       <VaLayout class="h-full" style="width: 50vw">
         <VaCard
           class="flex flex-col h-30 w-40 ml-[15rem] mt-[10rem] items-center justify-start"
-          :style="{ '--va-card-outlined-border': '5px solid var(--va-background-element)' }"
+          :style="{
+            '--va-card-outlined-border': '5px var(--va-background-element)',
+            '--va-card-outlined-box-shadow': '0px 1px 2px ',
+          }"
           outlined
         >
           <VaCardContent>
@@ -17,7 +20,10 @@
         <img src="/public/human.png" alt="human" width="600" class="flex flex-col ml-[20rem] mt-[-7rem]" />
         <VaCard
           class="flex flex-col h-30 w-40 ml-[15rem] mt-[-5rem] items-center justify-between"
-          :style="{ '--va-card-outlined-border': '5px solid var(--va-background-element)' }"
+          :style="{
+            '--va-card-outlined-border': '5px var(--va-background-element)',
+            '--va-card-outlined-box-shadow': '0px 1px 2px ',
+          }"
           outlined
         >
           <VaCardContent>
@@ -29,7 +35,10 @@
         </VaCard>
         <VaCard
           class="flex flex-col h-30 w-40 ml-[50rem] mt-[-30rem] items-center justify-end"
-          :style="{ '--va-card-outlined-border': '5px solid var(--va-background-element)' }"
+          :style="{
+            '--va-card-outlined-border': '5px  var(--va-background-element)',
+            '--va-card-outlined-box-shadow': '0px 1px 2px ',
+          }"
           outlined
         >
           <VaCardContent>
