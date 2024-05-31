@@ -34,7 +34,7 @@
               <span> จำนวนการใช้งาน Token </span>
             </h4>
             <h6 class="va-h6 text-center self-stretch overflow-hidden line-clamp-2 text-ellipsis">
-              <span> 1800 / 10000 </span>
+              <span> 1,800 / 10,000 </span>
             </h6>
             <img src="/public/db-image.png" alt="db-image" width="76" />
           </div>

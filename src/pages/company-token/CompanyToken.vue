@@ -42,7 +42,9 @@
                 </ul>
               </td>
               <td>
-                <VaButton preset="secondary" icon="mso-edit" color="secondary" @click="openEditCompanyCard(company)" />
+                <RouterLink to="/company-token-detail">
+                  <VaButton preset="secondary" icon="mso-edit" color="secondary" @click="openEditUserCard(User)" />
+                </RouterLink>
               </td>
             </tr>
           </tbody>
@@ -110,8 +112,8 @@ export default {
           create_date: '2024-05-31',
           update_date: '2024-05-31',
           sub_companies: [
-            { id: 1, name: 'Subcompany A1' },
-            { id: 2, name: 'Subcompany A2' },
+            { id: 1, name: 'BTU' },
+            { id: 2, name: 'COLD' },
           ],
         },
         {
@@ -122,8 +124,8 @@ export default {
           create_date: '2024-05-30',
           update_date: '2024-05-30',
           sub_companies: [
-            { id: 3, name: 'Subcompany B1' },
-            { id: 4, name: 'Subcompany B2' },
+            { id: 3, name: 'HOT' },
+            { id: 4, name: 'HR' },
           ],
         },
         {
@@ -134,8 +136,8 @@ export default {
           create_date: '2024-05-29',
           update_date: '2024-05-29',
           sub_companies: [
-            { id: 5, name: 'Subcompany C1' },
-            { id: 6, name: 'Subcompany C2' },
+            { id: 5, name: 'PLAN' },
+            { id: 6, name: 'IBS' },
           ],
         },
         {
@@ -146,8 +148,8 @@ export default {
           create_date: '2024-05-28',
           update_date: '2024-05-28',
           sub_companies: [
-            { id: 7, name: 'Subcompany D1' },
-            { id: 8, name: 'Subcompany D2' },
+            { id: 7, name: 'SHE' },
+            { id: 8, name: 'FI' },
           ],
         },
         {
@@ -158,8 +160,8 @@ export default {
           create_date: '2024-05-27',
           update_date: '2024-05-27',
           sub_companies: [
-            { id: 9, name: 'Subcompany E1' },
-            { id: 10, name: 'Subcompany E2' },
+            { id: 9, name: 'QC' },
+            { id: 10, name: 'OTH' },
           ],
         },
       ],
