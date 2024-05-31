@@ -58,17 +58,29 @@ export default {
         //   displayName: 'Token Management',
         // },
         {
-          name: 'storage',
-          displayName: 'Storage',
-        },
-        {
           name: 'company-token',
           displayName: 'Company Token',
         },
+        // {
+        //   name: 'company-token-detail',
+        //   displayName: 'Company Token Detail',
+        // },
+        // {
+        //   name: 'company-storage',
+        //   displayName: 'Company Storage',
+        // },
         {
           name: 'user-token',
           displayName: 'User Token',
         },
+        {
+          name: 'user-token-detail',
+          displayName: 'User Token Detail',
+        },
+        // {
+        //   name: 'user-Storage',
+        //   displayName: 'User Storage',
+        // },
       ],
     },
     // {

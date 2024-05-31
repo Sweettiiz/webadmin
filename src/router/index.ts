@@ -18,22 +18,22 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         name: 'dashboard',
-        path: 'dashboard',
+        path: '/dashboard',
         component: () => import('../pages/admin/dashboard/Dashboard.vue'),
       },
       {
         name: 'settings',
-        path: 'settings',
+        path: '/settings',
         component: () => import('../pages/settings/Settings.vue'),
       },
       {
         name: 'preferences',
-        path: 'preferences',
+        path: '/preferences',
         component: () => import('../pages/preferences/Preferences.vue'),
       },
       {
         name: 'users',
-        path: 'users',
+        path: '/users',
         component: () => import('../pages/users/UsersPage.vue'),
       },
       {
@@ -43,17 +43,17 @@ const routes: Array<RouteRecordRaw> = [
         children: [
           {
             name: 'company',
-            path: 'company',
+            path: '/company',
             component: () => import('../pages/company/Company.vue'),
           },
           {
             name: 'user-management',
-            path: 'user-management',
+            path: '/user-management',
             component: () => import('../pages/user-management/UserManagement.vue'),
           },
           {
             name: 'issue-dashboard',
-            path: 'issue-dashboard',
+            path: '/issue-dashboard',
             component: () => import('../pages/issue-dashboard/IssueDashboard.vue'),
           },
         ],
@@ -65,29 +65,44 @@ const routes: Array<RouteRecordRaw> = [
         children: [
           {
             name: 'token-management',
-            path: 'token-management',
+            path: '/token-management',
             component: () => import('../pages/token-management/TokenManagement.vue'),
           },
           {
-            name: 'storage',
-            path: 'storage',
-            component: () => import('../pages/storage/Storage.vue'),
-          },
-          {
             name: 'company-token',
-            path: 'company-token',
+            path: '/company-token',
             component: () => import('../pages/company-token/CompanyToken.vue'),
           },
           {
+            name: 'company-token-detail',
+            path: '/company-token-detail',
+            component: () => import('../pages/company-token-detail/CompanyTokenDetail.vue'),
+          },
+          {
+            name: 'company-storage',
+            path: '/company-storage',
+            component: () => import('../pages/company-storage/CompanyStorage.vue'),
+          },
+          {
             name: 'user-token',
-            path: 'user-token',
+            path: '/user-token',
             component: () => import('../pages/user-token/UserToken.vue'),
+          },
+          {
+            name: 'user-token-detail',
+            path: '/user-token-detail',
+            component: () => import('../pages/user-token-detail/UserTokenDetail.vue'),
+          },
+          {
+            name: 'user-storage',
+            path: '/user-storage',
+            component: () => import('../pages/user-storage/UserStorage.vue'),
           },
         ],
       },
       {
         name: 'projects',
-        path: 'projects',
+        path: '/projects',
         component: () => import('../pages/projects/ProjectsPage.vue'),
       },
     ],
@@ -98,22 +113,22 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         name: 'login',
-        path: 'login',
+        path: '/login',
         component: () => import('../pages/auth/Login.vue'),
       },
       {
         name: 'signup',
-        path: 'signup',
+        path: '/signup',
         component: () => import('../pages/auth/Signup.vue'),
       },
       {
         name: 'recover-password',
-        path: 'recover-password',
+        path: '/recover-password',
         component: () => import('../pages/auth/RecoverPassword.vue'),
       },
       {
         name: 'recover-password-email',
-        path: 'recover-password-email',
+        path: '/recover-password-email',
         component: () => import('../pages/auth/CheckTheEmail.vue'),
       },
       {
