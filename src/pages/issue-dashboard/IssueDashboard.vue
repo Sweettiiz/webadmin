@@ -22,7 +22,7 @@ export default defineComponent({
       }
 
       // ทำ GET request โดยใช้ fetch API
-      fetch('http://89.213.177.27:8001/v1/owner/system_management/issue/', {
+      fetch('http://89.213.177.27:8001/v1/owner/system_management/issue_owner', {
         method: 'GET',
         headers: headers,
       })
