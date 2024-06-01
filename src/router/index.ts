@@ -64,11 +64,6 @@ const routes: Array<RouteRecordRaw> = [
         component: RouteViewComponent,
         children: [
           {
-            name: 'token-management',
-            path: '/token-management',
-            component: () => import('../pages/token-management/TokenManagement.vue'),
-          },
-          {
             name: 'company-token',
             path: '/company-token',
             component: () => import('../pages/company-token/CompanyToken.vue'),
