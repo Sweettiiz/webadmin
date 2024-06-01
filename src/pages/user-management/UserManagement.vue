@@ -115,8 +115,9 @@ export default {
     },
     fetchData() {
       const token = localStorage.getItem('access_token')
+      const uri = 'mongodb://admin:adminpassword@89.213.177.27:27017/'
       axios
-        .get('http://89.213.177.27:8001/v1/owner/system_management/user/', {
+        .get(`http://89.213.177.27:8001/v1/owner/system_management/all_user/${uri}`, {
           headers: {
             accept: 'application/json',
             Authorization: `${token}`,

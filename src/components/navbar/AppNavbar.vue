@@ -15,10 +15,9 @@
           <img src="/public/hub.png" alt="hub" width="40" />
         </div>
         <div class="dropdown-a">
-          <VaSelect preset="small" class="w-24" />
-        </div>
-        <div class="dropdown-b">
-          <VaSelect preset="small" class="w-24" />
+          <VaSelect preset="small" class="w-24">
+            <option value="1">USER1</option>
+          </VaSelect>
         </div>
       </div>
     </template>

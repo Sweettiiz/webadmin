@@ -94,46 +94,47 @@
       </VaCardContent>
     </VaCard>
 
-    <!-- <VaModal v-model="isAddCompanyModalOpen" title="Add Company" okText="Save" @ok="validate() && saveCompany()">
-      <VaForm v-slot="{ validate }" class="flex flex-col gap-2">
+    <VaModal v-model="isAddCompanyModalOpen" title="Add Company" ok-text="Save" @ok="validate() && saveCompany()">
+      <VaForm v-slot="" class="flex flex-col gap-2">
         <VaInput v-model="company.name" label="Name" :rules="[required]" />
         <VaInput v-model="company.address" label="Address" :rules="[required]" />
         <VaInput v-model="company.email" label="Email" :rules="[required, emailRule]" />
         <VaInput v-model="company.phone" label="Phone" :rules="[required]" />
-        <VaInput
-          v-model="company.subCompany"
-          label="SubCompany"
-          :rules="[required]"
-        />
+        <VaInput v-model="company.subCompany" label="SubCompany" :rules="[required]" />
       </VaForm>
-    </VaModal> -->
+    </VaModal>
 
-    <!-- <VaModal v-model="isEditCompanyModalOpen" title="Edit Company" okText="Save" @ok="validate() && saveEditedCompany()">
-      <VaForm v-slot="{ validate }" class="flex flex-col gap-2">
+    <VaModal
+      v-model="isEditCompanyModalOpen"
+      title="Edit Company"
+      ok-text="Save"
+      @ok="validate() && saveEditedCompany()"
+    >
+      <VaForm v-slot="" class="flex flex-col gap-2">
         <VaInput v-model="editedCompany.name" label="Name" :rules="[required]" />
         <VaInput v-model="editedCompany.address" label="Address" :rules="[required]" />
         <VaInput v-model="editedCompany.email" label="Email" :rules="[required, emailRule]" />
         <VaInput v-model="editedCompany.phone" label="Phone" :rules="[required]" />
         <VaInput v-model="editedCompany.subCompany" label="SubCompany" :rules="[required]" />
       </VaForm>
-    </VaModal> -->
+    </VaModal>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import { VaButton, VaCard, VaCardContent, VaIcon, VaInput, VaPagination, VaSelect } from 'vuestic-ui'
-// import { VaForm, VaModal } from 'vuestic-ui';
+import { VaForm, VaModal } from 'vuestic-ui'
 
 export default {
   components: {
     VaButton,
     VaCard,
     VaCardContent,
-    // VaForm,
+    VaForm,
     VaIcon,
     VaInput,
-    // VaModal,
+    VaModal,
     VaPagination,
     VaSelect,
   },
@@ -192,8 +193,10 @@ export default {
     },
     fetchData() {
       const token = localStorage.getItem('access_token')
+      const uri = 'mongodb://admin:adminpassword@89.213.177.27:27017/'
       axios
-        .get('http://89.213.177.27:8001/v1/owner/system_management/company/', {
+      axios
+        .get(`http://89.213.177.27:8001/v1/owner/system_management/all_company/${uri}`, {
           headers: {
             accept: 'application/json',
             Authorization: `${token}`,
@@ -221,8 +224,9 @@ export default {
     },
     deleteCompany(companyId) {
       const token = localStorage.getItem('access_token')
+      const uri = 'mongodb://admin:adminpassword@89.213.177.27:27017/'
       axios
-        .delete(`http://89.213.177.27:8001/v1/owner/system_management/company/${companyId}`, {
+        .delete(`http://89.213.177.27:8001/v1/owner/system_management/company/${company_id}/${uri}`, {
           headers: {
             accept: 'application/json',
             Authorization: `${token}`,
@@ -246,11 +250,12 @@ export default {
       this.editedCompany = { ...company } // Clone company object to avoid modifying original data directly
     },
     saveEditedCompany() {
-      const companyId = this.editedCompany.id
+      // const companyId = this.editedCompany.id
+      const uri = 'mongodb://admin:adminpassword@89.213.177.27:27017/'
       const token = localStorage.getItem('access_token')
       axios
         .put(
-          `http://89.213.177.27:8001/v1/owner/system_management/company/${companyId}`,
+          `http://89.213.177.27:8001/v1/owner/system_management/company/${company_id}/${uri}`,
           {
             company_name: this.editedCompany.name,
             company_address: this.editedCompany.address,
@@ -289,3 +294,24 @@ export default {
   },
 }
 </script>
+<style>
+.company {
+  border: 1px solid #ccc;
+  padding: 16px;
+  margin: 16px 0;
+}
+th,
+td {
+  font-size: 12px;
+}
+.va-table {
+  width: 100%;
+}
+.va-table tbody tr:not(:last-child) {
+  border-bottom: 1px solid #dee5f2; /* เส้นคั่นระหว่างแถว */
+}
+.va-table thead th,
+.va-table tbody tr:not(:last-child) {
+  border-bottom: 1px solid #dee5f2; /* เส้นคั่นระหว่างแถว */
+}
+</style>
