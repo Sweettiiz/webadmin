@@ -5,7 +5,7 @@
         <VaButton preset="secondary" color="textPrimary">
           <span class="profile-dropdown__anchor min-w-max">
             <slot />
-            <VaAvatar :size="32" color="warning"> 😍 </VaAvatar>
+            <VaIcon name="mso-account_circle" :size="24" />
           </span>
         </VaButton>
       </template>

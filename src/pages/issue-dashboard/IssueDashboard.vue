@@ -51,25 +51,6 @@ export default defineComponent({
   <VaCard>
     <VaCardContent>
       <section class="flex flex-col gap-4">
-        <div class="flex flex-col md:flex-row gap-2 mb-2 justify-between">
-          <VaButtonGroup class="flex-col gap-5">
-            <!-- <VaButton>Date</VaButton>
-            <VaButton>Week</VaButton>
-            <VaButton>Month</VaButton> -->
-          </VaButtonGroup>
-          <div class="flex-col w-full">
-            <p>Type 1</p>
-            <VaProgressBar model-value="50" class="flex-col"></VaProgressBar>
-            <p>Type 2</p>
-            <VaProgressBar model-value="60" class="flex-col"></VaProgressBar>
-            <p>Type 3</p>
-            <VaProgressBar model-value="40" class="flex-col"></VaProgressBar>
-            <p>Type 4</p>
-            <VaProgressBar model-value="20" class="flex-col"></VaProgressBar>
-            <p>Type 5</p>
-            <VaProgressBar model-value="70" class="flex-col"></VaProgressBar>
-          </div>
-        </div>
         <div class="flex flex-col gap-4">
           <VaDataTable :items="items" />
         </div>

@@ -18,13 +18,6 @@ export default {
         icon: 'vuestic-iconset-dashboard',
       },
     },
-    // {
-    //   name: 'users',
-    //   displayName: 'menu.users',
-    //   meta: {
-    //     icon: 'group',
-    //   },
-    // },
     {
       name: 'system-management',
       displayName: 'System Management',
@@ -80,33 +73,18 @@ export default {
       ],
     },
     // {
-    //   name: 'projects',
-    //   displayName: 'menu.projects',
+    //   name: 'auth',
+    //   displayName: 'menu.auth',
     //   meta: {
-    //     icon: 'folder_shared',
+    //     icon: 'login',
     //   },
+    //   children: [
+    //     {
+    //       name: 'login',
+    //       displayName: 'menu.login',
+    //     },
+    //   ],
     // },
-    {
-      name: 'auth',
-      displayName: 'menu.auth',
-      meta: {
-        icon: 'login',
-      },
-      children: [
-        {
-          name: 'login',
-          displayName: 'menu.login',
-        },
-        // {
-        //   name: 'signup',
-        //   displayName: 'menu.signup',
-        // },
-        // {
-        //   name: 'recover-password',
-        //   displayName: 'menu.recover-password',
-        // },
-      ],
-    },
     // {
     //   name: 'preferences',
     //   displayName: 'menu.preferences',

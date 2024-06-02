@@ -1,25 +1,21 @@
 <template>
-  <VaDropdown :offset="[13, 0]" class="notification-dropdown" stick-to-edges :close-on-content-click="false">
-    <template #anchor>
-      <VaButton preset="secondary" color="textPrimary">
-        <VaBadge overlap>
-          <template #text> 2+</template>
-          <VaIcon name="notifications" :size="24" />
-        </VaBadge>
-      </VaButton>
-    </template>
-    <VaDropdownContent class="h-full sm:max-w-[420px] sm:h-auto">
-      <section class="flex flex-col gap-4">
+  <VaCard>
+    <VaCardTitle class="flex justify-between">
+      <h1 class="card-title text-secondary font-bold uppercase">Issue Dashboard</h1>
+    </VaCardTitle>
+    <VaCardContent>
+      <section class="flex flex-col gap-4 mt-5">
         <div class="flex flex-col gap-4">
           <VaDataTable :items="items" />
         </div>
       </section>
-    </VaDropdownContent>
-  </VaDropdown>
+    </VaCardContent>
+  </VaCard>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
+
 export default defineComponent({
   data() {
     return {
@@ -65,19 +61,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="scss" scoped>
-.notification-dropdown {
-  cursor: pointer;
-
-  .notification-dropdown__icon {
-    position: relative;
-    display: flex;
-    align-items: center;
-  }
-
-  .va-dropdown__anchor {
-    display: inline-block;
-  }
-}
-</style>

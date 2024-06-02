@@ -1,10 +1,6 @@
 <template>
   <VaForm ref="form" @submit.prevent="submit">
     <h1 class="font-semibold text-4xl mb-4">เข้าสู่ระบบ</h1>
-    <!-- <p class="text-base mb-4 leading-5">
-      เพิ่งเคยใช้ Vuestic?
-      <RouterLink :to="{ name: 'signup' }" class="font-semibold text-primary">สมัครสมาชิก</RouterLink>
-    </p> -->
     <VaInput
       v-model="formData.email"
       :rules="[validators.required, validators.email]"
@@ -30,14 +26,6 @@
         </template>
       </VaInput>
     </VaValue>
-
-    <!-- <div class="auth-layout__options flex flex-col sm:flex-row items-start sm:items-center justify-between">
-      <VaCheckbox v-model="formData.keepLoggedIn" class="mb-2 sm:mb-0" label="ให้ฉันลงชื่อเข้าใช้งานบนอุปกรณ์นี้" />
-      <RouterLink :to="{ name: 'recover-password' }" class="mt-2 sm:mt-0 sm:ml-1 font-semibold text-primary">
-        ลืมรหัสผ่าน?
-      </RouterLink>
-    </div> -->
-
     <div class="flex justify-center mt-4">
       <VaButton class="w-full" @click="submit"> เข้าสู่ระบบ</VaButton>
     </div>

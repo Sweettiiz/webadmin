@@ -32,11 +32,6 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('../pages/preferences/Preferences.vue'),
       },
       {
-        name: 'users',
-        path: '/users',
-        component: () => import('../pages/users/UsersPage.vue'),
-      },
-      {
         name: 'system-management',
         path: '/system-management',
         component: RouteViewComponent,
@@ -95,11 +90,6 @@ const routes: Array<RouteRecordRaw> = [
           },
         ],
       },
-      {
-        name: 'projects',
-        path: '/projects',
-        component: () => import('../pages/projects/ProjectsPage.vue'),
-      },
     ],
   },
   {
@@ -110,21 +100,6 @@ const routes: Array<RouteRecordRaw> = [
         name: 'login',
         path: '/login',
         component: () => import('../pages/auth/Login.vue'),
-      },
-      {
-        name: 'signup',
-        path: '/signup',
-        component: () => import('../pages/auth/Signup.vue'),
-      },
-      {
-        name: 'recover-password',
-        path: '/recover-password',
-        component: () => import('../pages/auth/RecoverPassword.vue'),
-      },
-      {
-        name: 'recover-password-email',
-        path: '/recover-password-email',
-        component: () => import('../pages/auth/CheckTheEmail.vue'),
       },
       {
         path: '',
