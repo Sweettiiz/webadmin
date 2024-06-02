@@ -2,7 +2,7 @@
   <h1 class="page-title">User Token Detail</h1>
   <div class="flex justify-between">
     <div class="flex flex-col w-full h-full">
-      <VaCard :style="{ '--va-card-outlined-border': '3px solid var(--va-background-element)' }" outlined>
+      <VaCard :style="{ '--va-card-outlined-border': '1px solid var(--va-background-element)' }" outlined>
         <VaCardContent class="flex flex-col">
           <div class="flex flex-col items-center gap-4 grow">
             <h4 class="va-h4 text-center self-stretch overflow-hidden line-clamp-2 text-ellipsis">
@@ -27,7 +27,7 @@
       </VaCard>
     </div>
     <div class="flex flex-col">
-      <VaCard :style="{ '--va-card-outlined-border': '3px solid var(--va-background-element)' }" outlined>
+      <VaCard :style="{ '--va-card-outlined-border': '1px solid var(--va-background-element)' }" outlined>
         <VaCardContent class="flex flex-col">
           <div class="flex flex-col items-center gap-4 grow">
             <h4 class="va-h4 text-center self-stretch overflow-hidden line-clamp-2 text-ellipsis">
@@ -44,7 +44,7 @@
   </div>
   <div class="flex justify-between">
     <div class="flex flex-col w-full">
-      <VaCard :style="{ '--va-card-outlined-border': '3px solid var(--va-background-element)' }" outlined>
+      <VaCard :style="{ '--va-card-outlined-border': '1px solid var(--va-background-element)' }" outlined>
         <VaCardContent>
           <canvas id="column-chart"></canvas>
         </VaCardContent>

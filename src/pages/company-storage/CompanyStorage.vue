@@ -2,7 +2,7 @@
   <h1 class="page-title">Company Storage</h1>
   <div class="flex justify-between w-full">
     <div class="flex flex-col w-full h-full">
-      <VaCard :style="{ '--va-card-outlined-border': '3px solid var(--va-background-element)' }" outlined>
+      <VaCard :style="{ '--va-card-outlined-border': '1px solid var(--va-background-element)' }" outlined>
         <VaCardContent class="flex flex-col mt-6 mb-5">
           <div class="flex flex-col items-center gap-4 grow">
             <h4 class="va-h4 text-center self-stretch overflow-hidden line-clamp-2 text-ellipsis">
@@ -31,7 +31,7 @@
       </VaCard>
     </div>
     <div class="flex flex-col h-full">
-      <VaCard :style="{ '--va-card-outlined-border': '3px solid var(--va-background-element)' }" outlined>
+      <VaCard :style="{ '--va-card-outlined-border': '1px solid var(--va-background-element)' }" outlined>
         <VaCardContent class="mt-2">
           <canvas id="pie-chart"></canvas>
         </VaCardContent>
@@ -40,7 +40,7 @@
   </div>
   <div class="flex justify-between">
     <div class="flex flex-col w-full h-full">
-      <VaCard :style="{ '--va-card-outlined-border': '3px solid var(--va-background-element)' }" outlined>
+      <VaCard :style="{ '--va-card-outlined-border': '1px solid var(--va-background-element)' }" outlined>
         <VaCardContent class="flex flex-col">
           <div class="flex flex-col items-center gap-4 grow">
             <h4 class="va-h4 text-center self-stretch overflow-hidden line-clamp-2 text-ellipsis">
