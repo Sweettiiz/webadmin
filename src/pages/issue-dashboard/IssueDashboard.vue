@@ -50,6 +50,13 @@ export default defineComponent({
   <h1 class="page-title">Issue Dashboard</h1>
   <VaCard>
     <VaCardContent>
+      <VaSelect preset="small" class="w-24" />
+      <div class="flex-col w-full mt-5">
+        <p>Type 1</p>
+        <VaProgressBar model-value="50" class="flex-col mb-5"></VaProgressBar>
+        <p>Type 2</p>
+        <VaProgressBar model-value="70" class="flex-col mb-5"></VaProgressBar>
+      </div>
       <section class="flex flex-col gap-4">
         <div class="flex flex-col gap-4">
           <VaDataTable :items="items" />
