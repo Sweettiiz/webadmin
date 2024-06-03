@@ -22,10 +22,10 @@
               <th style="font-size: 12px">Company</th>
               <th style="font-size: 12px">First Name</th>
               <th style="font-size: 12px">Last Name</th>
-              <th style="font-size: 12px">Email</th>
+              <!-- <th style="font-size: 12px">Email</th>
               <th style="font-size: 12px">Role</th>
               <th style="font-size: 12px">Username</th>
-              <th style="font-size: 12px">Password</th>
+              <th style="font-size: 12px">Password</th> -->
             </tr>
           </thead>
           <tbody>
@@ -33,10 +33,10 @@
               <td>{{ User.Company }}</td>
               <td>{{ User.Firstname }}</td>
               <td>{{ User.Lasttname }}</td>
-              <td>{{ User.Email }}</td>
+              <!-- <td>{{ User.Email }}</td>
               <td>{{ User.Role }}</td>
               <td>{{ User.Username }}</td>
-              <td>{{ User.Password }}</td>
+              <td>{{ User.Password }}</td> -->
             </tr>
           </tbody>
         </table>
