@@ -23,10 +23,7 @@
               <th style="font-size: 12px">Address</th>
               <th style="font-size: 12px">Email</th>
               <th style="font-size: 12px">Phone</th>
-              <th style="font-size: 12px">Create date</th>
-              <th style="font-size: 12px">Update date</th>
-              <th style="font-size: 12px">SubCompany</th>
-              <!-- <th style="font-size: 12px">Actions</th> -->
+              <th style="font-size: 12px">Status</th>
             </tr>
           </thead>
           <tbody>
@@ -34,25 +31,8 @@
               <td>{{ company.name }}</td>
               <td>{{ company.address }}</td>
               <td>{{ company.email }}</td>
-              <td>{{ company.phone }}</td>
-              <td>{{ company.create_date }}</td>
-              <td>{{ company.update_date }}</td>
-              <td>
-                <ul>
-                  <li v-for="subCompany in company.sub_companies" :key="subCompany.id">
-                    {{ subCompany.name }}
-                  </li>
-                </ul>
-              </td>
-              <td>
-                <!-- <VaButton
-                    preset="secondary"
-                    icon="mso-edit"
-                    color="secondary"
-                    @click="openEditCompanyCard(company)"
-                  />
-                  <VaButton preset="secondary" icon="mso-delete" color="danger" @click="deleteCompany(company.id)" /> -->
-              </td>
+              <td>{{ company.phone }}</td> 
+              <td><span class="status-active">active</span></td>
             </tr>
           </tbody>
         </table>
@@ -288,4 +268,10 @@ td {
 .va-table tbody tr:not(:last-child) {
   border-bottom: 1px solid #dee5f2; /* เส้นคั่นระหว่างแถว */
 }
+.status-active {
+    border: 2px solid green;
+    padding: 4px;
+    display: inline-block;
+    border-radius: 4px;
+  }
 </style>
