@@ -87,3 +87,10 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+#line-chart {
+  width: 100%;
+  height: 100%;
+}
+</style>
