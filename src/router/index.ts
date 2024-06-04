@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
-import AuthLayout from '../layouts/AuthLayout.vue'
+// import AuthLayout from '../layouts/AuthLayout.vue'
 import AppLayout from '../layouts/AppLayout.vue'
 
 import RouteViewComponent from '../layouts/RouterBypass.vue'
@@ -94,7 +94,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/auth',
-    component: AuthLayout,
+    // component: AuthLayout,
     children: [
       {
         name: 'login',
