@@ -1,13 +1,16 @@
 <template>
   <VaCard>
-    <VaCardTitle class="pb-0!">
+    <VaCardTitle class="flex items-start justify-between">
       <h1 class="card-title text-secondary font-bold uppercase">Storage Used</h1>
+      <div class="flex gap-2">
+        <VaSelect preset="small" class="w-24" />
+      </div>
     </VaCardTitle>
     <VaCardContent class="flex flex-row gap-1">
-      <section class="w-1/2">
+      <section class="flex">
         <div class="text-xl font-bold mb-2">36,358</div>
       </section>
-      <div class="flex items-center h-full">
+      <div class="flex w-1/2">
         <canvas id="pie-chart"></canvas>
       </div>
     </VaCardContent>

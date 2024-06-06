@@ -13,7 +13,7 @@
         >
           <VaCardContent>
             <div>
-              <p>Total Companys</p>
+              <p>Total Companies</p>
               <p class="va-arrow-up">14</p>
             </div>
           </VaCardContent>

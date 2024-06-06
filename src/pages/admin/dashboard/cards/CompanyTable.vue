@@ -6,11 +6,11 @@
     <VaCardContent class="flex flex-col gap-1">
       <div class="flex flex-col md:flex-row gap-2 mb-2 justify-between">
         <div class="flex flex-col md:flex-row gap-2 justify-start">
-          <!-- <VaInput v-model="filters.search" placeholder="Search">
-              <template #prependInner>
-                <VaIcon name="search" color="secondary" size="small" />
-              </template>
-            </VaInput> -->
+          <VaInput v-model="filters.search" placeholder="Search">
+            <template #prependInner>
+              <VaIcon name="search" color="secondary" size="small" />
+            </template>
+          </VaInput>
         </div>
         <!-- <VaButton icon="add" @click="showAddCompanyModal">Company</VaButton> -->
       </div>
@@ -23,7 +23,10 @@
               <th style="font-size: 12px">Address</th>
               <th style="font-size: 12px">Email</th>
               <th style="font-size: 12px">Phone</th>
+              <th style="font-size: 12px">Contract Start Date</th>
+              <th style="font-size: 12px">Expiration Date</th>
               <th style="font-size: 12px">Status</th>
+              <th style="font-size: 12px">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -32,7 +35,14 @@
               <td>{{ company.address }}</td>
               <td>{{ company.email }}</td>
               <td>{{ company.phone }}</td>
-              <td><span class="status-active">active</span></td>
+              <td>{{ company.contract_state_date }}</td>
+              <td>{{ company.expirationdate }}</td>
+              <td>
+                <VaBadge text="active" color="success" />
+              </td>
+              <td>
+                <VaButton preset="secondary" icon="mso-info" color="secondary" @click="openModalCompanyCard(User)" />
+              </td>
             </tr>
           </tbody>
         </table>
@@ -77,7 +87,7 @@
 
 <script>
 import axios from 'axios'
-import { VaButton, VaCard, VaCardContent, VaPagination, VaSelect } from 'vuestic-ui'
+import { VaButton, VaCard, VaCardContent, VaPagination, VaSelect, VaBadge } from 'vuestic-ui'
 // import { VaForm, VaModal, VaIcon, VaInput} from 'vuestic-ui'
 
 export default {
@@ -91,6 +101,7 @@ export default {
     // VaModal,
     VaPagination,
     VaSelect,
+    VaBadge,
   },
   data() {
     return {

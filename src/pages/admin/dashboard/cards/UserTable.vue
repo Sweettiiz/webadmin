@@ -6,11 +6,11 @@
     <VaCardContent class="flex flex-col gap-1">
       <div class="flex flex-col md:flex-row gap-2 mb-2 justify-between">
         <div class="flex flex-col md:flex-row gap-2 justify-start">
-          <!-- <VaInput v-model="filters.search" placeholder="Search">
-              <template #prependInner>
-                <VaIcon name="search" color="secondary" size="small" />
-              </template>
-            </VaInput> -->
+          <VaInput v-model="filters.search" placeholder="Search">
+            <template #prependInner>
+              <VaIcon name="search" color="secondary" size="small" />
+            </template>
+          </VaInput>
         </div>
         <!-- <VaButton icon="add" @click="showAddUserModal">User</VaButton> -->
       </div>
@@ -22,6 +22,7 @@
               <th style="font-size: 12px">Company</th>
               <th style="font-size: 12px">First Name</th>
               <th style="font-size: 12px">Last Name</th>
+              <th style="font-size: 12px">Actions</th>
               <!-- <th style="font-size: 12px">Email</th>
               <th style="font-size: 12px">Role</th>
               <th style="font-size: 12px">Username</th>
@@ -37,6 +38,9 @@
               <td>{{ User.Role }}</td>
               <td>{{ User.Username }}</td>
               <td>{{ User.Password }}</td> -->
+              <td>
+                <VaButton preset="secondary" icon="mso-info" color="secondary" @click="openModalUserCard(User)" />
+              </td>
             </tr>
           </tbody>
         </table>
@@ -111,6 +115,9 @@ export default {
   methods: {
     showAddUserModal() {
       // Implement your logic here
+    },
+    openModalUserCard(User) {
+      this.$modal.show('user-modal', { user: User })
     },
     fetchData() {
       const token = localStorage.getItem('access_token')

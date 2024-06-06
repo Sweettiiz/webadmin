@@ -1,14 +1,15 @@
 <template>
   <h1 class="page-title">Issue Dashboard</h1>
+  <VaCard class="mb-5">
+    <VaCardContent>
+      <div class="flex justify-end">
+        <VaSelect preset="small" class="w-24" />
+      </div>
+      <canvas id="column-chart"></canvas>
+    </VaCardContent>
+  </VaCard>
   <VaCard>
     <VaCardContent>
-      <VaSelect preset="small" class="w-24" />
-      <div class="flex-col w-full mt-5">
-        <p>Type 1</p>
-        <VaProgressBar model-value="50" class="flex-col mb-5"></VaProgressBar>
-        <p>Type 2</p>
-        <VaProgressBar model-value="70" class="flex-col mb-5"></VaProgressBar>
-      </div>
       <section class="flex flex-col gap-4 mt-5">
         <div class="flex flex-col gap-4">
           <VaDataTable :items="items" />
@@ -20,14 +21,68 @@
 
 <script>
 import { defineComponent } from 'vue'
+import Chart from 'chart.js/auto'
+
+const months = [
+  'มกราคม',
+  'กุมภาพันธ์',
+  'มีนาคม',
+  'เมษายน',
+  'พฤษภาคม',
+  'มิถุนายน',
+  'กรกฎาคม',
+  'สิงหาคม',
+  'กันยายน',
+  'ตุลาคม',
+  'พฤศจิกายน',
+  'ธันวาคม',
+]
+
+const columnChartData = {
+  labels: months,
+  datasets: [
+    {
+      label: 'new',
+      data: [50, 10, 22, 39, 15, 25, 85, 32, 60, 50, 20, 30],
+      backgroundColor: 'rgba(21, 78, 193, 1)', // สีพื้นหลังแถบ
+      borderColor: 'rgba(21, 78, 193, 1)', // สีเส้นขอบแถบ
+      borderWidth: 1, // ความหนาของเส้นขอบแถบ
+    },
+    {
+      label: 'in progress',
+      data: [30, 5, 10, 16, 10, 15, 50, 12, 30, 25, 10, 15],
+      backgroundColor: 'rgb(246, 200, 57)', // สีพื้นหลังแถบ
+      borderColor: 'rgb(246, 200, 57)', // สีเส้นขอบแถบ
+      borderWidth: 1, // ความหนาของเส้นขอบแถบ
+    },
+    {
+      label: 'compeltely',
+      data: [20, 5, 12, 23, 5, 10, 35, 20, 30, 25, 10, 15],
+      backgroundColor: 'rgb(51, 157, 38)', // สีพื้นหลังแถบ
+      borderColor: 'rgb(51, 157, 38)', // สีเส้นขอบแถบ
+      borderWidth: 1, // ความหนาของเส้นขอบแถบ
+    },
+  ],
+}
 
 export default defineComponent({
   data() {
     return {
+      chartData: columnChartData,
+      chart: null,
       items: [],
     }
   },
+  watch: {
+    chartData() {
+      this.chart.data.datasets.forEach((dataset, i) => {
+        dataset.data = this.chartData.datasets[i].data
+      })
+      this.chart.update()
+    },
+  },
   mounted() {
+    this.renderChart()
     // ดึง access token จาก localStorage
     const accessToken = localStorage.getItem('access_token')
 
@@ -74,6 +129,18 @@ export default defineComponent({
           console.error('เกิดปัญหาในการทำงาน fetch:', error)
         })
     }
+  },
+  methods: {
+    renderChart() {
+      const ctx = document.getElementById('column-chart').getContext('2d')
+      this.chart = new Chart(ctx, {
+        type: 'bar',
+        data: this.chartData,
+        options: {
+          // ตั้งค่าต่างๆ ของ Chart ตามต้องการ
+        },
+      })
+    },
   },
 })
 </script>

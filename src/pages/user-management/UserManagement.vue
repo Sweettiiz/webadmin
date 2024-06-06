@@ -1,7 +1,14 @@
 <template>
   <div>
     <h1 class="page-title">User</h1>
-
+    <VaCard class="mb-5">
+      <VaCardContent>
+        <div class="flex justify-end">
+          <VaSelect preset="small" class="w-24" />
+        </div>
+        <canvas id="column-chart"></canvas>
+      </VaCardContent>
+    </VaCard>
     <VaCard>
       <VaCardContent>
         <div class="flex flex-col md:flex-row gap-2 mb-2 justify-between">
@@ -25,7 +32,8 @@
                 <th style="font-size: 12px">Email</th>
                 <th style="font-size: 12px">Role</th>
                 <th style="font-size: 12px">Username</th>
-                <th style="font-size: 12px">Password</th>
+                <!-- <th style="font-size: 12px">Password</th> -->
+                <th style="font-size: 12px">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -36,7 +44,12 @@
                 <td>{{ User.Email }}</td>
                 <td>{{ User.Role }}</td>
                 <td>{{ User.Username }}</td>
-                <td>{{ User.Password }}</td>
+                <!-- <td>{{ User.Password }}</td> -->
+                <td>
+                  <VaButton preset="secondary" icon="mso-edit" color="secondary" @click="openEditUserCard(User)" />
+                  <VaButton preset="secondary" icon="mso-delete" color="danger" @click="deleteUser(User.id)" />
+                  <VaButton preset="secondary" icon="mso-info" color="secondary" @click="openModalUserCard(User)" />
+                </td>
               </tr>
             </tbody>
           </table>
@@ -82,10 +95,48 @@
 
 <script>
 import axios from 'axios'
+import Chart from 'chart.js/auto'
+
+const months = [
+  'มกราคม',
+  'กุมภาพันธ์',
+  'มีนาคม',
+  'เมษายน',
+  'พฤษภาคม',
+  'มิถุนายน',
+  'กรกฎาคม',
+  'สิงหาคม',
+  'กันยายน',
+  'ตุลาคม',
+  'พฤศจิกายน',
+  'ธันวาคม',
+]
+
+const columnChartData = {
+  labels: months,
+  datasets: [
+    {
+      label: 'เพิ่มขึ้นในเดือนนี้',
+      data: [50, 10, 22, 39, 15, 20, 85, 32, 60, 50, 20, 30],
+      backgroundColor: 'rgba(21, 78, 193, 1)', // สีพื้นหลังแถบ
+      borderColor: 'rgba(21, 78, 193, 1)', // สีเส้นขอบแถบ
+      borderWidth: 1, // ความหนาของเส้นขอบแถบ
+    },
+    {
+      label: 'ลดลงในเดือนนี้',
+      data: [30, 5, 10, 16, 5, 10, 50, 12, 30, 25, 10, 15],
+      backgroundColor: 'rgb(157, 38, 51)', // สีพื้นหลังแถบ
+      borderColor: 'rgb(157, 38, 51)', // สีเส้นขอบแถบ
+      borderWidth: 1, // ความหนาของเส้นขอบแถบ
+    },
+  ],
+}
 
 export default {
   data() {
     return {
+      chartData: columnChartData,
+      chart: null,
       Users: [],
       loading: true,
       error: null,
@@ -106,10 +157,31 @@ export default {
       return Math.ceil(this.Users.length / this.perPage)
     },
   },
+  watch: {
+    chartData() {
+      this.chart.data.datasets.forEach((dataset, i) => {
+        dataset.data = this.chartData.datasets[i].data
+      })
+      this.chart.update()
+    },
+  },
+  mounted() {
+    this.renderChart()
+  },
   created() {
     this.fetchData()
   },
   methods: {
+    renderChart() {
+      const ctx = document.getElementById('column-chart').getContext('2d')
+      this.chart = new Chart(ctx, {
+        type: 'bar',
+        data: this.chartData,
+        options: {
+          // ตั้งค่าต่างๆ ของ Chart ตามต้องการ
+        },
+      })
+    },
     showAddUserModal() {
       // Implement your logic here
     },
