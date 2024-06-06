@@ -48,7 +48,9 @@
                 <td>
                   <VaButton preset="secondary" icon="mso-edit" color="secondary" @click="openEditUserCard(User)" />
                   <VaButton preset="secondary" icon="mso-delete" color="danger" @click="deleteUser(User.id)" />
-                  <VaButton preset="secondary" icon="mso-info" color="secondary" @click="openModalUserCard(User)" />
+                  <RouterLink to="/user-token-detail">
+                    <VaButton preset="secondary" icon="mso-info" color="secondary" @click="openModalUserCard(User)" />
+                  </RouterLink>
                 </td>
               </tr>
             </tbody>

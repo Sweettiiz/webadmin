@@ -59,7 +59,14 @@
                     @click="openEditCompanyCard(company)"
                   />
                   <VaButton preset="secondary" icon="mso-delete" color="danger" @click="deleteCompany(company.id)" />
-                  <VaButton preset="secondary" icon="mso-info" color="secondary" @click="openModalCompanyCard(User)" />
+                  <RouterLink to="/company-token-detail">
+                    <VaButton
+                      preset="secondary"
+                      icon="mso-info"
+                      color="secondary"
+                      @click="openModalCompanyCard(User)"
+                    />
+                  </RouterLink>
                 </td>
               </tr>
             </tbody>
