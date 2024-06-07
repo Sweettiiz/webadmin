@@ -31,7 +31,7 @@
                 <th style="font-size: 12px">Email</th>
                 <th style="font-size: 12px">Phone</th>
                 <th style="font-size: 12px">Contract Start Date</th>
-                <th style="font-size: 12px">Expiration date</th>
+                <th style="font-size: 12px">Expiration Date</th>
                 <th style="font-size: 12px">SubCompany</th>
                 <th style="font-size: 12px">Actions</th>
               </tr>
