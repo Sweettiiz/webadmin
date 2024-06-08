@@ -3,7 +3,7 @@
     <VaCardTitle class="flex items-start justify-between">
       <h1 class="card-title text-secondary font-bold uppercase">Total Token Used</h1>
       <div class="flex gap-2">
-        <VaSelect preset="small" class="w-24" />
+        <VaSelect v-model="selectedDMY" :options="dmyOption" placeholder="select" preset="small" class="w-24" />
         <VaButton class="h-2" size="small" preset="primary">Export</VaButton>
       </div>
     </VaCardTitle>
@@ -68,6 +68,8 @@ export default {
     return {
       chartData: columnChartData,
       chart: null,
+      selectedDMY: '',
+      dmyOption: ['Daily', 'Monthly', 'Yearly'],
     }
   },
   watch: {

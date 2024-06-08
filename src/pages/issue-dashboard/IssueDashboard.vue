@@ -3,7 +3,7 @@
   <VaCard class="mb-5">
     <VaCardContent>
       <div class="flex justify-end">
-        <VaSelect preset="small" class="w-24" />
+        <VaSelect v-model="selectedDMY" :options="dmyOption" placeholder="select" preset="small" class="w-24" />
       </div>
       <canvas id="column-chart"></canvas>
     </VaCardContent>
@@ -56,7 +56,7 @@ const columnChartData = {
       borderWidth: 1, // ความหนาของเส้นขอบแถบ
     },
     {
-      label: 'compeltely',
+      label: 'completely',
       data: [20, 5, 12, 23, 5, 10, 35, 20, 30, 25, 10, 15],
       backgroundColor: 'rgb(51, 157, 38)', // สีพื้นหลังแถบ
       borderColor: 'rgb(51, 157, 38)', // สีเส้นขอบแถบ
@@ -68,6 +68,8 @@ const columnChartData = {
 export default defineComponent({
   data() {
     return {
+      selectedDMY: '',
+      dmyOption: ['Daily', 'Monthly', 'Yearly'],
       chartData: columnChartData,
       chart: null,
       items: [],

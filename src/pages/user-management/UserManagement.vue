@@ -4,7 +4,7 @@
     <VaCard class="mb-5">
       <VaCardContent>
         <div class="flex justify-end">
-          <VaSelect preset="small" class="w-24" />
+          <VaSelect v-model="selectedDMY" :options="dmyOption" placeholder="select" preset="small" class="w-24" />
         </div>
         <canvas id="column-chart"></canvas>
       </VaCardContent>
@@ -49,7 +49,7 @@
                   <VaButton preset="secondary" icon="mso-edit" color="secondary" @click="openEditUserCard(User)" />
                   <VaButton preset="secondary" icon="mso-delete" color="danger" @click="deleteUser(User.id)" />
                   <RouterLink to="/user-token-detail">
-                    <VaButton preset="secondary" icon="mso-info" color="secondary" @click="openModalUserCard(User)" />
+                    <VaButton preset="secondary" icon="mso-info" color="secondary" />
                   </RouterLink>
                 </td>
               </tr>
@@ -137,6 +137,8 @@ const columnChartData = {
 export default {
   data() {
     return {
+      selectedDMY: '',
+      dmyOption: ['Daily', 'Monthly', 'Yearly'],
       chartData: columnChartData,
       chart: null,
       Users: [],
@@ -202,7 +204,7 @@ export default {
             id: User.User_id,
             Company: User.user_department,
             Firstname: User.user_first_name,
-            Lasttname: User.user_last_name,
+            Lastname: User.user_last_name,
             Email: User.user_email,
             Role: User.user_access,
             Username: User.user_username,

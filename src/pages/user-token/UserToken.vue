@@ -40,8 +40,8 @@
                 <td>
                   <VaButton preset="secondary" icon="mso-edit" color="secondary" @click="openEditUserCard(User)" />
                   <VaButton preset="secondary" icon="mso-delete" color="danger" @click="deleteUser(User.id)" />
-                  <RouterLink to="/user-token-detail">
-                    <VaButton preset="secondary" icon="mso-info" color="secondary" @click="openModalUserCard(User)" />
+                  <RouterLink :to="{ name: 'user-token-detail', params: { id: User.id } }">
+                    <VaButton preset="secondary" icon="mso-info" color="secondary" />
                   </RouterLink>
                 </td>
               </tr>

@@ -3,7 +3,7 @@
     <VaCardTitle class="flex items-start justify-between">
       <h1 class="card-title text-tag text-secondary font-bold uppercase justify-start">Prediction</h1>
       <div class="flex gap-2">
-        <VaSelect preset="small" class="w-24" />
+        <VaSelect v-model="selectedDMY" :options="dmyOption" placeholder="select" preset="small" class="w-24" />
       </div>
     </VaCardTitle>
     <VaCardContent>
@@ -63,6 +63,8 @@ export default {
     return {
       chartData: columnChartData,
       chart: null,
+      selectedDMY: '',
+      dmyOption: ['Daily', 'Monthly', 'Yearly'],
     }
   },
   watch: {

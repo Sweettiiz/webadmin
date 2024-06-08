@@ -4,6 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import AppLayout from '../layouts/AppLayout.vue'
 
 import RouteViewComponent from '../layouts/RouterBypass.vue'
+import CompanyTokenDetail from '../pages/company-token-detail/CompanyTokenDetail.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -68,8 +69,7 @@ const router = createRouter({
             {
               name: 'company-token-detail',
               path: '/company-token-detail',
-              component: () => import('../pages/company-token-detail/CompanyTokenDetail.vue'),
-              props: true,
+              component: CompanyTokenDetail,
             },
             {
               name: 'company-storage',

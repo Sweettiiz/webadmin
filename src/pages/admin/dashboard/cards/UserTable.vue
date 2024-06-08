@@ -39,7 +39,9 @@
               <td>{{ User.Username }}</td>
               <td>{{ User.Password }}</td> -->
               <td>
-                <VaButton preset="secondary" icon="mso-info" color="secondary" @click="openModalUserCard(User)" />
+                <RouterLink to="/user-token-detail">
+                  <VaButton preset="secondary" icon="mso-info" color="secondary" />
+                </RouterLink>
               </td>
             </tr>
           </tbody>

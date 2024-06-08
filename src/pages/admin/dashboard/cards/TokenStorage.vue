@@ -3,7 +3,7 @@
     <VaCardTitle class="flex items-start justify-between">
       <h1 class="card-title text-secondary font-bold uppercase">Storage Used</h1>
       <div class="flex gap-2">
-        <VaSelect preset="small" class="w-24" />
+        <VaSelect v-model="selectedDMY" :options="dmyOption" placeholder="select" preset="small" class="w-24" />
       </div>
     </VaCardTitle>
     <VaCardContent class="flex flex-row gap-1">
@@ -48,6 +48,8 @@ export default {
     return {
       chartData: usageAndRemainingData,
       chart: null,
+      selectedDMY: '',
+      dmyOption: ['Daily', 'Monthly', 'Yearly'],
     }
   },
   watch: {
