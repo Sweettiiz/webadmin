@@ -13,7 +13,7 @@
       <VaCardContent>
         <div class="flex flex-col md:flex-row gap-2 mb-2 justify-between">
           <div class="flex flex-col md:flex-row gap-2 justify-start">
-            <VaInput v-model="filters.search" placeholder="Search">
+            <VaInput v-model="searchQuery" placeholder="Search">
               <template #prependInner>
                 <VaIcon name="search" color="secondary" size="small" />
               </template>
@@ -144,9 +144,7 @@ export default {
       Users: [],
       loading: true,
       error: null,
-      filters: {
-        search: '',
-      },
+      searchQuery: '', // ตัวแปร searchQuery เพื่อค้นหาข้อมูล
       perPage: 10,
       currentPage: 1,
     }
@@ -155,13 +153,28 @@ export default {
     paginatedUsers() {
       const startIndex = (this.currentPage - 1) * this.perPage
       const endIndex = startIndex + this.perPage
-      return this.Users.slice(startIndex, endIndex)
+      // ใช้ filter เพื่อค้นหาข้อมูลที่ตรงกับเงื่อนไขที่ระบุ
+      return this.Users.filter((user) => {
+        const searchText = this.searchQuery.toLowerCase().trim() // เปลี่ยนคำค้นหาเป็นตัวพิมพ์เล็กและตัดช่องว่าง
+        const companyMatch = user.Company.toLowerCase().includes(searchText) // ค้นหาในชื่อบริษัท
+        const firstnameMatch = user.Firstname.toLowerCase().includes(searchText) // ค้นหาในชื่อจริง
+        const lastnameMatch = user.Lasttname.toLowerCase().includes(searchText) // ค้นหาในนามสกุล
+        const emailMatch = user.Email.toLowerCase().includes(searchText) // ค้นหาในนามสกุล
+        const roleMatch = user.Role.toLowerCase().includes(searchText) // ค้นหาในนามสกุล
+        const usernameMatch = user.Username.toLowerCase().includes(searchText) // ค้นหาในนามสกุล
+        // คืนค่า true เมื่อมีการค้นหาตรงกับชื่อ Company, Firstname, หรือ Lastname
+        return companyMatch || firstnameMatch || lastnameMatch || emailMatch || roleMatch || usernameMatch
+      }).slice(startIndex, endIndex)
     },
     totalPages() {
       return Math.ceil(this.Users.length / this.perPage)
     },
   },
   watch: {
+    searchQuery() {
+      // เมื่อมีการเปลี่ยนแปลงใน searchQuery ให้ currentPage เป็น 1
+      this.currentPage = 1
+    },
     chartData() {
       this.chart.data.datasets.forEach((dataset, i) => {
         dataset.data = this.chartData.datasets[i].data
@@ -191,9 +204,15 @@ export default {
     },
     fetchData() {
       const token = localStorage.getItem('access_token')
+      const searchText = this.searchQuery.trim().toLowerCase() // เปลี่ยนคำค้นหาเป็นตัวพิมพ์เล็กและตัดช่องว่าง
       const uri = 'mongodb://admin:adminpassword@89.213.177.27:27017/'
+      const searchParams = new URLSearchParams() // สร้าง URLSearchParams เพื่อจัดการพารามิเตอร์ใน URL
+      if (searchText) {
+        // หากมีการค้นหาเข้ามา ให้เพิ่มพารามิเตอร์ search ใน URLSearchParams
+        searchParams.append('search', searchText)
+      }
       axios
-        .get(`http://89.213.177.27:8001/v1/owner/system_management/all_user/${uri}`, {
+        .get(`http://89.213.177.27:8001/v1/owner/system_management/all_user/${uri}?${searchParams.toString()}`, {
           headers: {
             accept: 'application/json',
             Authorization: `${token}`,
@@ -204,7 +223,7 @@ export default {
             id: User.User_id,
             Company: User.user_department,
             Firstname: User.user_first_name,
-            Lastname: User.user_last_name,
+            Lasttname: User.user_last_name,
             Email: User.user_email,
             Role: User.user_access,
             Username: User.user_username,

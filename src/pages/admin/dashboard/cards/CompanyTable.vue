@@ -6,7 +6,7 @@
     <VaCardContent class="flex flex-col gap-1">
       <div class="flex flex-col md:flex-row gap-2 mb-2 justify-between">
         <div class="flex flex-col md:flex-row gap-2 justify-start">
-          <VaInput v-model="filters.search" placeholder="Search">
+          <VaInput v-model="searchQuery" placeholder="Search">
             <template #prependInner>
               <VaIcon name="search" color="secondary" size="small" />
             </template>
@@ -110,9 +110,7 @@ export default {
       companies: [],
       loading: true,
       error: null,
-      filters: {
-        search: '',
-      },
+      searchQuery: '', // ตัวแปร searchQuery เพื่อค้นหาข้อมูล Name, Email, หรือ Phone
       perPage: 10,
       currentPage: 1,
       isAddCompanyModalOpen: false,
@@ -145,10 +143,25 @@ export default {
     paginatedCompanies() {
       const startIndex = (this.currentPage - 1) * this.perPage
       const endIndex = startIndex + this.perPage
-      return this.companies.slice(startIndex, endIndex)
+      return this.companies
+        .filter((company) => {
+          const searchText = this.searchQuery.toLowerCase().trim() // เปลี่ยนคำค้นหาเป็นตัวพิมพ์เล็กและตัดช่องว่าง
+          const nameMatch = company.name.toLowerCase().includes(searchText) // ค้นหาในชื่อบริษัท
+          const emailMatch = company.email.toLowerCase().includes(searchText) // ค้นหาในอีเมล
+          const phoneMatch = company.phone.toLowerCase().includes(searchText) // ค้นหาในเบอร์มือถือ
+          // คืนค่า true เมื่อมีการค้นหาตรงกับชื่อ Company, Firstname, หรือ Lastname
+          return nameMatch || emailMatch || phoneMatch
+        })
+        .slice(startIndex, endIndex)
     },
     totalPages() {
       return Math.ceil(this.companies.length / this.perPage)
+    },
+  },
+  watch: {
+    searchQuery() {
+      // เมื่อมีการเปลี่ยนแปลงใน searchQuery ให้ currentPage เป็น 1
+      this.currentPage = 1
     },
   },
   created() {
@@ -160,10 +173,15 @@ export default {
     },
     fetchData() {
       const token = localStorage.getItem('access_token')
+      const searchText = this.searchQuery.trim().toLowerCase() // เปลี่ยนคำค้นหาเป็นตัวพิมพ์เล็กและตัดช่องว่าง
       const uri = 'mongodb://admin:adminpassword@89.213.177.27:27017/'
+      const searchParams = new URLSearchParams() // สร้าง URLSearchParams เพื่อจัดการพารามิเตอร์ใน URL
+      if (searchText) {
+        // หากมีการค้นหาเข้ามา ให้เพิ่มพารามิเตอร์ search ใน URLSearchParams
+        searchParams.append('search', searchText)
+      }
       axios
-      axios
-        .get(`http://89.213.177.27:8001/v1/owner/system_management/all_company/${uri}`, {
+        .get(`http://89.213.177.27:8001/v1/owner/system_management/all_company/${uri}?${searchParams.toString()}`, {
           headers: {
             accept: 'application/json',
             Authorization: `${token}`,
