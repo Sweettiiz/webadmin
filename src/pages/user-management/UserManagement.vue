@@ -40,7 +40,7 @@
               <tr v-for="(User, index) in paginatedUsers" :key="index">
                 <td>{{ User.Company }}</td>
                 <td>{{ User.Firstname }}</td>
-                <td>{{ User.Lasttname }}</td>
+                <td>{{ User.Lastname }}</td>
                 <td>{{ User.Email }}</td>
                 <td>{{ User.Role }}</td>
                 <td>{{ User.Username }}</td>
@@ -158,7 +158,7 @@ export default {
         const searchText = this.searchQuery.toLowerCase().trim() // เปลี่ยนคำค้นหาเป็นตัวพิมพ์เล็กและตัดช่องว่าง
         const companyMatch = user.Company.toLowerCase().includes(searchText) // ค้นหาในชื่อบริษัท
         const firstnameMatch = user.Firstname.toLowerCase().includes(searchText) // ค้นหาในชื่อจริง
-        const lastnameMatch = user.Lasttname.toLowerCase().includes(searchText) // ค้นหาในนามสกุล
+        const lastnameMatch = user.Lastname.toLowerCase().includes(searchText) // ค้นหาในนามสกุล
         const emailMatch = user.Email.toLowerCase().includes(searchText) // ค้นหาในนามสกุล
         const roleMatch = user.Role.toLowerCase().includes(searchText) // ค้นหาในนามสกุล
         const usernameMatch = user.Username.toLowerCase().includes(searchText) // ค้นหาในนามสกุล
@@ -223,7 +223,7 @@ export default {
             id: User.User_id,
             Company: User.user_department,
             Firstname: User.user_first_name,
-            Lasttname: User.user_last_name,
+            Lastname: User.user_last_name,
             Email: User.user_email,
             Role: User.user_access,
             Username: User.user_username,
