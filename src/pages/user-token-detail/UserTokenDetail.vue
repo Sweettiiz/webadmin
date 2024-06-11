@@ -97,6 +97,8 @@ const columnChartData = {
       backgroundColor: 'rgba(21, 78, 193, 1)', // สีพื้นหลังแถบ
       borderColor: 'rgba(21, 78, 193, 1)', // สีเส้นขอบแถบ
       borderWidth: 1, // ความหนาของเส้นขอบแถบ
+      borderRadius: 10, // ความโค้งมนของเส้นขอบแถบ
+      barThickness: 10, // ความหนาของเส้น
     },
   ],
 }
