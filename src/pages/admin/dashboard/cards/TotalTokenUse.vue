@@ -52,7 +52,9 @@ const columnChartData = {
       data: [50, 10, 22, 39, 15, 20, 85, 32, 60, 50, 20, 30],
       backgroundColor: 'rgba(21, 78, 193, 1)', // สีพื้นหลังแถบ
       borderColor: 'rgba(21, 78, 193, 1)', // สีเส้นขอบแถบ
-      borderWidth: 1, // ความหนาของเส้นขอบแถบ
+      borderWidth: 0.5, // ความหนาของเส้นขอบแถบ
+      borderRadius: 10,
+      barThickness: 10,
     },
   ],
 }

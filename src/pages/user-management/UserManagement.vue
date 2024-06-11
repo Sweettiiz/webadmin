@@ -27,8 +27,8 @@
             <thead>
               <tr>
                 <th style="font-size: 12px">Company</th>
-                <th style="font-size: 12px">First Name</th>
-                <th style="font-size: 12px">Last Name</th>
+                <th style="font-size: 12px">FirstName</th>
+                <th style="font-size: 12px">LastName</th>
                 <th style="font-size: 12px">Email</th>
                 <th style="font-size: 12px">Role</th>
                 <th style="font-size: 12px">Username</th>
@@ -40,7 +40,7 @@
               <tr v-for="(User, index) in paginatedUsers" :key="index">
                 <td>{{ User.Company }}</td>
                 <td>{{ User.Firstname }}</td>
-                <td>{{ User.Lasttname }}</td>
+                <td>{{ User.Lastname }}</td>
                 <td>{{ User.Email }}</td>
                 <td>{{ User.Role }}</td>
                 <td>{{ User.Username }}</td>
@@ -92,6 +92,29 @@
         </div>
       </VaCardContent>
     </VaCard>
+    <VaModal v-model="isAddUserModalOpen" title="Add User" ok-text="Save" @ok="validate() && saveUser()">
+      <!-- v-slot is error delete it for now-->
+      <VaForm class="flex flex-col gap-2">
+        <VaInput v-model="user.Company" label="Company" :rules="[required]" />
+        <VaInput v-model="user.Firstname" label="Firstname" :rules="[required]" />
+        <VaInput v-model="user.Lastname" label="Lastname" :rules="[required, emailRule]" />
+        <VaInput v-model="user.Email" label="Email" :rules="[required]" />
+        <VaInput v-model="user.Role" label="Role" :rules="[required]" />
+        <VaInput v-model="user.Username" label="Username" :rules="[required]" />
+      </VaForm>
+    </VaModal>
+
+    <VaModal v-model="isEditUserModalOpen" title="Edit User" ok-text="Save" @ok="validate() && saveEditedUser()">
+      <!-- v-slot is error delete it for now-->
+      <VaForm class="flex flex-col gap-2">
+        <VaInput v-model="editedUser.Company" label="Company" :rules="[required]" />
+        <VaInput v-model="editedUser.Firstname" label="Firstname" :rules="[required]" />
+        <VaInput v-model="editedUser.Lastname" label="Lastname" :rules="[required, emailRule]" />
+        <VaInput v-model="editedUser.Email" label="Email" :rules="[required]" />
+        <VaInput v-model="editedUser.Role" label="Role" :rules="[required]" />
+        <VaInput v-model="editedUser.Username" label="Username" :rules="[required]" />
+      </VaForm>
+    </VaModal>
   </div>
 </template>
 
@@ -122,14 +145,18 @@ const columnChartData = {
       data: [50, 10, 22, 39, 15, 20, 85, 32, 60, 50, 20, 30],
       backgroundColor: 'rgba(21, 78, 193, 1)', // สีพื้นหลังแถบ
       borderColor: 'rgba(21, 78, 193, 1)', // สีเส้นขอบแถบ
-      borderWidth: 1, // ความหนาของเส้นขอบแถบ
+      borderWidth: 0.5, // ความหนาของเส้นขอบแถบ
+      borderRadius: 10, // ความโค้งมนของเส้นขอบแถบ
+      barThickness: 10, // ความหนาของเส้น
     },
     {
       label: 'ลดลงในเดือนนี้',
       data: [30, 5, 10, 16, 5, 10, 50, 12, 30, 25, 10, 15],
       backgroundColor: 'rgb(157, 38, 51)', // สีพื้นหลังแถบ
       borderColor: 'rgb(157, 38, 51)', // สีเส้นขอบแถบ
-      borderWidth: 1, // ความหนาของเส้นขอบแถบ
+      borderWidth: 0.5, // ความหนาของเส้นขอบแถบ
+      borderRadius: 10, // ความโค้งมนของเส้นขอบแถบ
+      barThickness: 10, // ความหนาของเส้น
     },
   ],
 }
@@ -147,6 +174,25 @@ export default {
       searchQuery: '', // ตัวแปร searchQuery เพื่อค้นหาข้อมูล
       perPage: 10,
       currentPage: 1,
+      isAddUserModalOpen: false,
+      isEditUserModalOpen: false,
+      user: {
+        Company: '',
+        Firstname: '',
+        Lastname: '',
+        Email: '',
+        Role: '',
+        Username: '',
+      },
+      editedUser: {
+        id: null,
+        Company: '',
+        Firstname: '',
+        Lastname: '',
+        Email: '',
+        Role: '',
+        Username: '',
+      },
     }
   },
   computed: {
@@ -158,7 +204,7 @@ export default {
         const searchText = this.searchQuery.toLowerCase().trim() // เปลี่ยนคำค้นหาเป็นตัวพิมพ์เล็กและตัดช่องว่าง
         const companyMatch = user.Company.toLowerCase().includes(searchText) // ค้นหาในชื่อบริษัท
         const firstnameMatch = user.Firstname.toLowerCase().includes(searchText) // ค้นหาในชื่อจริง
-        const lastnameMatch = user.Lasttname.toLowerCase().includes(searchText) // ค้นหาในนามสกุล
+        const lastnameMatch = user.Lastname.toLowerCase().includes(searchText) // ค้นหาในนามสกุล
         const emailMatch = user.Email.toLowerCase().includes(searchText) // ค้นหาในนามสกุล
         const roleMatch = user.Role.toLowerCase().includes(searchText) // ค้นหาในนามสกุล
         const usernameMatch = user.Username.toLowerCase().includes(searchText) // ค้นหาในนามสกุล
@@ -200,7 +246,7 @@ export default {
       })
     },
     showAddUserModal() {
-      // Implement your logic here
+      this.isAddUserModalOpen = true
     },
     fetchData() {
       const token = localStorage.getItem('access_token')
@@ -223,7 +269,7 @@ export default {
             id: User.User_id,
             Company: User.user_department,
             Firstname: User.user_first_name,
-            Lasttname: User.user_last_name,
+            Lastname: User.user_last_name,
             Email: User.user_email,
             Role: User.user_access,
             Username: User.user_username,
@@ -236,6 +282,66 @@ export default {
         })
         .finally(() => {
           this.loading = false
+        })
+    },
+    saveUser() {
+      // Logic to save company details
+      this.$emit('save', this.user)
+      this.isAddUserModalOpen = false
+    },
+    openEditUserCard(User) {
+      this.isEditUserModalOpen = true
+      this.editedUser = { ...User } // Clone User object to avoid modifying original data directly
+    },
+    saveEditedUser() {
+      // const userId = this.editedUser.id
+      const uri = 'mongodb://admin:adminpassword@89.213.177.27:27017/'
+      const token = localStorage.getItem('access_token')
+      axios
+        .put(
+          `http://89.213.177.27:8001/v1/owner/system_management/user/${user_id}/${uri}`,
+          {
+            user_Company: this.editedUser.Company,
+            user_Firstname: this.editedUser.Firstname,
+            user_Lastname: this.editedUser.Lastname,
+            user_Email: this.editedUser.Email,
+            user_Role: this.editedUser.Role,
+            user_Username: this.editedUser.Username,
+          },
+          {
+            headers: {
+              accept: 'application/json',
+              Authorization: token,
+              'Content-Type': 'application/json',
+            },
+          },
+        )
+        .then(() => {
+          // Handle success, maybe show a success message, update UI, etc.
+          this.isEditUserModalOpen = false // Close the edit modal after successful update
+          this.fetchData() // Refresh data after update
+        })
+        .catch((error) => {
+          console.error('Error updating user:', error)
+          // Handle error, show error message, etc.
+        })
+    },
+    deleteUser(userId) {
+      const token = localStorage.getItem('access_token')
+      const uri = 'mongodb://admin:adminpassword@89.213.177.27:27017/'
+      axios
+        .delete(`http://89.213.177.27:8001//v1/owner/system_management/user/${user_id}/${uri}`, {
+          headers: {
+            accept: 'application/json',
+            Authorization: `${token}`,
+          },
+        })
+        .then(() => {
+          this.Users = this.Users.filter((user) => user.id !== userId)
+        })
+        .catch((error) => {
+          console.error('Error deleting user:', error)
+          // Handle error, show error message, etc.
         })
     },
     previousPage() {
