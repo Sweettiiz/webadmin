@@ -145,7 +145,7 @@ const columnChartData = {
       data: [50, 10, 22, 39, 15, 20, 85, 32, 60, 50, 20, 30],
       backgroundColor: 'rgba(21, 78, 193, 1)', // สีพื้นหลังแถบ
       borderColor: 'rgba(21, 78, 193, 1)', // สีเส้นขอบแถบ
-      borderWidth: 0.5, // ความหนาของเส้นขอบแถบ
+      borderWidth: 1, // ความหนาของเส้นขอบแถบ
       borderRadius: 10, // ความโค้งมนของเส้นขอบแถบ
       barThickness: 10, // ความหนาของเส้น
     },
@@ -154,7 +154,7 @@ const columnChartData = {
       data: [30, 5, 10, 16, 5, 10, 50, 12, 30, 25, 10, 15],
       backgroundColor: 'rgb(157, 38, 51)', // สีพื้นหลังแถบ
       borderColor: 'rgb(157, 38, 51)', // สีเส้นขอบแถบ
-      borderWidth: 0.5, // ความหนาของเส้นขอบแถบ
+      borderWidth: 1, // ความหนาของเส้นขอบแถบ
       borderRadius: 10, // ความโค้งมนของเส้นขอบแถบ
       barThickness: 10, // ความหนาของเส้น
     },
