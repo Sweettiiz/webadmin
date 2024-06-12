@@ -14,7 +14,7 @@
             </h4>
             <h6 class="va-h6 text-center self-stretch overflow-hidden line-clamp-2 text-ellipsis">
               <span class="text-[var(--va-secondary)]">Sub: </span>
-              <span>{{ currentCompany.sub_companies }}</span>
+              <span>{{ getSubCompanyNames }}</span>
             </h6>
             <p>
               <span class="text-[var(--va-secondary)]">Email: </span>
@@ -29,7 +29,7 @@
               <span>{{ currentCompany.address }}</span>
             </p>
             <RouterLink to="/company-token">
-              <VaButton preset="secondary" icon="mso-info" color="secondary" @click="openEditUserCard(User)" />
+              <VaButton preset="secondary" icon="mso-info" color="secondary" />
             </RouterLink>
           </div>
         </VaCardContent>
@@ -135,9 +135,25 @@ export default {
   },
   computed: {
     currentCompany() {
-      // Find the company object in this.companies that matches the id
-      const companyId = this.companies[0].id // Replace with this.companies[0].id
-      return this.companies.find((company) => company.id === companyId) || {}
+      // ใช้ company id จาก params ใน URL เพื่อหาข้อมูลบริษัทที่ตรงกับ id นี้
+      const companyId = this.$route.params._id
+      const foundCompany = this.companies.find((company) => company._id === companyId)
+      if (foundCompany) {
+        console.log('Current Company:', foundCompany) // ใส่ console.log() เพื่อตรวจสอบค่า currentCompany
+        return foundCompany
+      } else {
+        console.error('Company not found')
+        return {} // หรือค่าที่คุณต้องการจะส่งกลับเมื่อไม่พบบริษัท
+      }
+    },
+    getSubCompanyNames() {
+      // ถ้า currentCompany มี sub_companies
+      if (this.currentCompany.sub_companies && this.currentCompany.sub_companies.length > 0) {
+        // ใช้ map เพื่อเข้าถึงค่า name ของแต่ละ sub_company และรวมเป็น string
+        return this.currentCompany.sub_companies.map((subCompany) => subCompany.name).join(', ')
+      } else {
+        return '' // หรือค่าที่ต้องการส่งกลับเมื่อไม่มี sub_companies
+      }
     },
   },
   watch: {
@@ -202,7 +218,7 @@ export default {
             update_date: company.company_update_date,
             sub_companies: company.company_sub_company_name.map((subCompanyName) => ({ id: '', name: subCompanyName })),
           }))
-          console.log(this.companies[0].id)
+          console.log(this.$route)
         })
         .catch((error) => {
           this.error = 'ไม่สามารถโหลดข้อมูลได้'

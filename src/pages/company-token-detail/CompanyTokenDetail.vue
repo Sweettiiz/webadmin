@@ -14,7 +14,7 @@
             </h4>
             <h6 class="va-h6 text-center self-stretch overflow-hidden line-clamp-2 text-ellipsis">
               <span class="text-[var(--va-secondary)]">Sub: </span>
-              <span>{{ currentCompany.sub_companies }}</span>
+              <span>{{ getSubCompanyNames }}</span>
             </h6>
             <p>
               <span class="text-[var(--va-secondary)]">Email: </span>
@@ -146,9 +146,25 @@ export default {
   },
   computed: {
     currentCompany() {
-      // Find the company object in this.companies that matches the id
-      const companyId = this.companies[0].id // Replace with this.companies[0].id
-      return this.companies.find((company) => company.id === companyId) || {}
+      // ใช้ company id จาก params ใน URL เพื่อหาข้อมูลบริษัทที่ตรงกับ id นี้
+      const companyId = this.$route.params._id
+      const foundCompany = this.companies.find((company) => company._id === companyId)
+      if (foundCompany) {
+        console.log('Current Company:', foundCompany) // ใส่ console.log() เพื่อตรวจสอบค่า currentCompany
+        return foundCompany
+      } else {
+        console.error('Company not found')
+        return {} // หรือค่าที่คุณต้องการจะส่งกลับเมื่อไม่พบบริษัท
+      }
+    },
+    getSubCompanyNames() {
+      // ถ้า currentCompany มี sub_companies
+      if (this.currentCompany.sub_companies && this.currentCompany.sub_companies.length > 0) {
+        // ใช้ map เพื่อเข้าถึงค่า name ของแต่ละ sub_company และรวมเป็น string
+        return this.currentCompany.sub_companies.map((subCompany) => subCompany.name).join(', ')
+      } else {
+        return '' // หรือค่าที่ต้องการส่งกลับเมื่อไม่มี sub_companies
+      }
     },
   },
   watch: {
@@ -191,7 +207,6 @@ export default {
       const token = localStorage.getItem('access_token')
       const uri = 'mongodb://admin:adminpassword@89.213.177.27:27017/'
       axios
-      axios
         .get(`http://89.213.177.27:8001/v1/owner/system_management/all_company/${uri}`, {
           headers: {
             accept: 'application/json',
@@ -210,11 +225,42 @@ export default {
             update_date: company.company_update_date,
             sub_companies: company.company_sub_company_name.map((subCompanyName) => ({ id: '', name: subCompanyName })),
           }))
-          console.log(this.companies[0].id)
+          console.log(this.$route.params._id)
         })
         .catch((error) => {
           this.error = 'ไม่สามารถโหลดข้อมูลได้'
           console.error(error)
+        })
+        .finally(() => {
+          this.loading = false
+        })
+    },
+    infoCompany(company_id) {
+      // ทำการเรียกใช้ API เพื่อดึงข้อมูลของบริษัทจาก ID ที่ระบุ
+      axios
+        .get(`http://89.213.177.27:8001/v1/owner/system_management/company/${company_id}/${uri}`, {
+          headers: {
+            accept: 'application/json',
+            Authorization: `${token}`,
+          },
+        })
+        .then((response) => {
+          // ดึงข้อมูลบริษัทที่ได้รับจาก API
+          const companyData = response.data
+
+          // กำหนดค่าข้อมูลให้กับตัวแปรที่ใช้ในการแสดงผลบนหน้าเว็บไซต์
+          this.currentCompany = {
+            id: companyData._id,
+            name: companyData.company_name,
+            sub_companies: companyData.company_sub_company_name,
+            address: companyData.company_address,
+            email: companyData.company_email,
+            phone: companyData.company_phone,
+            // เพิ่มค่าอื่นๆ ตามต้องการ
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching company data:', error)
         })
         .finally(() => {
           this.loading = false

@@ -58,10 +58,8 @@
                     color="secondary"
                     @click="openEditCompanyCard(company)"
                   />
-                  <VaButton preset="secondary" icon="mso-delete" color="danger" @click="deleteCompany(company.id)" />
-                  <RouterLink :to="{ name: 'company-token-detail', params: { id: company.id } }">
-                    <VaButton preset="secondary" icon="mso-info" color="secondary" />
-                  </RouterLink>
+                  <VaButton preset="secondary" icon="mso-delete" color="danger" @click="deleteCompany(company._id)" />
+                  <VaButton preset="secondary" icon="mso-info" color="secondary" @click="infoCompany(company._id)" />
                 </td>
               </tr>
             </tbody>
@@ -331,6 +329,9 @@ export default {
           console.error('Error deleting company:', error)
           // Handle error, show error message, etc.
         })
+    },
+    infoCompany(company_id) {
+      this.$router.push({ name: 'company-token-detail', params: { _id: company_id } })
     },
     saveCompany() {
       // Logic to save company details

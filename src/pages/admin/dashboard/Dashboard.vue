@@ -17,7 +17,6 @@ import Prediction from './cards/Prediction.vue'
         <Prediction />
       </div>
     </div>
-    <DataSection />
     <div class="flex flex-col md:flex-row gap-4">
       <User class="w-full md:w-1/2" />
       <IssueSection class="w-full md:w-1/2" />
