@@ -4,7 +4,7 @@
       <!-- Cards -->
       <div class="flex flex-col items-center mb-4">
         <VaCard
-          class="h-30 w-40 mb-4"
+          class="h-30 w-40 ml-5 mb-40"
           :style="{
             '--va-card-outlined-border': '5px var(--va-background-element)',
             '--va-card-outlined-box-shadow': '0px 1px 2px ',
@@ -20,7 +20,7 @@
         </VaCard>
 
         <VaCard
-          class="h-30 w-40 mb-4"
+          class="h-30 w-40 ml-5"
           :style="{
             '--va-card-outlined-border': '5px var(--va-background-element)',
             '--va-card-outlined-box-shadow': '0px 1px 2px ',
@@ -34,26 +34,26 @@
             </div>
           </VaCardContent>
         </VaCard>
-
-        <VaCard
-          class="h-30 w-40 mb-4"
-          :style="{
-            '--va-card-outlined-border': '5px var(--va-background-element)',
-            '--va-card-outlined-box-shadow': '0px 1px 2px ',
-          }"
-          outlined
-        >
-          <VaCardContent>
-            <div>
-              <p>Total Tokens</p>
-              <p class="va-arrow-up">100,000</p>
-            </div>
-          </VaCardContent>
-        </VaCard>
       </div>
 
       <!-- Image -->
       <img src="/public/human.png" alt="human" width="600" />
+
+      <VaCard
+        class="h-30 w-40 mr-10"
+        :style="{
+          '--va-card-outlined-border': '5px var(--va-background-element)',
+          '--va-card-outlined-box-shadow': '0px 1px 2px ',
+        }"
+        outlined
+      >
+        <VaCardContent>
+          <div>
+            <p>Total Tokens</p>
+            <p class="va-arrow-up">100,000</p>
+          </div>
+        </VaCardContent>
+      </VaCard>
 
       <!-- Form -->
       <VaForm ref="form" class="flex flex-col justify-center items-center w-80" @submit.prevent="submit">
@@ -143,3 +143,18 @@ const submit = async () => {
   }
 }
 </script>
+
+<style>
+/******************** 980px ********************/
+@media only screen and (max-width: 980px) {
+  .va-card {
+    display: none;
+  }
+  img {
+    display: none;
+  }
+  .va-form {
+    justify-content: center;
+  }
+}
+</style>
