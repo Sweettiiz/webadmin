@@ -19,6 +19,7 @@
         <table class="va-table va-table--hoverable">
           <thead>
             <tr>
+              <th style="font-size: 12px">Logo</th>
               <th style="font-size: 12px">Name</th>
               <th style="font-size: 12px">Address</th>
               <th style="font-size: 12px">Email</th>
@@ -31,14 +32,16 @@
           </thead>
           <tbody>
             <tr v-for="(company, index) in paginatedCompanies" :key="index">
+              <td>{{ company.imageUrl }}</td>
               <td>{{ company.name }}</td>
               <td>{{ company.address }}</td>
               <td>{{ company.email }}</td>
               <td>{{ company.phone }}</td>
-              <td>{{ company.contract_state_date }}</td>
-              <td>{{ company.expirationdate }}</td>
+              <td>{{ company.createDate }}</td>
+              <td>{{ company.updateDate }}</td>
               <td>
-                <VaBadge text="active" color="success" />
+                <VaBadge :color="getStatusColor(company.status)" />
+                {{ company.status }}
               </td>
               <td>
                 <RouterLink to="/company-token-detail">
@@ -89,28 +92,24 @@
 
 <script>
 import axios from 'axios'
-import { VaButton, VaCard, VaCardContent, VaPagination, VaSelect, VaBadge } from 'vuestic-ui'
-// import { VaForm, VaModal, VaIcon, VaInput} from 'vuestic-ui'
+import { VaButton, VaCard, VaCardContent, VaIcon, VaInput, VaPagination, VaSelect } from 'vuestic-ui'
 
 export default {
   components: {
     VaButton,
     VaCard,
     VaCardContent,
-    // VaForm,
-    // VaIcon,
-    // VaInput,
-    // VaModal,
+    VaIcon,
+    VaInput,
     VaPagination,
     VaSelect,
-    VaBadge,
   },
   data() {
     return {
       companies: [],
       loading: true,
       error: null,
-      searchQuery: '', // ตัวแปร searchQuery เพื่อค้นหาข้อมูล Name, Email, หรือ Phone
+      searchQuery: '', // ตัวแปร searchQuery เพื่อค้นหาข้อมูล
       perPage: 10,
       currentPage: 1,
       isAddCompanyModalOpen: false,
@@ -120,19 +119,15 @@ export default {
         address: '',
         email: '',
         phone: '',
-        createDate: null,
-        updateDate: null,
-        subCompany: null,
+        subCompanies: [{ name: '' }], // เริ่มต้นด้วย subCompany หนึ่งรายการ
       },
       editedCompany: {
-        id: null,
+        company_id: null,
         name: '',
         address: '',
         email: '',
         phone: '',
-        createDate: null,
-        updateDate: null,
-        subCompany: null,
+        subCompanies: [{ name: '' }], // เริ่มต้นด้วย subCompany หนึ่งรายการ
       },
       subCompanyOptions: [], // This should be populated with your options
       required: (value) => !!value || 'Required.',
@@ -168,9 +163,6 @@ export default {
     this.fetchData()
   },
   methods: {
-    showAddCompanyModal() {
-      this.isAddCompanyModalOpen = true
-    },
     fetchData() {
       const token = localStorage.getItem('access_token')
       const searchText = this.searchQuery.trim().toLowerCase() // เปลี่ยนคำค้นหาเป็นตัวพิมพ์เล็กและตัดช่องว่าง
@@ -181,21 +173,31 @@ export default {
         searchParams.append('search', searchText)
       }
       axios
-        .get(`http://89.213.177.27:8001/v1/owner/system_management/all_company/${uri}?${searchParams.toString()}`, {
-          headers: {
-            accept: 'application/json',
-            Authorization: `${token}`,
+        .get(
+          `http://89.213.177.27:8001/v1/owner/system_management/all_company/${encodeURIComponent(
+            uri,
+          )}?${searchParams.toString()}`,
+          {
+            headers: {
+              accept: 'application/json',
+              Authorization: `${token}`,
+            },
           },
-        })
+        )
         .then((response) => {
           this.companies = response.data.map((company) => ({
-            id: company.company_id,
+            company_id: company.company_id,
             name: company.company_name,
             address: company.company_address,
             email: company.company_email,
             phone: company.company_phone,
-            create_date: company.company_create_date,
-            update_date: company.company_update_date,
+            imageUrl: company.company_image_url,
+            isDelete: company.company_is_delete,
+            createDate: company.company_create_date,
+            updateDate: company.company_update_date,
+            expireDate: company.company_expire_date,
+            isExpire: company.company_is_expire,
+            status: company.company_status,
             sub_companies: company.company_sub_company_name.map((subCompanyName) => ({ id: '', name: subCompanyName })),
           }))
         })
@@ -207,64 +209,17 @@ export default {
           this.loading = false
         })
     },
-    deleteCompany(companyId) {
-      const token = localStorage.getItem('access_token')
-      const uri = 'mongodb://admin:adminpassword@89.213.177.27:27017/'
-      axios
-        .delete(`http://89.213.177.27:8001/v1/owner/system_management/company/${company_id}/${uri}`, {
-          headers: {
-            accept: 'application/json',
-            Authorization: `${token}`,
-          },
-        })
-        .then(() => {
-          this.companies = this.companies.filter((company) => company.id !== companyId)
-        })
-        .catch((error) => {
-          console.error('Error deleting company:', error)
-          // Handle error, show error message, etc.
-        })
+    infoCompany(company_id) {
+      this.$router.push({ name: 'company-token-detail', params: { _id: company_id } })
     },
-    saveCompany() {
-      // Logic to save company details
-      this.$emit('save', this.company)
-      this.isAddCompanyModalOpen = false
-    },
-    openEditCompanyCard(company) {
-      this.isEditCompanyModalOpen = true
-      this.editedCompany = { ...company } // Clone company object to avoid modifying original data directly
-    },
-    saveEditedCompany() {
-      // const companyId = this.editedCompany.id
-      const uri = 'mongodb://admin:adminpassword@89.213.177.27:27017/'
-      const token = localStorage.getItem('access_token')
-      axios
-        .put(
-          `http://89.213.177.27:8001/v1/owner/system_management/company/${company_id}/${uri}`,
-          {
-            company_name: this.editedCompany.name,
-            company_address: this.editedCompany.address,
-            company_email: this.editedCompany.email,
-            company_phone: this.editedCompany.phone,
-            company_sub_company_name: [this.editedCompany.subCompany],
-          },
-          {
-            headers: {
-              accept: 'application/json',
-              Authorization: token,
-              'Content-Type': 'application/json',
-            },
-          },
-        )
-        .then(() => {
-          // Handle success, maybe show a success message, update UI, etc.
-          this.isEditCompanyModalOpen = false // Close the edit modal after successful update
-          this.fetchData() // Refresh data after update
-        })
-        .catch((error) => {
-          console.error('Error updating company:', error)
-          // Handle error, show error message, etc.
-        })
+    getStatusColor(status) {
+      if (status === 'Active') {
+        return 'success'
+      } else if (status === 'Inactive') {
+        return 'danger'
+      } else {
+        return 'primary'
+      }
     },
     previousPage() {
       if (this.currentPage > 1) {
@@ -298,11 +253,5 @@ td {
 .va-table thead th,
 .va-table tbody tr:not(:last-child) {
   border-bottom: 1px solid #dee5f2; /* เส้นคั่นระหว่างแถว */
-}
-.status-active {
-  border: 2px solid green;
-  padding: 4px;
-  display: inline-block;
-  border-radius: 4px;
 }
 </style>
