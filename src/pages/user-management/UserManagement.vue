@@ -213,12 +213,12 @@ export default {
       // ใช้ filter เพื่อค้นหาข้อมูลที่ตรงกับเงื่อนไขที่ระบุ
       return this.Users.filter((user) => {
         const searchText = this.searchQuery.toLowerCase().trim() // เปลี่ยนคำค้นหาเป็นตัวพิมพ์เล็กและตัดช่องว่าง
-        const companyMatch = user.Company && user.Company.toLowerCase().includes(searchText); 
-      const firstnameMatch = user.Firstname && user.Firstname.toLowerCase().includes(searchText); 
-      const lastnameMatch = user.Lastname && user.Lastname.toLowerCase().includes(searchText); 
-      const emailMatch = user.Email && user.Email.toLowerCase().includes(searchText); 
-      const roleMatch = user.Role && user.Role.toLowerCase().includes(searchText); 
-      const usernameMatch = user.Username && user.Username.toLowerCase().includes(searchText); 
+        const companyMatch = user.Company && user.Company.toLowerCase().includes(searchText)
+        const firstnameMatch = user.Firstname && user.Firstname.toLowerCase().includes(searchText)
+        const lastnameMatch = user.Lastname && user.Lastname.toLowerCase().includes(searchText)
+        const emailMatch = user.Email && user.Email.toLowerCase().includes(searchText)
+        const roleMatch = user.Role && user.Role.toLowerCase().includes(searchText)
+        const usernameMatch = user.Username && user.Username.toLowerCase().includes(searchText)
         // คืนค่า true เมื่อมีการค้นหาตรงกับชื่อ Company, Firstname, หรือ Lastname
         return companyMatch || firstnameMatch || lastnameMatch || emailMatch || roleMatch || usernameMatch
       }).slice(startIndex, endIndex)

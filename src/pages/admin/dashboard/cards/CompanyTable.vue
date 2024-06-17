@@ -40,8 +40,7 @@
               <td>{{ company.createDate }}</td>
               <td>{{ company.updateDate }}</td>
               <td>
-                <VaBadge :color="getStatusColor(company.status)" />
-                {{ company.status }}
+                <VaBadge :text="company.status" :color="getStatusColor(company.status)" />
               </td>
               <td>
                 <RouterLink to="/company-token-detail">
@@ -92,7 +91,7 @@
 
 <script>
 import axios from 'axios'
-import { VaButton, VaCard, VaCardContent, VaIcon, VaInput, VaPagination, VaSelect } from 'vuestic-ui'
+import { VaButton, VaCard, VaCardContent, VaIcon, VaInput, VaPagination, VaSelect, VaBadge } from 'vuestic-ui'
 
 export default {
   components: {
@@ -103,6 +102,7 @@ export default {
     VaInput,
     VaPagination,
     VaSelect,
+    VaBadge,
   },
   data() {
     return {

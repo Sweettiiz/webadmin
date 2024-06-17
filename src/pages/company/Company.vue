@@ -46,11 +46,26 @@
                 <td>{{ company.phone }}</td>
                 <td>{{ company.createDate }}</td>
                 <td>{{ company.updateDate }}</td>
-                <td>{{ company.status }}</td>
+                <td><VaBadge :text="company.status" :color="getStatusColor(company.status)" /></td>
                 <td>
-                  <VaButton preset="secondary" icon="mso-edit" color="secondary" @click="openEditCompanyCard(company)" />
-                  <VaButton preset="secondary" icon="mso-delete" color="danger" @click="deleteCompany(company.company_id)" />
-                  <VaButton preset="secondary" icon="mso-info" color="secondary" @click="infoCompany(company.company_id)" />
+                  <VaButton
+                    preset="secondary"
+                    icon="mso-edit"
+                    color="secondary"
+                    @click="openEditCompanyCard(company)"
+                  />
+                  <VaButton
+                    preset="secondary"
+                    icon="mso-delete"
+                    color="danger"
+                    @click="deleteCompany(company.company_id)"
+                  />
+                  <VaButton
+                    preset="secondary"
+                    icon="mso-info"
+                    color="secondary"
+                    @click="infoCompany(company.company_id)"
+                  />
                 </td>
               </tr>
             </tbody>
@@ -94,44 +109,54 @@
     </VaCard>
 
     <VaModal v-model="isAddCompanyModalOpen" title="Add Company" ok-text="Save" @ok="saveCompany">
-    <VaForm class="flex flex-col gap-2">
-      <VaInput v-model="company.name" label="Name" :rules="[required]" />
-      <VaInput v-model="company.address" label="Address" :rules="[required]" />
-      <VaInput v-model="company.email" label="Email" :rules="[required, emailRule]" />
-      <VaInput v-model="company.phone" label="Phone" :rules="[required]" />
-      <div class="flex flex-col gap-2">
-        <div v-for="(subCompany, index) in company.subCompanies" :key="index" class="flex items-center gap-2">
-          <VaInput v-model="subCompany.name" label="Sub Company" :rules="[required]" class="flex-grow" />
-          <VaButton icon="delete" color="danger" @click="removeSubCompany(index)"></VaButton>
+      <VaForm class="flex flex-col gap-2">
+        <VaInput v-model="company.name" label="Name" :rules="[required]" />
+        <VaInput v-model="company.address" label="Address" :rules="[required]" />
+        <VaInput v-model="company.email" label="Email" :rules="[required, emailRule]" />
+        <VaInput v-model="company.phone" label="Phone" :rules="[required]" />
+        <div class="flex flex-col gap-2">
+          <div v-for="(subCompany, index) in company.subCompanies" :key="index" class="flex items-center gap-2">
+            <VaInput v-model="subCompany.name" label="Sub Company" :rules="[required]" class="flex-grow" />
+            <VaButton icon="delete" color="danger" @click="removeSubCompany(index)"></VaButton>
+          </div>
+          <VaButton icon="add" @click="addSubCompany">Add Sub Company</VaButton>
         </div>
-        <VaButton icon="add" @click="addSubCompany">Add Sub Company</VaButton>
-      </div>
-    </VaForm>
-  </VaModal>
+      </VaForm>
+    </VaModal>
 
-  <VaModal v-model="isEditCompanyModalOpen" title="Edit Company" ok-text="Save" @ok="saveEditedCompany">
-    <VaForm class="flex flex-col gap-2">
-      <VaInput v-model="editedCompany.name" label="Name" :rules="[required]" />
-      <VaInput v-model="editedCompany.address" label="Address" :rules="[required]" />
-      <VaInput v-model="editedCompany.email" label="Email" :rules="[required, emailRule]" />
-      <VaInput v-model="editedCompany.phone" label="Phone" :rules="[required]" />
-      <div class="flex flex-col gap-2">
-        <label>Sub Companies</label>
-        <div v-for="(subCompany, index) in editedCompany.subCompanies" :key="index" class="flex items-center gap-2">
-          <VaInput v-model="subCompany.name" label="Sub Company" :rules="[required]" class="flex-grow" />
-          <VaButton icon="delete" color="danger" @click="removeEditedSubCompany(index)"></VaButton>
+    <VaModal v-model="isEditCompanyModalOpen" title="Edit Company" ok-text="Save" @ok="saveEditedCompany">
+      <VaForm class="flex flex-col gap-2">
+        <VaInput v-model="editedCompany.name" label="Name" :rules="[required]" />
+        <VaInput v-model="editedCompany.address" label="Address" :rules="[required]" />
+        <VaInput v-model="editedCompany.email" label="Email" :rules="[required, emailRule]" />
+        <VaInput v-model="editedCompany.phone" label="Phone" :rules="[required]" />
+        <div class="flex flex-col gap-2">
+          <label>Sub Companies</label>
+          <div v-for="(subCompany, index) in editedCompany.subCompanies" :key="index" class="flex items-center gap-2">
+            <VaInput v-model="subCompany.name" label="Sub Company" :rules="[required]" class="flex-grow" />
+            <VaButton icon="delete" color="danger" @click="removeEditedSubCompany(index)"></VaButton>
+          </div>
+          <VaButton icon="add" @click="addEditedSubCompany">Add Sub Company</VaButton>
         </div>
-        <VaButton icon="add" @click="addEditedSubCompany">Add Sub Company</VaButton>
-      </div>
-    </VaForm>
-  </VaModal>
-
+      </VaForm>
+    </VaModal>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-import { VaButton, VaCard, VaCardContent, VaIcon, VaInput, VaPagination, VaSelect, VaForm, VaModal } from 'vuestic-ui'
+import {
+  VaButton,
+  VaCard,
+  VaCardContent,
+  VaIcon,
+  VaInput,
+  VaPagination,
+  VaSelect,
+  VaForm,
+  VaModal,
+  VaBadge,
+} from 'vuestic-ui'
 import Chart from 'chart.js/auto'
 
 const months = [
@@ -184,6 +209,7 @@ export default {
     VaModal,
     VaPagination,
     VaSelect,
+    VaBadge,
   },
   data() {
     return {
@@ -282,12 +308,17 @@ export default {
         searchParams.append('search', searchText)
       }
       axios
-        .get(`http://89.213.177.27:8001/v1/owner/system_management/all_company/${encodeURIComponent(uri)}?${searchParams.toString()}`, {
-          headers: {
-            accept: 'application/json',
-            Authorization: `${token}`,
+        .get(
+          `http://89.213.177.27:8001/v1/owner/system_management/all_company/${encodeURIComponent(
+            uri,
+          )}?${searchParams.toString()}`,
+          {
+            headers: {
+              accept: 'application/json',
+              Authorization: `${token}`,
+            },
           },
-        })
+        )
         .then((response) => {
           this.companies = response.data.map((company) => ({
             company_id: company.company_id,
@@ -324,12 +355,15 @@ export default {
       }
 
       axios
-        .delete(`http://89.213.177.27:8001/v1/owner/system_management/company/${company_id}/${encodeURIComponent(uri)}`, {
-          headers: {
-            accept: 'application/json',
-            Authorization: `${token}`,
+        .delete(
+          `http://89.213.177.27:8001/v1/owner/system_management/company/${company_id}/${encodeURIComponent(uri)}`,
+          {
+            headers: {
+              accept: 'application/json',
+              Authorization: `${token}`,
+            },
           },
-        })
+        )
         .then(() => {
           this.companies = this.companies.filter((company) => company.company_id !== company_id)
         })
@@ -338,15 +372,22 @@ export default {
           // Handle error, show error message, etc.
         })
     },
-
     infoCompany(company_id) {
-    this.$router.push({ name: 'company-token-detail', params: { _id: company_id } });
-  },
-
+      this.$router.push({ name: 'company-token-detail', params: { _id: company_id } })
+    },
+    getStatusColor(status) {
+      if (status === 'Active') {
+        return 'success'
+      } else if (status === 'Inactive') {
+        return 'danger'
+      } else {
+        return 'primary'
+      }
+    },
     saveCompany() {
       const uri = 'mongodb://admin:adminpassword@89.213.177.27:27017/'
       const token = localStorage.getItem('access_token')
-      const subCompanyNames = this.company.subCompanies.map(sub => sub.name) // เตรียมข้อมูลบริษัทลูก
+      const subCompanyNames = this.company.subCompanies.map((sub) => sub.name) // เตรียมข้อมูลบริษัทลูก
       axios
         .post(
           `http://89.213.177.27:8001/v1/owner/system_management/company/${encodeURIComponent(uri)}`,
@@ -358,11 +399,11 @@ export default {
             company_sub_company_name: subCompanyNames,
             company_create_date: new Date().toISOString(),
             company_update_date: new Date().toISOString(),
-            company_expire_date:new Date().toISOString() ,
+            company_expire_date: new Date().toISOString(),
             company_is_delete: false,
             company_is_expire: false,
             company_status: 'Active',
-            company_image_url: 'string' 
+            company_image_url: 'string',
           },
           {
             headers: {
@@ -385,16 +426,18 @@ export default {
 
     openEditCompanyCard(company) {
       this.isEditCompanyModalOpen = true
-      this.editedCompany = { ...company, subCompanies: company.sub_companies.map(sub => ({ name: sub.name })) } // Clone company object to avoid modifying original data directly
+      this.editedCompany = { ...company, subCompanies: company.sub_companies.map((sub) => ({ name: sub.name })) } // Clone company object to avoid modifying original data directly
     },
 
     saveEditedCompany() {
       const uri = 'mongodb://admin:adminpassword@89.213.177.27:27017/'
       const token = localStorage.getItem('access_token')
-      const subCompanyNames = this.editedCompany.subCompanies.map(sub => sub.name) // เตรียมข้อมูลบริษัทลูก
+      const subCompanyNames = this.editedCompany.subCompanies.map((sub) => sub.name) // เตรียมข้อมูลบริษัทลูก
       axios
         .put(
-          `http://89.213.177.27:8001/v1/owner/system_management/company/${this.editedCompany.company_id}/${encodeURIComponent(uri)}`,
+          `http://89.213.177.27:8001/v1/owner/system_management/company/${
+            this.editedCompany.company_id
+          }/${encodeURIComponent(uri)}`,
           {
             company_name: this.editedCompany.name,
             company_address: this.editedCompany.address,
@@ -407,7 +450,7 @@ export default {
             company_is_delete: this.editedCompany.isDelete,
             company_is_expire: this.editedCompany.isExpire,
             company_status: this.editedCompany.status,
-            company_image_url: this.editedCompany.imageUrl
+            company_image_url: this.editedCompany.imageUrl,
           },
           {
             headers: {
@@ -457,7 +500,7 @@ export default {
 }
 </script>
 
-<style >
+<style>
 .company {
   border: 1px solid #ccc;
   padding: 16px;

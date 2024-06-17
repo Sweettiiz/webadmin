@@ -42,7 +42,11 @@
       </div>
 
       <!-- รูปภาพ -->
-      <img src="/cute-girl-working-with-laptop-logo-banner-hand-drawn-cartoon-art-illustration.png" alt="human" width="600" />
+      <img
+        src="/cute-girl-working-with-laptop-logo-banner-hand-drawn-cartoon-art-illustration.png"
+        alt="human"
+        width="600"
+      />
 
       <VaCard
         class="h-30 w-40 mr-10"
@@ -120,22 +124,22 @@ onMounted(() => {
   fetch(apiUrl, {
     method: 'GET',
     headers: {
-      'Accept': 'application/json',
-    }
+      Accept: 'application/json',
+    },
   })
-    .then(response => {
+    .then((response) => {
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error('Network response was not ok')
       }
-      return response.json();
+      return response.json()
     })
-    .then(data => {
-      allUsers.value = data.All_USER;
+    .then((data) => {
+      allUsers.value = data.All_USER
     })
-    .catch(error => {
-      console.error('Error fetching all users:', error);
-    });
-});
+    .catch((error) => {
+      console.error('Error fetching all users:', error)
+    })
+})
 
 const submit = async () => {
   if (validate()) {
@@ -173,11 +177,7 @@ const submit = async () => {
 }
 
 // Background selection logic
-const backgrounds = [
-  'background-1',
-  'background-2',
-  'background-3'
-]
+const backgrounds = ['background-1', 'background-2', 'background-3']
 const selectedBackground = ref(backgrounds[Math.floor(Math.random() * backgrounds.length)])
 
 // Function to change background
