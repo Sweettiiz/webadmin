@@ -26,31 +26,27 @@
           <table class="va-table va-table--hoverable">
             <thead>
               <tr>
+                <th style="font-size: 12px">Logo</th>
                 <th style="font-size: 12px">Name</th>
                 <th style="font-size: 12px">Address</th>
                 <th style="font-size: 12px">Email</th>
                 <th style="font-size: 12px">Phone</th>
                 <th style="font-size: 12px">Contract Start Date</th>
                 <th style="font-size: 12px">Expiration Date</th>
-                <th style="font-size: 12px">SubCompany</th>
+                <th style="font-size: 12px">status</th>
                 <th style="font-size: 12px">Actions</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(company, index) in paginatedCompanies" :key="index">
+                <td>{{ company.imageUrl}}</td>
                 <td>{{ company.name }}</td>
                 <td>{{ company.address }}</td>
                 <td>{{ company.email }}</td>
                 <td>{{ company.phone }}</td>
-                <td>{{ company.create_date }}</td>
-                <td>{{ company.update_date }}</td>
-                <td>
-                  <ul>
-                    <li v-for="subCompany in company.sub_companies" :key="subCompany.id">
-                      {{ subCompany.name }}
-                    </li>
-                  </ul>
-                </td>
+                <td>{{ company.createDate }}</td>
+                <td>{{ company.updateDate }}</td>
+                <td>{{ company.status}}</td>
                 <td>
                   <VaButton
                     preset="secondary"
@@ -101,32 +97,38 @@
         </div>
       </VaCardContent>
     </VaCard>
-    <VaModal v-model="isAddCompanyModalOpen" title="Add Company" ok-text="Save" @ok="validate() && saveCompany()">
-      <!-- v-slot is error delete it for now-->
-      <VaForm class="flex flex-col gap-2">
-        <VaInput v-model="company.name" label="Name" :rules="[required]" />
-        <VaInput v-model="company.address" label="Address" :rules="[required]" />
-        <VaInput v-model="company.email" label="Email" :rules="[required, emailRule]" />
-        <VaInput v-model="company.phone" label="Phone" :rules="[required]" />
-        <VaInput v-model="company.subCompany" label="SubCompany" :rules="[required]" />
-      </VaForm>
-    </VaModal>
-
-    <VaModal
-      v-model="isEditCompanyModalOpen"
-      title="Edit Company"
-      ok-text="Save"
-      @ok="validate() && saveEditedCompany()"
+    <VaModal 
+    v-model="isAddCompanyModalOpen" 
+    title="Add Company" 
+    ok-text="Save"  
+    @ok="saveCompany"
     >
-      <!-- v-slot is error delete it for now-->
-      <VaForm class="flex flex-col gap-2">
-        <VaInput v-model="editedCompany.name" label="Name" :rules="[required]" />
-        <VaInput v-model="editedCompany.address" label="Address" :rules="[required]" />
-        <VaInput v-model="editedCompany.email" label="Email" :rules="[required, emailRule]" />
-        <VaInput v-model="editedCompany.phone" label="Phone" :rules="[required]" />
-        <VaInput v-model="editedCompany.subCompany" label="SubCompany" :rules="[required]" />
-      </VaForm>
-    </VaModal>
+
+  <VaForm class="flex flex-col gap-2">
+    <VaInput v-model="company.name" label="Name" :rules="[required]" />
+    <VaInput v-model="company.address" label="Address" :rules="[required]" />
+    <VaInput v-model="company.email" label="Email" :rules="[required, emailRule]" />
+    <VaInput v-model="company.phone" label="Phone" :rules="[required]" />
+    <VaInput v-model="company.subCompany" :options="subCompanyOptions" label="SubCompany" />
+  </VaForm>
+</VaModal>
+
+<VaModal
+  v-model="isEditCompanyModalOpen"
+  title="Edit Company"
+  ok-text="Save"
+  @ok="saveEditedCompany"
+>
+  <!-- v-slot is error delete it for now-->
+  <VaForm class="flex flex-col gap-2">
+    <VaInput v-model="editedCompany.name" label="Name" :rules="[required]" />
+    <VaInput v-model="editedCompany.address" label="Address" :rules="[required]" />
+    <VaInput v-model="editedCompany.email" label="Email" :rules="[required, emailRule]" />
+    <VaInput v-model="editedCompany.phone" label="Phone" :rules="[required]" />
+    <VaInput v-model="editedCompany.subCompany" label="SubCompany" :rules="[required]" />
+  </VaForm>
+</VaModal>
+
   </div>
 </template>
 
@@ -262,6 +264,7 @@ export default {
   created() {
     this.fetchData()
   },
+
   methods: {
     renderChart() {
       const ctx = document.getElementById('column-chart').getContext('2d')
@@ -273,9 +276,11 @@ export default {
         },
       })
     },
+
     showAddCompanyModal() {
       this.isAddCompanyModalOpen = true
     },
+
     fetchData() {
       const token = localStorage.getItem('access_token')
       const searchText = this.searchQuery.trim().toLowerCase() // เปลี่ยนคำค้นหาเป็นตัวพิมพ์เล็กและตัดช่องว่าง
@@ -292,15 +297,20 @@ export default {
             Authorization: `${token}`,
           },
         })
-        .then((response) => {
-          this.companies = response.data.map((company) => ({
-            id: company.company_id,
-            name: company.company_name,
-            address: company.company_address,
-            email: company.company_email,
-            phone: company.company_phone,
-            create_date: company.company_create_date,
-            update_date: company.company_update_date,
+            .then((response) => {
+            this.companies = response.data.map((company) => ({
+              id: company.company_id,
+              name: company.company_name,
+              address: company.company_address,
+              email: company.company_email,
+              phone: company.company_phone,
+              imageUrl: company.company_image_url,
+              isDelete: company.company_is_delete,
+              createDate: company.company_create_date,
+              updateDate: company.company_update_date,
+              expireDate: company.company_expire_date,
+              isExpire: company.company_is_expire,
+              status: company.company_status,
             sub_companies: company.company_sub_company_name.map((subCompanyName) => ({ id: '', name: subCompanyName })),
           }))
         })
@@ -312,6 +322,7 @@ export default {
           this.loading = false
         })
     },
+
     deleteCompany(companyId) {
       const token = localStorage.getItem('access_token')
       const uri = 'mongodb://admin:adminpassword@89.213.177.27:27017/'
@@ -330,31 +341,23 @@ export default {
           // Handle error, show error message, etc.
         })
     },
+
     infoCompany(company_id) {
       this.$router.push({ name: 'company-token-detail', params: { _id: company_id } })
     },
+
     saveCompany() {
-      // Logic to save company details
-      this.$emit('save', this.company)
-      this.isAddCompanyModalOpen = false
-    },
-    openEditCompanyCard(company) {
-      this.isEditCompanyModalOpen = true
-      this.editedCompany = { ...company } // Clone company object to avoid modifying original data directly
-    },
-    saveEditedCompany() {
-      // const companyId = this.editedCompany.id
       const uri = 'mongodb://admin:adminpassword@89.213.177.27:27017/'
       const token = localStorage.getItem('access_token')
       axios
-        .put(
+        .post(
           `http://89.213.177.27:8001/v1/owner/system_management/company/${company_id}/${uri}`,
           {
             company_name: this.editedCompany.name,
             company_address: this.editedCompany.address,
             company_email: this.editedCompany.email,
             company_phone: this.editedCompany.phone,
-            company_sub_company_name: [this.editedCompany.subCompany],
+            company_sub_company_name: this.editedCompany.sub_companies,
           },
           {
             headers: {
@@ -374,6 +377,42 @@ export default {
           // Handle error, show error message, etc.
         })
     },
+
+    openEditCompanyCard(company) {
+      this.isEditCompanyModalOpen = true
+      this.editedCompany = { ...company } // Clone company object to avoid modifying original data directly
+    },
+
+    saveEditedCompany() {
+    const uri = 'mongodb://admin:adminpassword@89.213.177.27:27017/';
+    const token = localStorage.getItem('access_token');
+    axios
+      .put(
+        `http://89.213.177.27:8001/v1/owner/system_management/company/${this.editedCompany.id}/${uri}`,
+        {
+          company_name: this.editedCompany.name,
+          company_address: this.editedCompany.address,
+          company_email: this.editedCompany.email,
+          company_phone: this.editedCompany.phone,
+          company_sub_company_name: [this.editedCompany.subCompany],
+        },
+        {
+          headers: {
+            accept: 'application/json',
+            Authorization: token,
+            'Content-Type': 'application/json',
+          },
+        },
+      )
+      .then(() => {
+        this.isEditCompanyModalOpen = false; // Close the edit modal after successful update
+        this.fetchData(); // Refresh data after update
+      })
+      .catch((error) => {
+        console.error('Error updating company:', error);
+        // Handle error, show error message, etc.
+      });
+  },
     previousPage() {
       if (this.currentPage > 1) {
         this.currentPage--

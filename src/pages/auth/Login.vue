@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-center items-center h-screen">
     <div class="flex flex-wrap justify-center items-center">
-      <!-- Cards -->
+        <!-- Cards -->
       <div class="flex flex-col items-center mb-4">
         <VaCard
           class="h-30 w-40 ml-5 mb-40"
@@ -30,15 +30,14 @@
           <VaCardContent>
             <div>
               <p>Total Users</p>
-              <p class="va-arrow-up">3,652</p>
+              <p class="va-arrow-up">{{ allUsers !== null ? allUsers : 'Loading...' }}</p>
             </div>
           </VaCardContent>
         </VaCard>
       </div>
 
-      <!-- Image -->
-      <img src="/public/human.png" alt="human" width="600" />
-
+      <!-- รูปภาพ -->
+      <img src="/cute-girl-working-with-laptop-logo-banner-hand-drawn-cartoon-art-illustration.png" alt="human" width="600" />
       <VaCard
         class="h-30 w-40 mr-10"
         :style="{
@@ -55,14 +54,14 @@
         </VaCardContent>
       </VaCard>
 
-      <!-- Form -->
+      <!-- ฟอร์ม -->
       <VaForm ref="form" class="flex flex-col justify-center items-center w-80" @submit.prevent="submit">
-        <h1 class="font-semibold text-4xl mb-4">เข้าสู่ระบบ</h1>
+        <h1 class="font-semibold text-4xl mb-4">Login</h1>
         <VaInput
           v-model="formData.email"
           :rules="[validators.required, validators.email]"
           class="mb-4"
-          label="อีเมล"
+          label="Email"
           type="email"
         />
         <VaValue v-slot="isPasswordVisible" :default-value="false">
@@ -71,7 +70,7 @@
             :rules="[validators.required]"
             :type="isPasswordVisible.value ? 'text' : 'password'"
             class="mb-4"
-            label="รหัสผ่าน"
+            label="Password"
             @clickAppendInner.stop="isPasswordVisible.value = !isPasswordVisible.value"
           >
             <template #appendInner>
@@ -84,7 +83,7 @@
           </VaInput>
         </VaValue>
         <div class="flex justify-center mt-4">
-          <VaButton class="w-full" @click="submit"> เข้าสู่ระบบ</VaButton>
+          <VaButton class="w-full" @click="submit">Login</VaButton>
         </div>
       </VaForm>
     </div>
@@ -92,7 +91,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useForm, useToast } from 'vuestic-ui'
 import { validators } from '../../services/utils'
@@ -107,6 +106,30 @@ const formData = reactive({
   password: '',
   keepLoggedIn: false,
 })
+
+const allUsers = ref(null)
+const apiUrl = 'http://89.213.177.27:8001/v1/owner/system_management/count_user_all_instance/'
+
+onMounted(() => {
+  fetch(apiUrl, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+    }
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      allUsers.value = data.All_USER;
+    })
+    .catch(error => {
+      console.error('Error fetching all users:', error);
+    });
+});
 
 const submit = async () => {
   if (validate()) {
