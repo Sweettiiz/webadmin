@@ -1,7 +1,12 @@
 <template>
-  <div class="flex justify-center items-center h-screen">
-    <div class="flex flex-wrap justify-center items-center">
-        <!-- Cards -->
+  <div :class="['flex-center', selectedBackground]">
+    <!-- แถบซ้าย -->
+    <div class="side-bar left-bar" @click="changeBackground('left')"></div>
+    <!-- แถบขวา -->
+    <div class="side-bar right-bar" @click="changeBackground('right')"></div>
+
+    <div class="flex flex-wrap justify-center items-center content-container">
+      <!-- Cards -->
       <div class="flex flex-col items-center mb-4">
         <VaCard
           class="h-30 w-40 ml-5 mb-40"
@@ -38,6 +43,7 @@
 
       <!-- รูปภาพ -->
       <img src="/cute-girl-working-with-laptop-logo-banner-hand-drawn-cartoon-art-illustration.png" alt="human" width="600" />
+
       <VaCard
         class="h-30 w-40 mr-10"
         :style="{
@@ -55,7 +61,7 @@
       </VaCard>
 
       <!-- ฟอร์ม -->
-      <VaForm ref="form" class="flex flex-col justify-center items-center w-80" @submit.prevent="submit">
+      <VaForm ref="form" class="form-container flex flex-col justify-center items-center w-80" @submit.prevent="submit">
         <h1 class="font-semibold text-4xl mb-4">Login</h1>
         <VaInput
           v-model="formData.email"
@@ -165,9 +171,83 @@ const submit = async () => {
     }
   }
 }
+
+// Background selection logic
+const backgrounds = [
+  'background-1',
+  'background-2',
+  'background-3'
+]
+const selectedBackground = ref(backgrounds[Math.floor(Math.random() * backgrounds.length)])
+
+// Function to change background
+const changeBackground = (direction: string) => {
+  const currentIndex = backgrounds.indexOf(selectedBackground.value)
+  let newIndex
+
+  if (direction === 'left') {
+    newIndex = (currentIndex + 1) % backgrounds.length
+  } else {
+    newIndex = (currentIndex - 1 + backgrounds.length) % backgrounds.length
+  }
+
+  selectedBackground.value = backgrounds[newIndex]
+}
 </script>
 
-<style>
+<style scoped>
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-size: cover; /* ทำให้รูปภาพครอบคลุมทั้งหน้าจอ */
+  background-position: center; /* จัดตำแหน่งรูปภาพให้อยู่กึ่งกลาง */
+  background-repeat: no-repeat; /* ไม่ให้รูปภาพซ้ำ */
+  position: relative;
+}
+
+.background-1 {
+  background-image: url('/dawn-sun-illuminates-fantastical-valley-with-mist-rugged-terrain-hint-celestial.jpg');
+}
+
+.background-2 {
+  background-image: url('/dynamic-dreams-flyer-design-background.jpg');
+}
+
+.background-3 {
+  background-image: url('/glowing-flowers-butterflies-dark-forest-night-flowers-butterflies-are-lit-by-magical-light.jpg');
+}
+
+.form-container {
+  background-color: white; /* พื้นหลังสีขาว */
+  border: 1px solid #ccc; /* กรอบขาว */
+  padding: 20px; /* เพิ่มระยะห่างภายใน */
+  border-radius: 8px; /* ขอบมุมโค้งมน */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* เงา */
+}
+
+.side-bar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50px; /* กำหนดความกว้างของแถบคลิก */
+  cursor: pointer;
+  z-index: 1; /* ทำให้แถบอยู่ด้านบนสุด */
+}
+
+.left-bar {
+  left: 0;
+}
+
+.right-bar {
+  right: 0;
+}
+
+.content-container {
+  z-index: 2; /* ทำให้เนื้อหาอยู่ด้านบนแถบคลิก */
+}
+
 /******************** 980px ********************/
 @media only screen and (max-width: 980px) {
   .va-card {

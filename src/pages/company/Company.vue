@@ -340,8 +340,8 @@ export default {
     },
 
     infoCompany(company_id) {
-      this.$router.push({ name: 'company-token-detail', params: { _id: company_id } })
-    },
+    this.$router.push({ name: 'company-token-detail', params: { _id: company_id } });
+  },
 
     saveCompany() {
       const uri = 'mongodb://admin:adminpassword@89.213.177.27:27017/'

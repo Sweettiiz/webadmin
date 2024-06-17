@@ -19,7 +19,7 @@
               </template>
             </VaInput>
           </div>
-          <VaButton icon="add" @click="showAddUserModal">User</VaButton>
+          <VaButton icon="add" @click="showAddUserModal">Add User</VaButton>
         </div>
 
         <div class="va-table-responsive" style="max-height: 800px; overflow-y: auto">
@@ -32,23 +32,21 @@
                 <th style="font-size: 12px">Email</th>
                 <th style="font-size: 12px">Role</th>
                 <th style="font-size: 12px">Username</th>
-                <!-- <th style="font-size: 12px">Password</th> -->
                 <th style="font-size: 12px">Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(User, index) in paginatedUsers" :key="index">
-                <td>{{ User.Company }}</td>
-                <td>{{ User.Firstname }}</td>
-                <td>{{ User.Lastname }}</td>
-                <td>{{ User.Email }}</td>
-                <td>{{ User.Role }}</td>
-                <td>{{ User.Username }}</td>
-                <!-- <td>{{ User.Password }}</td> -->
+              <tr v-for="(user, index) in paginatedUsers" :key="index">
+                <td>{{ user.Company }}</td>
+                <td>{{ user.Firstname }}</td>
+                <td>{{ user.Lastname }}</td>
+                <td>{{ user.Email }}</td>
+                <td>{{ user.Role }}</td>
+                <td>{{ user.Username }}</td>
                 <td>
-                  <VaButton preset="secondary" icon="mso-edit" color="secondary" @click="openEditUserCard(User)" />
-                  <VaButton preset="secondary" icon="mso-delete" color="danger" @click="deleteUser(User.id)" />
-                  <RouterLink to="/user-token-detail">
+                  <VaButton preset="secondary" icon="mso-edit" color="secondary" @click="openEditUserCard(user)" />
+                  <VaButton preset="secondary" icon="mso-delete" color="danger" @click="deleteUser(user.id)" />
+                  <RouterLink :to="{ name: 'user-token-detail', params: { id: user.id } }">
                     <VaButton preset="secondary" icon="mso-info" color="secondary" />
                   </RouterLink>
                 </td>
@@ -92,27 +90,32 @@
         </div>
       </VaCardContent>
     </VaCard>
-    <VaModal v-model="isAddUserModalOpen" title="Add User" ok-text="Save" @ok="validate() && saveUser()">
-      <!-- v-slot is error delete it for now-->
-      <VaForm class="flex flex-col gap-2">
+
+    <VaModal v-model="isAddUserModalOpen" title="Add User" ok-text="Save" @ok="saveUser()">
+      <VaForm ref="addForm" class="flex flex-col gap-2">
         <VaInput v-model="user.Company" label="Company" :rules="[required]" />
         <VaInput v-model="user.Firstname" label="Firstname" :rules="[required]" />
-        <VaInput v-model="user.Lastname" label="Lastname" :rules="[required, emailRule]" />
-        <VaInput v-model="user.Email" label="Email" :rules="[required]" />
+        <VaInput v-model="user.Lastname" label="Lastname" :rules="[required]" />
+        <VaInput v-model="user.Email" label="Email" :rules="[required, emailRule]" />
         <VaInput v-model="user.Role" label="Role" :rules="[required]" />
         <VaInput v-model="user.Username" label="Username" :rules="[required]" />
+        <VaInput v-model="user.Password" label="Password" :rules="[required]" type="password" />
+        <VaInput v-model="user.Department" label="Department" :rules="[required]" />
+        <VaInput v-model="user.ImageUrl" label="Image URL" />
       </VaForm>
     </VaModal>
 
-    <VaModal v-model="isEditUserModalOpen" title="Edit User" ok-text="Save" @ok="validate() && saveEditedUser()">
-      <!-- v-slot is error delete it for now-->
-      <VaForm class="flex flex-col gap-2">
+    <VaModal v-model="isEditUserModalOpen" title="Edit User" ok-text="Save" @ok="saveEditedUser()">
+      <VaForm ref="editForm" class="flex flex-col gap-2">
         <VaInput v-model="editedUser.Company" label="Company" :rules="[required]" />
         <VaInput v-model="editedUser.Firstname" label="Firstname" :rules="[required]" />
-        <VaInput v-model="editedUser.Lastname" label="Lastname" :rules="[required, emailRule]" />
-        <VaInput v-model="editedUser.Email" label="Email" :rules="[required]" />
+        <VaInput v-model="editedUser.Lastname" label="Lastname" :rules="[required]" />
+        <VaInput v-model="editedUser.Email" label="Email" :rules="[required, emailRule]" />
         <VaInput v-model="editedUser.Role" label="Role" :rules="[required]" />
         <VaInput v-model="editedUser.Username" label="Username" :rules="[required]" />
+        <VaInput v-model="editedUser.Password" label="Password" :rules="[required]" type="password" />
+        <VaInput v-model="editedUser.Department" label="Department" :rules="[required]" />
+        <VaInput v-model="editedUser.ImageUrl" label="Image URL" />
       </VaForm>
     </VaModal>
   </div>
@@ -183,6 +186,9 @@ export default {
         Email: '',
         Role: '',
         Username: '',
+        Password: '', // เพิ่มฟิลด์ Password
+        Department: '',
+        ImageUrl: '',
       },
       editedUser: {
         id: null,
@@ -192,7 +198,12 @@ export default {
         Email: '',
         Role: '',
         Username: '',
+        Password: '', // เพิ่มฟิลด์ Password
+        Department: '',
+        ImageUrl: '',
       },
+      required: (value) => !!value || 'This field is required',
+      emailRule: (value) => /\S+@\S+\.\S+/.test(value) || 'Email must be valid',
     }
   },
   computed: {
@@ -202,12 +213,12 @@ export default {
       // ใช้ filter เพื่อค้นหาข้อมูลที่ตรงกับเงื่อนไขที่ระบุ
       return this.Users.filter((user) => {
         const searchText = this.searchQuery.toLowerCase().trim() // เปลี่ยนคำค้นหาเป็นตัวพิมพ์เล็กและตัดช่องว่าง
-        const companyMatch = user.Company.toLowerCase().includes(searchText) // ค้นหาในชื่อบริษัท
-        const firstnameMatch = user.Firstname.toLowerCase().includes(searchText) // ค้นหาในชื่อจริง
-        const lastnameMatch = user.Lastname.toLowerCase().includes(searchText) // ค้นหาในนามสกุล
-        const emailMatch = user.Email.toLowerCase().includes(searchText) // ค้นหาในนามสกุล
-        const roleMatch = user.Role.toLowerCase().includes(searchText) // ค้นหาในนามสกุล
-        const usernameMatch = user.Username.toLowerCase().includes(searchText) // ค้นหาในนามสกุล
+        const companyMatch = user.Company && user.Company.toLowerCase().includes(searchText); 
+      const firstnameMatch = user.Firstname && user.Firstname.toLowerCase().includes(searchText); 
+      const lastnameMatch = user.Lastname && user.Lastname.toLowerCase().includes(searchText); 
+      const emailMatch = user.Email && user.Email.toLowerCase().includes(searchText); 
+      const roleMatch = user.Role && user.Role.toLowerCase().includes(searchText); 
+      const usernameMatch = user.Username && user.Username.toLowerCase().includes(searchText); 
         // คืนค่า true เมื่อมีการค้นหาตรงกับชื่อ Company, Firstname, หรือ Lastname
         return companyMatch || firstnameMatch || lastnameMatch || emailMatch || roleMatch || usernameMatch
       }).slice(startIndex, endIndex)
@@ -266,14 +277,17 @@ export default {
         })
         .then((response) => {
           this.Users = response.data.map((User) => ({
-            id: User.User_id,
-            Company: User.user_department,
+            id: User.user_id,
+            Company: User.user_company,
             Firstname: User.user_first_name,
             Lastname: User.user_last_name,
             Email: User.user_email,
             Role: User.user_access,
             Username: User.user_username,
             Password: User.user_password,
+            Department: User.user_department,
+            ImageUrl: User.user_image_url,
+            IsDelete: User.user_is_delete,
           }))
         })
         .catch((error) => {
@@ -285,28 +299,22 @@ export default {
         })
     },
     saveUser() {
-      // Logic to save company details
-      this.$emit('save', this.user)
-      this.isAddUserModalOpen = false
-    },
-    openEditUserCard(User) {
-      this.isEditUserModalOpen = true
-      this.editedUser = { ...User } // Clone User object to avoid modifying original data directly
-    },
-    saveEditedUser() {
-      // const userId = this.editedUser.id
-      const uri = 'mongodb://admin:adminpassword@89.213.177.27:27017/'
       const token = localStorage.getItem('access_token')
+      const uri = 'mongodb://admin:adminpassword@89.213.177.27:27017/'
       axios
-        .put(
-          `http://89.213.177.27:8001/v1/owner/system_management/user/${user_id}/${uri}`,
+        .post(
+          `http://89.213.177.27:8001/v1/owner/system_management/user/${uri}`,
           {
-            user_Company: this.editedUser.Company,
-            user_Firstname: this.editedUser.Firstname,
-            user_Lastname: this.editedUser.Lastname,
-            user_Email: this.editedUser.Email,
-            user_Role: this.editedUser.Role,
-            user_Username: this.editedUser.Username,
+            user_company: this.user.Company,
+            user_first_name: this.user.Firstname,
+            user_last_name: this.user.Lastname,
+            user_email: this.user.Email,
+            user_access: this.user.Role,
+            user_username: this.user.Username,
+            user_password: this.user.Password,
+            user_department: this.user.Department,
+            user_image_url: this.user.ImageUrl,
+            user_is_delete: false,
           },
           {
             headers: {
@@ -317,9 +325,48 @@ export default {
           },
         )
         .then(() => {
-          // Handle success, maybe show a success message, update UI, etc.
-          this.isEditUserModalOpen = false // Close the edit modal after successful update
+          this.fetchData() // Refresh data after adding user
+          this.isAddUserModalOpen = false // Close the add user modal
+        })
+        .catch((error) => {
+          console.error('Error adding user:', error)
+          // Handle error, show error message, etc.
+        })
+    },
+    openEditUserCard(user) {
+      this.isEditUserModalOpen = true
+      this.editedUser = { ...user } // Clone user object to avoid modifying original data directly
+    },
+    saveEditedUser() {
+      const userId = this.editedUser.id
+      const uri = 'mongodb://admin:adminpassword@89.213.177.27:27017/'
+      const token = localStorage.getItem('access_token')
+      axios
+        .put(
+          `http://89.213.177.27:8001/v1/owner/system_management/user/${userId}/${uri}`,
+          {
+            user_company: this.editedUser.Company,
+            user_first_name: this.editedUser.Firstname,
+            user_last_name: this.editedUser.Lastname,
+            user_email: this.editedUser.Email,
+            user_access: this.editedUser.Role,
+            user_username: this.editedUser.Username,
+            user_password: this.editedUser.Password,
+            user_department: this.editedUser.Department,
+            user_image_url: this.editedUser.ImageUrl,
+            user_is_delete: this.editedUser.IsDelete,
+          },
+          {
+            headers: {
+              accept: 'application/json',
+              Authorization: token,
+              'Content-Type': 'application/json',
+            },
+          },
+        )
+        .then(() => {
           this.fetchData() // Refresh data after update
+          this.isEditUserModalOpen = false // Close the edit modal
         })
         .catch((error) => {
           console.error('Error updating user:', error)
@@ -330,7 +377,7 @@ export default {
       const token = localStorage.getItem('access_token')
       const uri = 'mongodb://admin:adminpassword@89.213.177.27:27017/'
       axios
-        .delete(`http://89.213.177.27:8001//v1/owner/system_management/user/${user_id}/${uri}`, {
+        .delete(`http://89.213.177.27:8001/v1/owner/system_management/user/${userId}/${uri}`, {
           headers: {
             accept: 'application/json',
             Authorization: `${token}`,
@@ -358,7 +405,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .company {
   border: 1px solid #ccc;
   padding: 16px;
