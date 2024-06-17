@@ -19,7 +19,7 @@
               </template>
             </VaInput>
           </div>
-          <VaButton icon="add" @click="showAddCompanyModal">Company</VaButton>
+          <VaButton icon="add" @click="showAddCompanyModal">Add Company</VaButton>
         </div>
 
         <div class="va-table-responsive" style="max-height: 800px; overflow-y: auto">
@@ -33,29 +33,24 @@
                 <th style="font-size: 12px">Phone</th>
                 <th style="font-size: 12px">Contract Start Date</th>
                 <th style="font-size: 12px">Expiration Date</th>
-                <th style="font-size: 12px">status</th>
+                <th style="font-size: 12px">Status</th>
                 <th style="font-size: 12px">Actions</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(company, index) in paginatedCompanies" :key="index">
-                <td>{{ company.imageUrl}}</td>
+                <td>{{ company.imageUrl }}</td>
                 <td>{{ company.name }}</td>
                 <td>{{ company.address }}</td>
                 <td>{{ company.email }}</td>
                 <td>{{ company.phone }}</td>
                 <td>{{ company.createDate }}</td>
                 <td>{{ company.updateDate }}</td>
-                <td>{{ company.status}}</td>
+                <td>{{ company.status }}</td>
                 <td>
-                  <VaButton
-                    preset="secondary"
-                    icon="mso-edit"
-                    color="secondary"
-                    @click="openEditCompanyCard(company)"
-                  />
-                  <VaButton preset="secondary" icon="mso-delete" color="danger" @click="deleteCompany(company._id)" />
-                  <VaButton preset="secondary" icon="mso-info" color="secondary" @click="infoCompany(company._id)" />
+                  <VaButton preset="secondary" icon="mso-edit" color="secondary" @click="openEditCompanyCard(company)" />
+                  <VaButton preset="secondary" icon="mso-delete" color="danger" @click="deleteCompany(company.company_id)" />
+                  <VaButton preset="secondary" icon="mso-info" color="secondary" @click="infoCompany(company.company_id)" />
                 </td>
               </tr>
             </tbody>
@@ -97,45 +92,46 @@
         </div>
       </VaCardContent>
     </VaCard>
-    <VaModal 
-    v-model="isAddCompanyModalOpen" 
-    title="Add Company" 
-    ok-text="Save"  
-    @ok="saveCompany"
-    >
 
-  <VaForm class="flex flex-col gap-2">
-    <VaInput v-model="company.name" label="Name" :rules="[required]" />
-    <VaInput v-model="company.address" label="Address" :rules="[required]" />
-    <VaInput v-model="company.email" label="Email" :rules="[required, emailRule]" />
-    <VaInput v-model="company.phone" label="Phone" :rules="[required]" />
-    <VaInput v-model="company.subCompany" :options="subCompanyOptions" label="SubCompany" />
-  </VaForm>
-</VaModal>
+    <VaModal v-model="isAddCompanyModalOpen" title="Add Company" ok-text="Save" @ok="saveCompany">
+    <VaForm class="flex flex-col gap-2">
+      <VaInput v-model="company.name" label="Name" :rules="[required]" />
+      <VaInput v-model="company.address" label="Address" :rules="[required]" />
+      <VaInput v-model="company.email" label="Email" :rules="[required, emailRule]" />
+      <VaInput v-model="company.phone" label="Phone" :rules="[required]" />
+      <div class="flex flex-col gap-2">
+        <div v-for="(subCompany, index) in company.subCompanies" :key="index" class="flex items-center gap-2">
+          <VaInput v-model="subCompany.name" label="Sub Company" :rules="[required]" class="flex-grow" />
+          <VaButton icon="delete" color="danger" @click="removeSubCompany(index)"></VaButton>
+        </div>
+        <VaButton icon="add" @click="addSubCompany">Add Sub Company</VaButton>
+      </div>
+    </VaForm>
+  </VaModal>
 
-<VaModal
-  v-model="isEditCompanyModalOpen"
-  title="Edit Company"
-  ok-text="Save"
-  @ok="saveEditedCompany"
->
-  <!-- v-slot is error delete it for now-->
-  <VaForm class="flex flex-col gap-2">
-    <VaInput v-model="editedCompany.name" label="Name" :rules="[required]" />
-    <VaInput v-model="editedCompany.address" label="Address" :rules="[required]" />
-    <VaInput v-model="editedCompany.email" label="Email" :rules="[required, emailRule]" />
-    <VaInput v-model="editedCompany.phone" label="Phone" :rules="[required]" />
-    <VaInput v-model="editedCompany.subCompany" label="SubCompany" :rules="[required]" />
-  </VaForm>
-</VaModal>
+  <VaModal v-model="isEditCompanyModalOpen" title="Edit Company" ok-text="Save" @ok="saveEditedCompany">
+    <VaForm class="flex flex-col gap-2">
+      <VaInput v-model="editedCompany.name" label="Name" :rules="[required]" />
+      <VaInput v-model="editedCompany.address" label="Address" :rules="[required]" />
+      <VaInput v-model="editedCompany.email" label="Email" :rules="[required, emailRule]" />
+      <VaInput v-model="editedCompany.phone" label="Phone" :rules="[required]" />
+      <div class="flex flex-col gap-2">
+        <label>Sub Companies</label>
+        <div v-for="(subCompany, index) in editedCompany.subCompanies" :key="index" class="flex items-center gap-2">
+          <VaInput v-model="subCompany.name" label="Sub Company" :rules="[required]" class="flex-grow" />
+          <VaButton icon="delete" color="danger" @click="removeEditedSubCompany(index)"></VaButton>
+        </div>
+        <VaButton icon="add" @click="addEditedSubCompany">Add Sub Company</VaButton>
+      </div>
+    </VaForm>
+  </VaModal>
 
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-import { VaButton, VaCard, VaCardContent, VaIcon, VaInput, VaPagination, VaSelect } from 'vuestic-ui'
-import { VaForm, VaModal } from 'vuestic-ui'
+import { VaButton, VaCard, VaCardContent, VaIcon, VaInput, VaPagination, VaSelect, VaForm, VaModal } from 'vuestic-ui'
 import Chart from 'chart.js/auto'
 
 const months = [
@@ -208,19 +204,15 @@ export default {
         address: '',
         email: '',
         phone: '',
-        createDate: null,
-        updateDate: null,
-        subCompany: null,
+        subCompanies: [{ name: '' }], // เริ่มต้นด้วย subCompany หนึ่งรายการ
       },
       editedCompany: {
-        id: null,
+        company_id: null,
         name: '',
         address: '',
         email: '',
         phone: '',
-        createDate: null,
-        updateDate: null,
-        subCompany: null,
+        subCompanies: [{ name: '' }], // เริ่มต้นด้วย subCompany หนึ่งรายการ
       },
       subCompanyOptions: [], // This should be populated with your options
       required: (value) => !!value || 'Required.',
@@ -264,7 +256,6 @@ export default {
   created() {
     this.fetchData()
   },
-
   methods: {
     renderChart() {
       const ctx = document.getElementById('column-chart').getContext('2d')
@@ -291,26 +282,26 @@ export default {
         searchParams.append('search', searchText)
       }
       axios
-        .get(`http://89.213.177.27:8001/v1/owner/system_management/all_company/${uri}?${searchParams.toString()}`, {
+        .get(`http://89.213.177.27:8001/v1/owner/system_management/all_company/${encodeURIComponent(uri)}?${searchParams.toString()}`, {
           headers: {
             accept: 'application/json',
             Authorization: `${token}`,
           },
         })
-            .then((response) => {
-            this.companies = response.data.map((company) => ({
-              id: company.company_id,
-              name: company.company_name,
-              address: company.company_address,
-              email: company.company_email,
-              phone: company.company_phone,
-              imageUrl: company.company_image_url,
-              isDelete: company.company_is_delete,
-              createDate: company.company_create_date,
-              updateDate: company.company_update_date,
-              expireDate: company.company_expire_date,
-              isExpire: company.company_is_expire,
-              status: company.company_status,
+        .then((response) => {
+          this.companies = response.data.map((company) => ({
+            company_id: company.company_id,
+            name: company.company_name,
+            address: company.company_address,
+            email: company.company_email,
+            phone: company.company_phone,
+            imageUrl: company.company_image_url,
+            isDelete: company.company_is_delete,
+            createDate: company.company_create_date,
+            updateDate: company.company_update_date,
+            expireDate: company.company_expire_date,
+            isExpire: company.company_is_expire,
+            status: company.company_status,
             sub_companies: company.company_sub_company_name.map((subCompanyName) => ({ id: '', name: subCompanyName })),
           }))
         })
@@ -323,18 +314,24 @@ export default {
         })
     },
 
-    deleteCompany(companyId) {
+    deleteCompany(company_id) {
       const token = localStorage.getItem('access_token')
       const uri = 'mongodb://admin:adminpassword@89.213.177.27:27017/'
+
+      if (!company_id) {
+        console.error('company_id is undefined or null')
+        return
+      }
+
       axios
-        .delete(`http://89.213.177.27:8001/v1/owner/system_management/company/${company_id}/${uri}`, {
+        .delete(`http://89.213.177.27:8001/v1/owner/system_management/company/${company_id}/${encodeURIComponent(uri)}`, {
           headers: {
             accept: 'application/json',
             Authorization: `${token}`,
           },
         })
         .then(() => {
-          this.companies = this.companies.filter((company) => company.id !== companyId)
+          this.companies = this.companies.filter((company) => company.company_id !== company_id)
         })
         .catch((error) => {
           console.error('Error deleting company:', error)
@@ -349,26 +346,78 @@ export default {
     saveCompany() {
       const uri = 'mongodb://admin:adminpassword@89.213.177.27:27017/'
       const token = localStorage.getItem('access_token')
+      const subCompanyNames = this.company.subCompanies.map(sub => sub.name) // เตรียมข้อมูลบริษัทลูก
       axios
         .post(
-          `http://89.213.177.27:8001/v1/owner/system_management/company/${company_id}/${uri}`,
+          `http://89.213.177.27:8001/v1/owner/system_management/company/${encodeURIComponent(uri)}`,
           {
-            company_name: this.editedCompany.name,
-            company_address: this.editedCompany.address,
-            company_email: this.editedCompany.email,
-            company_phone: this.editedCompany.phone,
-            company_sub_company_name: this.editedCompany.sub_companies,
+            company_name: this.company.name,
+            company_address: this.company.address,
+            company_email: this.company.email,
+            company_phone: this.company.phone,
+            company_sub_company_name: subCompanyNames,
+            company_create_date: new Date().toISOString(),
+            company_update_date: new Date().toISOString(),
+            company_expire_date:new Date().toISOString() ,
+            company_is_delete: false,
+            company_is_expire: false,
+            company_status: 'Active',
+            company_image_url: 'string' 
           },
           {
             headers: {
               accept: 'application/json',
-              Authorization: token,
+              Authorization: `${token}`,
               'Content-Type': 'application/json',
             },
           },
         )
         .then(() => {
           // Handle success, maybe show a success message, update UI, etc.
+          this.isAddCompanyModalOpen = false // Close the add modal after successful save
+          this.fetchData() // Refresh data after save
+        })
+        .catch((error) => {
+          console.error('Error saving company:', error)
+          // Handle error, show error message, etc.
+        })
+    },
+
+    openEditCompanyCard(company) {
+      this.isEditCompanyModalOpen = true
+      this.editedCompany = { ...company, subCompanies: company.sub_companies.map(sub => ({ name: sub.name })) } // Clone company object to avoid modifying original data directly
+    },
+
+    saveEditedCompany() {
+      const uri = 'mongodb://admin:adminpassword@89.213.177.27:27017/'
+      const token = localStorage.getItem('access_token')
+      const subCompanyNames = this.editedCompany.subCompanies.map(sub => sub.name) // เตรียมข้อมูลบริษัทลูก
+      axios
+        .put(
+          `http://89.213.177.27:8001/v1/owner/system_management/company/${this.editedCompany.company_id}/${encodeURIComponent(uri)}`,
+          {
+            company_name: this.editedCompany.name,
+            company_address: this.editedCompany.address,
+            company_email: this.editedCompany.email,
+            company_phone: this.editedCompany.phone,
+            company_sub_company_name: subCompanyNames,
+            company_create_date: this.editedCompany.createDate,
+            company_update_date: new Date().toISOString(),
+            company_expire_date: this.editedCompany.expireDate,
+            company_is_delete: this.editedCompany.isDelete,
+            company_is_expire: this.editedCompany.isExpire,
+            company_status: this.editedCompany.status,
+            company_image_url: this.editedCompany.imageUrl
+          },
+          {
+            headers: {
+              accept: 'application/json',
+              Authorization: `${token}`,
+              'Content-Type': 'application/json',
+            },
+          },
+        )
+        .then(() => {
           this.isEditCompanyModalOpen = false // Close the edit modal after successful update
           this.fetchData() // Refresh data after update
         })
@@ -378,41 +427,22 @@ export default {
         })
     },
 
-    openEditCompanyCard(company) {
-      this.isEditCompanyModalOpen = true
-      this.editedCompany = { ...company } // Clone company object to avoid modifying original data directly
+    addSubCompany() {
+      this.company.subCompanies.push({ name: '' })
     },
 
-    saveEditedCompany() {
-    const uri = 'mongodb://admin:adminpassword@89.213.177.27:27017/';
-    const token = localStorage.getItem('access_token');
-    axios
-      .put(
-        `http://89.213.177.27:8001/v1/owner/system_management/company/${this.editedCompany.id}/${uri}`,
-        {
-          company_name: this.editedCompany.name,
-          company_address: this.editedCompany.address,
-          company_email: this.editedCompany.email,
-          company_phone: this.editedCompany.phone,
-          company_sub_company_name: [this.editedCompany.subCompany],
-        },
-        {
-          headers: {
-            accept: 'application/json',
-            Authorization: token,
-            'Content-Type': 'application/json',
-          },
-        },
-      )
-      .then(() => {
-        this.isEditCompanyModalOpen = false; // Close the edit modal after successful update
-        this.fetchData(); // Refresh data after update
-      })
-      .catch((error) => {
-        console.error('Error updating company:', error);
-        // Handle error, show error message, etc.
-      });
-  },
+    removeSubCompany(index) {
+      this.company.subCompanies.splice(index, 1)
+    },
+
+    addEditedSubCompany() {
+      this.editedCompany.subCompanies.push({ name: '' })
+    },
+
+    removeEditedSubCompany(index) {
+      this.editedCompany.subCompanies.splice(index, 1)
+    },
+
     previousPage() {
       if (this.currentPage > 1) {
         this.currentPage--
@@ -426,7 +456,8 @@ export default {
   },
 }
 </script>
-<style>
+
+<style >
 .company {
   border: 1px solid #ccc;
   padding: 16px;
@@ -445,5 +476,16 @@ td {
 .va-table thead th,
 .va-table tbody tr:not(:last-child) {
   border-bottom: 1px solid #dee5f2; /* เส้นคั่นระหว่างแถว */
+}
+.flex-grow {
+  flex-grow: 1;
+}
+.sub-company-row {
+  display: flex;
+  align-items: flex-end; /* Align items to the bottom */
+  gap: 10px; /* Adjust gap as needed */
+}
+.delete-button {
+  height: 36px; /* Adjust this to match the height of the input */
 }
 </style>
