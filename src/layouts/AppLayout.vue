@@ -62,7 +62,7 @@ const onResize = () => {
 onMounted(() => {
   window.addEventListener('resize', onResize)
   onResize()
-  GlobalStore.isSidebarMinimized = true
+  isSidebarMinimized.value = true
 })
 
 onBeforeUnmount(() => {

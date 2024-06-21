@@ -6,7 +6,7 @@
         <div class="flex justify-end">
           <VaSelect v-model="selectedDMY" :options="dmyOption" placeholder="select" preset="small" class="w-24" />
         </div>
-        <canvas id="column-chart"></canvas>
+        <canvas id="line-chart"></canvas>
       </VaCardContent>
     </VaCard>
     <VaCard>
@@ -247,9 +247,9 @@ export default {
   },
   methods: {
     renderChart() {
-      const ctx = document.getElementById('column-chart').getContext('2d')
+      const ctx = document.getElementById('line-chart').getContext('2d')
       this.chart = new Chart(ctx, {
-        type: 'bar',
+        type: 'line',
         data: this.chartData,
         options: {
           // ตั้งค่าต่างๆ ของ Chart ตามต้องการ
